@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		400CD8A21ABE416500EAFD9E /* NotebookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400CD8A11ABE416500EAFD9E /* NotebookView.swift */; };
+		403686AB1ABEF9710002B5B6 /* NotebookCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403686AA1ABEF9710002B5B6 /* NotebookCollectionViewCell.swift */; };
+		403686AD1ABF0FB00002B5B6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 403686AC1ABF0FB00002B5B6 /* CoreData.framework */; };
+		403686B11ABF95A30002B5B6 /* Notebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 403686B01ABF95A30002B5B6 /* Notebook.m */; };
 		409527271ABE3D8100B81481 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409527261ABE3D8100B81481 /* AppDelegate.swift */; };
 		4095272C1ABE3D8100B81481 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4095272A1ABE3D8100B81481 /* Main.storyboard */; };
 		4095272E1ABE3D8100B81481 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4095272D1ABE3D8100B81481 /* Images.xcassets */; };
@@ -28,7 +30,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		400CD8A11ABE416500EAFD9E /* NotebookView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotebookView.swift; sourceTree = "<group>"; };
+		403686AA1ABEF9710002B5B6 /* NotebookCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotebookCollectionViewCell.swift; sourceTree = "<group>"; };
+		403686AC1ABF0FB00002B5B6 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		403686AE1ABF95A20002B5B6 /* TTNotebooks-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TTNotebooks-Bridging-Header.h"; sourceTree = "<group>"; };
+		403686AF1ABF95A30002B5B6 /* Notebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notebook.h; sourceTree = "<group>"; };
+		403686B01ABF95A30002B5B6 /* Notebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notebook.m; sourceTree = "<group>"; };
 		409527211ABE3D8100B81481 /* TTNotebooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TTNotebooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		409527251ABE3D8100B81481 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		409527261ABE3D8100B81481 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -47,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				403686AD1ABF0FB00002B5B6 /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +70,7 @@
 		409527181ABE3D8000B81481 = {
 			isa = PBXGroup;
 			children = (
+				403686AC1ABF0FB00002B5B6 /* CoreData.framework */,
 				409527231ABE3D8100B81481 /* TTNotebooks */,
 				409527391ABE3D8100B81481 /* TTNotebooksTests */,
 				409527221ABE3D8100B81481 /* Products */,
@@ -129,7 +137,7 @@
 		409527471ABE3E5F00B81481 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				400CD8A11ABE416500EAFD9E /* NotebookView.swift */,
+				403686AA1ABEF9710002B5B6 /* NotebookCollectionViewCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -137,7 +145,10 @@
 		409527481ABE3E6300B81481 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				403686AF1ABF95A30002B5B6 /* Notebook.h */,
+				403686B01ABF95A30002B5B6 /* Notebook.m */,
 				4095274B1ABE3EAA00B81481 /* Model.xcdatamodeld */,
+				403686AE1ABF95A20002B5B6 /* TTNotebooks-Bridging-Header.h */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -242,8 +253,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				403686B11ABF95A30002B5B6 /* Notebook.m in Sources */,
+				403686AB1ABEF9710002B5B6 /* NotebookCollectionViewCell.swift in Sources */,
 				409527271ABE3D8100B81481 /* AppDelegate.swift in Sources */,
-				400CD8A21ABE416500EAFD9E /* NotebookView.swift in Sources */,
 				4095274A1ABE3E8600B81481 /* NotebooksViewController.swift in Sources */,
 				4095274D1ABE3EAA00B81481 /* Model.xcdatamodeld in Sources */,
 			);
@@ -370,10 +382,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = TTNotebooks/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TTNotebooks/TTNotebooks-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -381,10 +396,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = TTNotebooks/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TTNotebooks/TTNotebooks-Bridging-Header.h";
 			};
 			name = Release;
 		};

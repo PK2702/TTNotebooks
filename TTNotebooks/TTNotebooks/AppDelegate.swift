@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,7 +17,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        let fileManager = NSFileManager.defaultManager()
+        let documentsDirectory: NSURL = fileManager.URLsForDirectory(NSSearchPathDirectory.DocumentDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask).first as NSURL
+        let documentName = "TTNotebooks"
+        let url = documentsDirectory.URLByAppendingPathComponent(documentName)
+        let document = UIManagedDocument(fileURL: url)
+        if fileManager.fileExistsAtPath(url.path!) {
+            document.openWithCompletionHandler(){  (success: Bool) -> Void in
+                if success {
+                    self.postDocumentIsReady(document)
+                }
+            }
+        }else {
+            document.saveToURL(url, forSaveOperation: UIDocumentSaveOperation.ForCreating){ (success: Bool) -> Void in
+                if success {
+                    self.postDocumentIsReady(document)
+                }
+            }
+        }
         return true
+    }
+    
+    func postDocumentIsReady(document: UIManagedDocument) {
+        NSNotificationCenter.defaultCenter().postNotificationName("Document saved", object: self, userInfo: ["contexto": document.managedObjectContext])
     }
 
     func applicationWillResignActive(application: UIApplication) {
