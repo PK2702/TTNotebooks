@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="cAo-dA-5Bq">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Notebooks-->
@@ -15,16 +16,68 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="awk-Gd-J3A">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <color key="backgroundColor" red="1" green="0.80000001192092896" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="YMx-ln-NZW">
+                                    <size key="itemSize" width="118" height="118"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Notebook Cell" id="kg5-oc-hXY" customClass="NotebookCollectionViewCell" customModule="TTNotebooks" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="118" height="118"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DtW-fQ-6Ek">
+                                                    <rect key="frame" x="8" y="8" width="102" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="DtW-fQ-6Ek" firstAttribute="trailing" secondItem="kg5-oc-hXY" secondAttribute="trailingMargin" id="7rm-aN-Hpw"/>
+                                            <constraint firstItem="DtW-fQ-6Ek" firstAttribute="leading" secondItem="kg5-oc-hXY" secondAttribute="leadingMargin" id="HZp-Ou-ec5"/>
+                                            <constraint firstItem="DtW-fQ-6Ek" firstAttribute="top" secondItem="kg5-oc-hXY" secondAttribute="topMargin" id="ktT-BP-G1b"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="titleLabel" destination="DtW-fQ-6Ek" id="4Oj-rg-3xh"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="awk-Gd-J3A" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="CYK-ou-7GJ"/>
+                            <constraint firstItem="awk-Gd-J3A" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="QKL-L4-FyW"/>
+                            <constraint firstItem="awk-Gd-J3A" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="f6u-IN-gEu"/>
+                            <constraint firstAttribute="trailing" secondItem="awk-Gd-J3A" secondAttribute="trailing" id="hHf-Ni-KuX"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Notebooks" id="l94-Se-bhA">
                         <barButtonItem key="leftBarButtonItem" title="Settings" id="g4a-nV-bFA"/>
-                        <barButtonItem key="rightBarButtonItem" title="+" id="ZKj-fl-2S8"/>
+                        <barButtonItem key="rightBarButtonItem" title="+" id="ZKj-fl-2S8">
+                            <connections>
+                                <action selector="createNotebook:" destination="BYZ-38-t0r" id="NR6-vF-vev"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="notebooksCollectionView" destination="awk-Gd-J3A" id="Kn0-66-92W"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1113" y="363"/>
+            <point key="canvasLocation" x="1045" y="350"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="qo0-mT-vP5">
