@@ -12,9 +12,8 @@ import CoreData
 class NotebooksViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     // MARK: - Properties and outlets
-/*
-    The collection view that will display all the outlets
-*/
+    
+    //  The collection view that will display all the outlets
     @IBOutlet weak var notebooksCollectionView: UICollectionView! {
         didSet {
             notebooksCollectionView.delegate = self
@@ -22,6 +21,7 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
         }
     }
     
+    //  The context of the application
     var context: NSManagedObjectContext? {
         didSet{
             self.updateNotebooks()
@@ -29,23 +29,28 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
         }
     }
     
+    //   An array of all the notebooks that the user has stored locally
     var notebooks = [Notebook]()
     
-    // MARK: - Constants
+    // MARK: - Localized Strings
     
-    let NotebookCellIdentifier = "Notebook Cell"
-    let NotebookWidth :CGFloat = 160.0
-    let NotebookHeight :CGFloat = 200.0
-    let NotebookEdges :CGFloat = 20
+    private struct LStrings {
+        static let newNotebookAlertTitle = NSLocalizedString("New Notebook", comment: "This is the title of the alert that will be displayed when the user wants to create a new Notebook in the library")
+        static let newNotebookAlertMessage = NSLocalizedString("What will be the name of your new Notebook", comment: "This is the message of the alert that will be displayed when the user wants to create a new Notebook in the library")
+        static let newNotebookAlertPlaceholder = NSLocalizedString("Name of the Notebook", comment: "This is the placeholder in the textfield of the alert that will be displayed when the user wants to create a new Notebook in the library and in it the user will type in the name of the new Notebook")
+        static let newNotebookCreateButton = NSLocalizedString("Create", comment: "This is the name of the button that will confirm the creation of a Notebook with the name given in the textfield of the alert that is displayed when the user wants to create a new Notebook")
+        static let newNotebookCancelButton = NSLocalizedString("Cancel", comment: "This is the name of the button that will cancel the creation of a Notebook with the name given in the textfield of the alert that is displayed when the user wants to create a new Notebook")
+    }
     
     // MARK: - Application Lifecycle
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        NSNotificationCenter.defaultCenter().addObserverForName("Document saved", object: nil, queue: nil) { (note: NSNotification!) -> Void in
+        NSNotificationCenter.defaultCenter().addObserverForName(Constants.Notifications.UIDocumentReady, object: nil, queue: nil) { (note: NSNotification!) -> Void in
             if let uInf = note.userInfo {
-                if let cntxt = uInf["contexto"] as? NSManagedObjectContext {
+                if let cntxt = uInf[Constants.Notifications.UIDocumentReadyUIContext] as? NSManagedObjectContext {
                     self.context = cntxt
+                    println("Context Loaded")
                 }
             }
         }
@@ -54,36 +59,52 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "Document saved", object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: Constants.Notifications.UIDocumentReady, object: nil)
     }
     
+    // MARK: - Actions
+    
+    //  Method that will update the array of notebooks with what it finds in the context
     func updateNotebooks() {
-        let request = NSFetchRequest(entityName: "Notebook")
+        let request = NSFetchRequest(entityName: Constants.NotebookModel.EntityName)
         request.predicate = nil
-        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true, selector: "localizedCompare:")]
-        notebooks = context?.executeFetchRequest(request, error: nil) as [Notebook]
+        request.sortDescriptors = [NSSortDescriptor(key: Constants.NotebookModel.NotebookName, ascending: true, selector: "localizedCompare:")]
+        notebooks = context?.executeFetchRequest(request, error: nil) as! [Notebook]
     }
     
+    //  Creates a notebook given a name
     func createNewNotebook(name: String) {
-        let newNotebook = NSEntityDescription.insertNewObjectForEntityForName("Notebook", inManagedObjectContext: context!) as Notebook
-        newNotebook.name = name
-        notebooks.append(newNotebook)
-        notebooksCollectionView.reloadData()
+        if let newNotebook = NSEntityDescription.insertNewObjectForEntityForName(Constants.NotebookModel.EntityName, inManagedObjectContext: context!) as? Notebook {
+            newNotebook.name = name
+            
+            if let notebookColor = NSUserDefaults.standardUserDefaults().valueForKey(Constants.SettingsVC.NotebookDefaultColor) as? Int {
+                if notebookColor == Constants.SettingsVC.NotebookDefaultColorRandom {
+                    newNotebook.color = NSNumber(unsignedInt: arc4random_uniform(4))
+                } else {
+                    newNotebook.color = notebookColor
+                }
+            } else {
+                newNotebook.color = NSNumber(unsignedInt: arc4random_uniform(4))
+            }
+            notebooks.append(newNotebook)
+            notebooksCollectionView.reloadData()
+        }
     }
     
+    // Action that displays the alert in which the user will type the name of the notebook he/she wishes to create
     @IBAction func createNotebook(sender: UIBarButtonItem) {
-        let alert = UIAlertController(title: "New Notebook", message: "What will be the name of your new Notebook", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: LStrings.newNotebookAlertTitle, message: LStrings.newNotebookAlertMessage, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addTextFieldWithConfigurationHandler { (textField: UITextField!) -> Void in
-            textField.placeholder = "Name of the Notebook"
+            textField.placeholder = LStrings.newNotebookAlertPlaceholder
         }
-        alert.addAction( UIAlertAction(title: "Create", style: UIAlertActionStyle.Default) { (_) -> Void in
+        alert.addAction( UIAlertAction(title: LStrings.newNotebookCreateButton, style: UIAlertActionStyle.Default) { (_) -> Void in
             if let textField = alert.textFields?.first as? UITextField {
                 self.createNewNotebook(textField.text)
             }
-        })
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
+            })
+        alert.addAction(UIAlertAction(title: LStrings.newNotebookCancelButton, style: UIAlertActionStyle.Cancel, handler: nil))
         presentViewController(alert, animated: true, completion: nil)
-
+        
     }
     
     
@@ -98,41 +119,24 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(NotebookCellIdentifier, forIndexPath: indexPath) as NotebookCollectionViewCell
-        let notebook = self.notebooks[indexPath.row]
-        cell.notebook = notebook
-        cell.name = notebook.name
-        cell.backgroundColor = randomColor()
-        return cell
-    }
-    
-    func randomColor() -> UIColor  {
-        let rdn = arc4random_uniform(4)
-        switch (rdn) {
-        case 1:
-            return UIColor.whiteColor()
-        case 2:
-            return UIColor.greenColor()
-        case 3:
-            return UIColor.yellowColor()
-        default:
-            return UIColor.redColor()
+        if let cell = collectionView.dequeueReusableCellWithReuseIdentifier(Constants.NotebooksVC.NotebookCellIdentifier, forIndexPath: indexPath) as? NotebookCollectionViewCell {
+            let notebook = self.notebooks[indexPath.row]
+            cell.notebook = notebook
+            cell.name = notebook.name
+            cell.backgroundColor = Helper.colorForNumber(notebook.color.integerValue)
+            return cell
         }
+        return UICollectionViewCell()
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let width: CGFloat = min(NotebookWidth, view.bounds.width/3 - NotebookEdges*2)
-        let height = NotebookHeight / NotebookWidth * width
+        let width: CGFloat = min(Constants.NotebooksVC.NotebookWidth, view.bounds.width/3 - Constants.NotebooksVC.NotebookEdges*2)
+        let height = Constants.NotebooksVC.NotebookHeight / Constants.NotebooksVC.NotebookWidth * width
         return CGSizeMake(width, height)
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let cell = notebooksCollectionView.cellForItemAtIndexPath(indexPath) as NotebookCollectionViewCell
-        println(cell.name)
-    }
-    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-        return UIEdgeInsetsMake(8, NotebookEdges, 8, NotebookEdges)
+        return UIEdgeInsetsMake(8, Constants.NotebooksVC.NotebookEdges, 8, Constants.NotebooksVC.NotebookEdges)
     }
     
     
