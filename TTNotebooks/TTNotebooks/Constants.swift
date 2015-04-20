@@ -30,10 +30,17 @@ class Constants {
     struct SettingsVC {
         static let AppleIDName = "Settings AppleID"
         static let NotebookDefaultColor = "Settings Notebook Default Color"
-        static let NotebookDefaultColorRandom = 0
+        static let PagesDefaultLayoutType = "Settings Pages Default Layout Type"
         static let FigureDefaultColor = "Settings Figure Default Color"
         static let FigureDefaultLineWidth = "Settings Figure Default Line Width"
         static let StrokeDefaultColor = "Settings Figure Default Stroke Color"
+        static let DefaultFont = "Settings Default Font"
+        static let NotebookDefaultColorValue = 0
+        static let FigureDefaultColorValue = 0
+        static let FigureDefaultLineWidthValue = 2
+        static let StrokeDefaultColorValue = 0
+        static let PagesDefaultLayoutTypeValue = 0
+        static let DefaultFontValue = 0
     }
     
     // MARK: - Model

@@ -19,6 +19,8 @@
 		4095273D1ABE3D8100B81481 /* TTNotebooksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4095273C1ABE3D8100B81481 /* TTNotebooksTests.swift */; };
 		4095274A1ABE3E8600B81481 /* NotebooksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409527491ABE3E8600B81481 /* NotebooksViewController.swift */; };
 		4095274D1ABE3EAA00B81481 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4095274B1ABE3EAA00B81481 /* Model.xcdatamodeld */; };
+		40A236E31ADCC58F002F8F0B /* SettingsOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A236E21ADCC58F002F8F0B /* SettingsOptionsViewController.swift */; };
+		40AB69FF1ADB33FB00B766C1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AB69FE1ADB33FB00B766C1 /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		4095273C1ABE3D8100B81481 /* TTNotebooksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTNotebooksTests.swift; sourceTree = "<group>"; };
 		409527491ABE3E8600B81481 /* NotebooksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotebooksViewController.swift; sourceTree = "<group>"; };
 		4095274C1ABE3EAA00B81481 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		40A236E21ADCC58F002F8F0B /* SettingsOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsOptionsViewController.swift; sourceTree = "<group>"; };
+		40AB69FE1ADB33FB00B766C1 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +139,8 @@
 			isa = PBXGroup;
 			children = (
 				409527491ABE3E8600B81481 /* NotebooksViewController.swift */,
+				40AB69FE1ADB33FB00B766C1 /* SettingsViewController.swift */,
+				40A236E21ADCC58F002F8F0B /* SettingsOptionsViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -264,6 +270,8 @@
 				4095274D1ABE3EAA00B81481 /* Model.xcdatamodeld in Sources */,
 				400E9E4D1ADB117D00101B96 /* Notebook.swift in Sources */,
 				400E9E491ADB0F8C00101B96 /* Constants.swift in Sources */,
+				40A236E31ADCC58F002F8F0B /* SettingsOptionsViewController.swift in Sources */,
+				40AB69FF1ADB33FB00B766C1 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

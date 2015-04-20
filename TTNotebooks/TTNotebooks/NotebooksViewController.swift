@@ -35,11 +35,11 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
     // MARK: - Localized Strings
     
     private struct LStrings {
-        static let newNotebookAlertTitle = NSLocalizedString("New Notebook", comment: "This is the title of the alert that will be displayed when the user wants to create a new Notebook in the library")
-        static let newNotebookAlertMessage = NSLocalizedString("What will be the name of your new Notebook", comment: "This is the message of the alert that will be displayed when the user wants to create a new Notebook in the library")
-        static let newNotebookAlertPlaceholder = NSLocalizedString("Name of the Notebook", comment: "This is the placeholder in the textfield of the alert that will be displayed when the user wants to create a new Notebook in the library and in it the user will type in the name of the new Notebook")
-        static let newNotebookCreateButton = NSLocalizedString("Create", comment: "This is the name of the button that will confirm the creation of a Notebook with the name given in the textfield of the alert that is displayed when the user wants to create a new Notebook")
-        static let newNotebookCancelButton = NSLocalizedString("Cancel", comment: "This is the name of the button that will cancel the creation of a Notebook with the name given in the textfield of the alert that is displayed when the user wants to create a new Notebook")
+        static let NewNotebookAlertTitle = NSLocalizedString("New Notebook", comment: "This is the title of the alert that will be displayed when the user wants to create a new Notebook in the library")
+        static let NewNotebookAlertMessage = NSLocalizedString("What will be the name of your new Notebook", comment: "This is the message of the alert that will be displayed when the user wants to create a new Notebook in the library")
+        static let NewNotebookAlertPlaceholder = NSLocalizedString("Name of the Notebook", comment: "This is the placeholder in the textfield of the alert that will be displayed when the user wants to create a new Notebook in the library and in it the user will type in the name of the new Notebook")
+        static let NewNotebookCreateButton = NSLocalizedString("Create", comment: "This is the name of the button that will confirm the creation of a Notebook with the name given in the textfield of the alert that is displayed when the user wants to create a new Notebook")
+        static let NewNotebookCancelButton = NSLocalizedString("Cancel", comment: "This is the name of the button that will cancel the creation of a Notebook with the name given in the textfield of the alert that is displayed when the user wants to create a new Notebook")
     }
     
     // MARK: - Application Lifecycle
@@ -78,7 +78,7 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
             newNotebook.name = name
             
             if let notebookColor = NSUserDefaults.standardUserDefaults().valueForKey(Constants.SettingsVC.NotebookDefaultColor) as? Int {
-                if notebookColor == Constants.SettingsVC.NotebookDefaultColorRandom {
+                if notebookColor == Constants.SettingsVC.NotebookDefaultColorValue {
                     newNotebook.color = NSNumber(unsignedInt: arc4random_uniform(4))
                 } else {
                     newNotebook.color = notebookColor
@@ -93,20 +93,22 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
     
     // Action that displays the alert in which the user will type the name of the notebook he/she wishes to create
     @IBAction func createNotebook(sender: UIBarButtonItem) {
-        let alert = UIAlertController(title: LStrings.newNotebookAlertTitle, message: LStrings.newNotebookAlertMessage, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: LStrings.NewNotebookAlertTitle, message: LStrings.NewNotebookAlertMessage, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addTextFieldWithConfigurationHandler { (textField: UITextField!) -> Void in
-            textField.placeholder = LStrings.newNotebookAlertPlaceholder
+            textField.placeholder = LStrings.NewNotebookAlertPlaceholder
         }
-        alert.addAction( UIAlertAction(title: LStrings.newNotebookCreateButton, style: UIAlertActionStyle.Default) { (_) -> Void in
+        alert.addAction( UIAlertAction(title: LStrings.NewNotebookCreateButton, style: UIAlertActionStyle.Default) { (_) -> Void in
             if let textField = alert.textFields?.first as? UITextField {
                 self.createNewNotebook(textField.text)
             }
             })
-        alert.addAction(UIAlertAction(title: LStrings.newNotebookCancelButton, style: UIAlertActionStyle.Cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: LStrings.NewNotebookCancelButton, style: UIAlertActionStyle.Cancel, handler: nil))
         presentViewController(alert, animated: true, completion: nil)
-        
     }
     
+    func editNotebook (sender: UIGestureRecognizer ) {
+        
+    }
     
     // MARK: - UICollectionView Delegate Methods
     
@@ -123,10 +125,14 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
             let notebook = self.notebooks[indexPath.row]
             cell.notebook = notebook
             cell.name = notebook.name
-            cell.backgroundColor = Helper.colorForNumber(notebook.color.integerValue)
+            cell.backgroundColor = Helper.notebookColorForNumber(notebook.color.integerValue)
             return cell
         }
         return UICollectionViewCell()
+    }
+    
+    func collectionView(collectionView: UICollectionView, shouldShowMenuForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
@@ -138,8 +144,6 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
         return UIEdgeInsetsMake(8, Constants.NotebooksVC.NotebookEdges, 8, Constants.NotebooksVC.NotebookEdges)
     }
-    
-    
     
     /*
     // MARK: - Navigation
