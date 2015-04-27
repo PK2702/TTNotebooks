@@ -32,6 +32,9 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
     //   An array of all the notebooks that the user has stored locally
     var notebooks = [Notebook]()
     
+    //Variable representing the Notebook that is being edited
+    var editedNotebook: Notebook?
+    
     // MARK: - Localized Strings
     
     private struct LStrings {
@@ -40,6 +43,9 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
         static let NewNotebookAlertPlaceholder = NSLocalizedString("Name of the Notebook", comment: "This is the placeholder in the textfield of the alert that will be displayed when the user wants to create a new Notebook in the library and in it the user will type in the name of the new Notebook")
         static let NewNotebookCreateButton = NSLocalizedString("Create", comment: "This is the name of the button that will confirm the creation of a Notebook with the name given in the textfield of the alert that is displayed when the user wants to create a new Notebook")
         static let NewNotebookCancelButton = NSLocalizedString("Cancel", comment: "This is the name of the button that will cancel the creation of a Notebook with the name given in the textfield of the alert that is displayed when the user wants to create a new Notebook")
+        static let EditNotebookAlertTitle = NSLocalizedString("Editing ", comment: "This is the name of the title for alert view when editing a Notebook")
+        static let EditNotebookAlertDeleteButton = NSLocalizedString("Delete Notebook", comment: "This is the name of the button that will delete the Notebook that is being edited in the Notebooks View")
+        static let EditNotebookAlertEditButton = NSLocalizedString("Edit Notebook", comment: "This is the name of the button that will edit the properties of the Notebook that is being edited in the Notebooks View")
     }
     
     // MARK: - Application Lifecycle
@@ -50,11 +56,10 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
             if let uInf = note.userInfo {
                 if let cntxt = uInf[Constants.Notifications.UIDocumentReadyUIContext] as? NSManagedObjectContext {
                     self.context = cntxt
-                    println("Context Loaded")
                 }
             }
         }
-        
+        updateViewAfterEdittingNotebooks()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -66,10 +71,12 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
     
     //  Method that will update the array of notebooks with what it finds in the context
     func updateNotebooks() {
-        let request = NSFetchRequest(entityName: Constants.NotebookModel.EntityName)
-        request.predicate = nil
-        request.sortDescriptors = [NSSortDescriptor(key: Constants.NotebookModel.NotebookName, ascending: true, selector: "localizedCompare:")]
-        notebooks = context?.executeFetchRequest(request, error: nil) as! [Notebook]
+        if let ctxt = context {
+            let request = NSFetchRequest(entityName: Constants.NotebookModel.EntityName)
+            request.predicate = nil
+            request.sortDescriptors = [NSSortDescriptor(key: Constants.NotebookModel.NotebookName, ascending: true, selector: "localizedCompare:")]
+            notebooks = ctxt.executeFetchRequest(request, error: nil) as! [Notebook]
+        }
     }
     
     //  Creates a notebook given a name
@@ -106,8 +113,25 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
         presentViewController(alert, animated: true, completion: nil)
     }
     
+    // Displays an alert with the options to edit a Notebook
     func editNotebook (sender: UIGestureRecognizer ) {
-        
+        if let notebookCell = sender.view as? NotebookCollectionViewCell {
+            if let ntbk = notebookCell.notebook {
+                let alert = UIAlertController(title: LStrings.EditNotebookAlertTitle + ntbk.name, message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
+                alert.addAction(UIAlertAction(title: LStrings.EditNotebookAlertEditButton, style: UIAlertActionStyle.Default) { (_) -> Void in
+                    self.editedNotebook = ntbk
+                    self.performSegueWithIdentifier(SegueIdentifiers.EditNotebookSegueIdentifier, sender: self)
+                })
+                alert.addAction(UIAlertAction(title: LStrings.EditNotebookAlertDeleteButton, style: UIAlertActionStyle.Destructive) { (_) -> Void in
+                    self.context?.deleteObject(ntbk)
+                    self.updateViewAfterEdittingNotebooks()
+                    })
+                alert.addAction(UIAlertAction(title: LStrings.NewNotebookCancelButton, style: UIAlertActionStyle.Cancel, handler: nil))
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+            }
+        }
     }
     
     // MARK: - UICollectionView Delegate Methods
@@ -126,6 +150,7 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
             cell.notebook = notebook
             cell.name = notebook.name
             cell.backgroundColor = Helper.notebookColorForNumber(notebook.color.integerValue)
+            cell.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: "editNotebook:"))
             return cell
         }
         return UICollectionViewCell()
@@ -145,14 +170,28 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
         return UIEdgeInsetsMake(8, Constants.NotebooksVC.NotebookEdges, 8, Constants.NotebooksVC.NotebookEdges)
     }
     
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    private struct SegueIdentifiers {
+        static let EditNotebookSegueIdentifier = "Edit Notebook"
     }
-    */
-
+    
+    func updateViewAfterEdittingNotebooks() {
+        updateNotebooks()
+        notebooksCollectionView.reloadData()
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let ident = segue.identifier {
+            switch (ident) {
+            case SegueIdentifiers.EditNotebookSegueIdentifier :
+                if let dvc = segue.destinationViewController as? EditNotebookViewController {
+                    dvc.notebook = editedNotebook!
+                }
+            default :
+                break
+            }
+        }
+    }
+    
 }

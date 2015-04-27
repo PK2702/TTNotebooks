@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4003FDBD1AEDA9320077A517 /* EditNotebookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4003FDBC1AEDA9320077A517 /* EditNotebookViewController.swift */; };
 		400E9E491ADB0F8C00101B96 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400E9E481ADB0F8C00101B96 /* Constants.swift */; };
 		400E9E4D1ADB117D00101B96 /* Notebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400E9E4C1ADB117D00101B96 /* Notebook.swift */; };
 		400E9E4F1ADB122500101B96 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400E9E4E1ADB122500101B96 /* Helper.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4003FDBC1AEDA9320077A517 /* EditNotebookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditNotebookViewController.swift; sourceTree = "<group>"; };
 		400E9E481ADB0F8C00101B96 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		400E9E4C1ADB117D00101B96 /* Notebook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notebook.swift; sourceTree = "<group>"; };
 		400E9E4E1ADB122500101B96 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 				409527491ABE3E8600B81481 /* NotebooksViewController.swift */,
 				40AB69FE1ADB33FB00B766C1 /* SettingsViewController.swift */,
 				40A236E21ADCC58F002F8F0B /* SettingsOptionsViewController.swift */,
+				4003FDBC1AEDA9320077A517 /* EditNotebookViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 				400E9E4D1ADB117D00101B96 /* Notebook.swift in Sources */,
 				400E9E491ADB0F8C00101B96 /* Constants.swift in Sources */,
 				40A236E31ADCC58F002F8F0B /* SettingsOptionsViewController.swift in Sources */,
+				4003FDBD1AEDA9320077A517 /* EditNotebookViewController.swift in Sources */,
 				40AB69FF1ADB33FB00B766C1 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
