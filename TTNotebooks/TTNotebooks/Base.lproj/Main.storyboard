@@ -77,11 +77,94 @@
                     </navigationItem>
                     <connections>
                         <outlet property="notebooksCollectionView" destination="awk-Gd-J3A" id="Kn0-66-92W"/>
+                        <segue destination="e3J-Fi-Kix" kind="presentation" identifier="Edit Notebook" id="j9H-7v-iIa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="987" y="363"/>
+        </scene>
+        <!--Edit Notebook View Controller-->
+        <scene sceneID="5TU-Eg-LQd">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Swr-GF-uVH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="e3J-Fi-Kix" customClass="EditNotebookViewController" customModule="TTNotebooks" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="qek-lm-aOD"/>
+                        <viewControllerLayoutGuide type="bottom" id="zl2-jX-8Wr"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Iaq-h7-hOf">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JaO-6F-XCm">
+                                <rect key="frame" x="547" y="20" width="37" height="30"/>
+                                <state key="normal" title="Done">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="makeChangesEffective:" destination="e3J-Fi-Kix" eventType="touchUpInside" id="bxa-ba-hVw"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="U5C-WW-9oy">
+                                <rect key="frame" x="70" y="62" width="514" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iWR-Xb-axC">
+                                <rect key="frame" x="16" y="66" width="46" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1No-pb-2sf">
+                                <rect key="frame" x="16" y="100" width="568" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="e3J-Fi-Kix" id="qFd-EF-GM2"/>
+                                    <outlet property="delegate" destination="e3J-Fi-Kix" id="rXF-GM-hT8"/>
+                                </connections>
+                            </pickerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P31-Iw-UaD">
+                                <rect key="frame" x="16" y="28" width="48" height="30"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="cancelEditting:" destination="e3J-Fi-Kix" eventType="touchUpInside" id="VSt-4N-jIA"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="JaO-6F-XCm" firstAttribute="trailing" secondItem="Iaq-h7-hOf" secondAttribute="trailingMargin" id="0hi-n1-7jn"/>
+                            <constraint firstItem="P31-Iw-UaD" firstAttribute="top" secondItem="qek-lm-aOD" secondAttribute="bottom" constant="8" symbolic="YES" id="0zm-UN-1Sf"/>
+                            <constraint firstItem="U5C-WW-9oy" firstAttribute="trailing" secondItem="Iaq-h7-hOf" secondAttribute="trailingMargin" id="4kP-1e-xNx"/>
+                            <constraint firstItem="U5C-WW-9oy" firstAttribute="leading" secondItem="iWR-Xb-axC" secondAttribute="trailing" constant="8" symbolic="YES" id="AVl-gV-uVE"/>
+                            <constraint firstItem="P31-Iw-UaD" firstAttribute="leading" secondItem="Iaq-h7-hOf" secondAttribute="leadingMargin" constant="-5" id="B55-x5-dRM"/>
+                            <constraint firstItem="iWR-Xb-axC" firstAttribute="leading" secondItem="Iaq-h7-hOf" secondAttribute="leadingMargin" id="CDR-8r-PtC"/>
+                            <constraint firstItem="P31-Iw-UaD" firstAttribute="leading" secondItem="Iaq-h7-hOf" secondAttribute="leadingMargin" id="CeN-hk-bth"/>
+                            <constraint firstItem="U5C-WW-9oy" firstAttribute="centerY" secondItem="iWR-Xb-axC" secondAttribute="centerY" constant="0.5" id="f54-SK-ofT"/>
+                            <constraint firstItem="1No-pb-2sf" firstAttribute="leading" secondItem="Iaq-h7-hOf" secondAttribute="leadingMargin" id="q7H-cY-vBp"/>
+                            <constraint firstItem="1No-pb-2sf" firstAttribute="trailing" secondItem="Iaq-h7-hOf" secondAttribute="trailingMargin" id="s1q-dp-XaJ"/>
+                            <constraint firstItem="JaO-6F-XCm" firstAttribute="top" secondItem="qek-lm-aOD" secondAttribute="bottom" id="sbK-l7-V5G"/>
+                            <constraint firstItem="1No-pb-2sf" firstAttribute="top" secondItem="U5C-WW-9oy" secondAttribute="bottom" constant="8" symbolic="YES" id="tgE-wX-qVe"/>
+                            <constraint firstItem="iWR-Xb-axC" firstAttribute="top" secondItem="P31-Iw-UaD" secondAttribute="bottom" constant="8" symbolic="YES" id="uOB-N9-b1e"/>
+                            <constraint firstItem="P31-Iw-UaD" firstAttribute="leading" secondItem="Iaq-h7-hOf" secondAttribute="leadingMargin" id="yI7-Eu-oKG"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="B55-x5-dRM"/>
+                                <exclude reference="yI7-Eu-oKG"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="notebookNameTxtField" destination="U5C-WW-9oy" id="9cL-8T-FGC"/>
+                        <outlet property="pickerView" destination="1No-pb-2sf" id="PCh-wq-aWq"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1847" y="-788"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="Xmh-4h-U1l">
