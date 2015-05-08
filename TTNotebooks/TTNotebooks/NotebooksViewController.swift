@@ -56,6 +56,7 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
             if let uInf = note.userInfo {
                 if let cntxt = uInf[Constants.Notifications.UIDocumentReadyUIContext] as? NSManagedObjectContext {
                     self.context = cntxt
+                    println("Context Loaded")
                 }
             }
         }
@@ -72,16 +73,16 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
     //  Method that will update the array of notebooks with what it finds in the context
     func updateNotebooks() {
         if let ctxt = context {
-            let request = NSFetchRequest(entityName: Constants.NotebookModel.EntityName)
+            let request = NSFetchRequest(entityName: ModelConstants.Notebook.EntityName)
             request.predicate = nil
-            request.sortDescriptors = [NSSortDescriptor(key: Constants.NotebookModel.NotebookName, ascending: true, selector: "localizedCompare:")]
+            request.sortDescriptors = [NSSortDescriptor(key: ModelConstants.Notebook.Name, ascending: true, selector: "localizedCompare:")]
             notebooks = ctxt.executeFetchRequest(request, error: nil) as! [Notebook]
         }
     }
     
     //  Creates a notebook given a name
     func createNewNotebook(name: String) {
-        if let newNotebook = NSEntityDescription.insertNewObjectForEntityForName(Constants.NotebookModel.EntityName, inManagedObjectContext: context!) as? Notebook {
+        if let newNotebook = NSEntityDescription.insertNewObjectForEntityForName(ModelConstants.Notebook.EntityName, inManagedObjectContext: context!) as? Notebook {
             newNotebook.name = name
             
             if let notebookColor = NSUserDefaults.standardUserDefaults().valueForKey(Constants.SettingsVC.NotebookDefaultColor) as? Int {
@@ -94,7 +95,21 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
                 newNotebook.color = NSNumber(unsignedInt: arc4random_uniform(4))
             }
             notebooks.append(newNotebook)
+            mockupSectionAndPages(newNotebook)
             notebooksCollectionView.reloadData()
+        }
+    }
+    
+    func mockupSectionAndPages(newNotebook : Notebook) {
+        if let newSection = NSEntityDescription.insertNewObjectForEntityForName(ModelConstants.Section.EntityName, inManagedObjectContext: context!)   as? Section {
+            newSection.name = "1st Section"
+            newSection.creationDate = NSDate()
+            if let newPage = NSEntityDescription.insertNewObjectForEntityForName(ModelConstants.Page.EntityName, inManagedObjectContext: context!) as? Page {
+                newPage.name = "1st Page"
+                newPage.creationDate = NSDate()
+                newSection.mutableSetValueForKey(ModelConstants.Section.Pages).addObject(newPage)
+            }
+            newSection.notebook = newNotebook
         }
     }
     
@@ -174,6 +189,7 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
 
     private struct SegueIdentifiers {
         static let EditNotebookSegueIdentifier = "Edit Notebook"
+        static let OpenNotebookSegueIdentifier = "Open Notebook"
     }
     
     func updateViewAfterEdittingNotebooks() {
@@ -187,6 +203,12 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
             case SegueIdentifiers.EditNotebookSegueIdentifier :
                 if let dvc = segue.destinationViewController as? EditNotebookViewController {
                     dvc.notebook = editedNotebook!
+                }
+            case SegueIdentifiers.OpenNotebookSegueIdentifier :
+                if let dvc = segue.destinationViewController as? NotebookTableViewController {
+                    if let notebookCell = sender as? NotebookCollectionViewCell {
+                        dvc.notebook = notebookCell.notebook
+                    }
                 }
             default :
                 break

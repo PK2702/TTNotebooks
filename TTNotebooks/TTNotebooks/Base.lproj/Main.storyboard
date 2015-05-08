@@ -50,6 +50,7 @@
                                         </constraints>
                                         <connections>
                                             <outlet property="titleLabel" destination="DtW-fQ-6Ek" id="4Oj-rg-3xh"/>
+                                            <segue destination="O4e-5t-KTm" kind="show" identifier="Open Notebook" id="NJl-b8-i8y"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -84,10 +85,49 @@
             </objects>
             <point key="canvasLocation" x="987" y="363"/>
         </scene>
+        <!--Notebook Table View Controller-->
+        <scene sceneID="sDh-tE-eFT">
+            <objects>
+                <tableViewController id="O4e-5t-KTm" customClass="NotebookTableViewController" customModule="TTNotebooks" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="QQQ-ul-JH1">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Page Cell" textLabel="XsF-qf-AIW" detailTextLabel="a3m-us-QjA" style="IBUITableViewCellStyleSubtitle" id="nfY-Rw-CtX">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nfY-Rw-CtX" id="eGY-PZ-2xF">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XsF-qf-AIW">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="a3m-us-QjA">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="O4e-5t-KTm" id="feZ-kV-4Fu"/>
+                            <outlet property="delegate" destination="O4e-5t-KTm" id="vXD-Bn-bMZ"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xDw-1t-dC0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1881" y="690"/>
+        </scene>
         <!--Edit Notebook View Controller-->
         <scene sceneID="5TU-Eg-LQd">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Swr-GF-uVH" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="e3J-Fi-Kix" customClass="EditNotebookViewController" customModule="TTNotebooks" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qek-lm-aOD"/>
@@ -114,7 +154,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iWR-Xb-axC">
                                 <rect key="frame" x="16" y="66" width="46" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1No-pb-2sf">
@@ -163,6 +203,7 @@
                         <outlet property="pickerView" destination="1No-pb-2sf" id="PCh-wq-aWq"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Swr-GF-uVH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1847" y="-788"/>
         </scene>

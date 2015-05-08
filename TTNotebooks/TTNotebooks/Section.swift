@@ -1,5 +1,5 @@
 //
-//  Notebook.swift
+//  Section.swift
 //  TTNotebooks
 //
 //  Created by Tomas Trujillo on 5/5/15.
@@ -9,11 +9,11 @@
 import Foundation
 import CoreData
 
-class Notebook: NSManagedObject {
+class Section: NSManagedObject {
 
-    @NSManaged var color: NSNumber
-    @NSManaged var creationDate: NSDate
     @NSManaged var name: String
-    @NSManaged var sections: NSSet
+    @NSManaged var creationDate: NSDate
+    @NSManaged var notebook: Notebook
+    @NSManaged var pages: NSSet
 
 }
