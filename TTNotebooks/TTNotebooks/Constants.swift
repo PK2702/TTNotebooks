@@ -42,18 +42,7 @@ class Constants {
         static let PagesDefaultLayoutTypeValue = 0
         static let DefaultFontValue = 0
     }
-    
-    // MARK: - Model
-    
-    struct NotebookModel {
-        //Name of the Entity Notebook
-        static let EntityName = "Notebook"
-        /*
-        Name of the Attribute name of the Notebook
-        */
-        static let NotebookName = "name"
-    }
-    
+        
     // MARK: - NSNotificationsCenter
     
     struct Notifications {

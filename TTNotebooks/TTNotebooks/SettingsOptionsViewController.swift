@@ -10,6 +10,8 @@ import UIKit
 
 class SettingsOptionsViewController: UITableViewController {
 
+    // MARK: - Variables and Constants
+    
     private struct tableViewConstants {
         static let cellReuseIdentifier = "SettingsCell"
     }
