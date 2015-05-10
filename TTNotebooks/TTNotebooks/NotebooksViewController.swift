@@ -13,7 +13,7 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
     
     // MARK: - Properties and outlets
     
-    //  The collection view that will display all the outlets
+    /** The collection view that will display all the outlets */
     @IBOutlet weak var notebooksCollectionView: UICollectionView! {
         didSet {
             notebooksCollectionView.delegate = self
@@ -21,22 +21,24 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
         }
     }
     
-    //  The context of the application
-    var context: NSManagedObjectContext? {
+    
+    /** The context of the application */
+    private var context: NSManagedObjectContext? {
         didSet{
             self.updateNotebooks()
             self.notebooksCollectionView?.reloadData()
         }
     }
     
-    //   An array of all the notebooks that the user has stored locally
-    var notebooks = [Notebook]()
+    /** An array of all the notebooks that the user has stored locally */
+    private var notebooks = [Notebook]()
     
-    //Variable representing the Notebook that is being edited
-    var editedNotebook: Notebook?
+    /** Variable representing the Notebook that is being edited */
+    private var editedNotebook: Notebook?
     
     // MARK: - Localized Strings
     
+    /** List of all the Localized Strings of this class */
     private struct LStrings {
         static let NewNotebookAlertTitle = NSLocalizedString("New Notebook", comment: "This is the title of the alert that will be displayed when the user wants to create a new Notebook in the library")
         static let NewNotebookAlertMessage = NSLocalizedString("What will be the name of your new Notebook", comment: "This is the message of the alert that will be displayed when the user wants to create a new Notebook in the library")
@@ -54,7 +56,7 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
         super.viewWillAppear(animated)
         NSNotificationCenter.defaultCenter().addObserverForName(Constants.Notifications.UIDocumentReady, object: nil, queue: nil) { (note: NSNotification!) -> Void in
             if let uInf = note.userInfo {
-                if let cntxt = uInf[Constants.Notifications.UIDocumentReadyUIContext] as? NSManagedObjectContext {
+                if let cntxt = uInf[Constants.Notifications.UIDocumentReadyContext] as? NSManagedObjectContext {
                     self.context = cntxt
                     println("Context Loaded")
                 }
@@ -70,8 +72,8 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
     
     // MARK: - Actions
     
-    //  Method that will update the array of notebooks with what it finds in the context
-    func updateNotebooks() {
+    /** Method that will update the array of notebooks with what it finds in the context */
+    private func updateNotebooks() {
         if let ctxt = context {
             let request = NSFetchRequest(entityName: ModelConstants.Notebook.EntityName)
             request.predicate = nil
@@ -80,8 +82,12 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
         }
     }
     
-    //  Creates a notebook given a name
-    func createNewNotebook(name: String) {
+    /**
+    Creates a notebook given a name and adds it to the Notebooks Collections View
+    
+    :param:
+    */
+    private func createNewNotebook(name: String) {
         if let newNotebook = NSEntityDescription.insertNewObjectForEntityForName(ModelConstants.Notebook.EntityName, inManagedObjectContext: context!) as? Notebook {
             newNotebook.name = name
             
@@ -100,20 +106,83 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
         }
     }
     
-    func mockupSectionAndPages(newNotebook : Notebook) {
+    private func mockupSectionAndPages(newNotebook : Notebook) {
         if let newSection = NSEntityDescription.insertNewObjectForEntityForName(ModelConstants.Section.EntityName, inManagedObjectContext: context!)   as? Section {
             newSection.name = "1st Section"
             newSection.creationDate = NSDate()
+            newSection.orderInNotebook = 0
             if let newPage = NSEntityDescription.insertNewObjectForEntityForName(ModelConstants.Page.EntityName, inManagedObjectContext: context!) as? Page {
-                newPage.name = "1st Page"
+                newPage.name = "1st Page 1st Section"
                 newPage.creationDate = NSDate()
-                newSection.mutableSetValueForKey(ModelConstants.Section.Pages).addObject(newPage)
+                newPage.orderInSection = 0
+                newSection.insertPageIntoPages(newPage)
             }
-            newSection.notebook = newNotebook
+            if let newPage = NSEntityDescription.insertNewObjectForEntityForName(ModelConstants.Page.EntityName, inManagedObjectContext: context!) as? Page {
+                newPage.name = "2nd Page 1st Section"
+                newPage.creationDate = NSDate()
+                newPage.orderInSection = 1
+                newSection.insertPageIntoPages(newPage)
+            }
+            if let newPage = NSEntityDescription.insertNewObjectForEntityForName(ModelConstants.Page.EntityName, inManagedObjectContext: context!) as? Page {
+                newPage.name = "3rd Page 1st Section"
+                newPage.creationDate = NSDate()
+                newPage.orderInSection = 2
+                newSection.insertPageIntoPages(newPage)
+            }
+            if let newPage = NSEntityDescription.insertNewObjectForEntityForName(ModelConstants.Page.EntityName, inManagedObjectContext: context!) as? Page {
+                newPage.name = "4th Page 1st Section"
+                newPage.creationDate = NSDate()
+                newPage.orderInSection = 3
+                newSection.insertPageIntoPages(newPage)
+            }
+            if let newPage = NSEntityDescription.insertNewObjectForEntityForName(ModelConstants.Page.EntityName, inManagedObjectContext: context!) as? Page {
+                newPage.name = "5th Page 1st Section"
+                newPage.creationDate = NSDate()
+                newPage.orderInSection = 4
+                newSection.insertPageIntoPages(newPage)
+            }
+            newNotebook.insertSectionIntoSections(newSection)
         }
+        if let newSection = NSEntityDescription.insertNewObjectForEntityForName(ModelConstants.Section.EntityName, inManagedObjectContext: context!)   as? Section {
+            newSection.name = "2nd Section"
+            newSection.creationDate = NSDate()
+            newSection.orderInNotebook = 1
+            if let newPage = NSEntityDescription.insertNewObjectForEntityForName(ModelConstants.Page.EntityName, inManagedObjectContext: context!) as? Page {
+                newPage.name = "1st Page 2nd Section"
+                newPage.creationDate = NSDate()
+                newPage.orderInSection = 0
+                newSection.insertPageIntoPages(newPage)
+            }
+            if let newPage = NSEntityDescription.insertNewObjectForEntityForName(ModelConstants.Page.EntityName, inManagedObjectContext: context!) as? Page {
+                newPage.name = "2nd Page 2nd Section"
+                newPage.creationDate = NSDate()
+                newPage.orderInSection = 1
+                newSection.insertPageIntoPages(newPage)
+            }
+            if let newPage = NSEntityDescription.insertNewObjectForEntityForName(ModelConstants.Page.EntityName, inManagedObjectContext: context!) as? Page {
+                newPage.name = "3rd Page 2nd Section"
+                newPage.creationDate = NSDate()
+                newPage.orderInSection = 2
+                newSection.insertPageIntoPages(newPage)
+            }
+            if let newPage = NSEntityDescription.insertNewObjectForEntityForName(ModelConstants.Page.EntityName, inManagedObjectContext: context!) as? Page {
+                newPage.name = "4th Page 2nd Section"
+                newPage.creationDate = NSDate()
+                newPage.orderInSection = 3
+                newSection.insertPageIntoPages(newPage)
+            }
+            if let newPage = NSEntityDescription.insertNewObjectForEntityForName(ModelConstants.Page.EntityName, inManagedObjectContext: context!) as? Page {
+                newPage.name = "5th Page 2nd Section"
+                newPage.creationDate = NSDate()
+                newPage.orderInSection = 4
+                newSection.insertPageIntoPages(newPage)
+            }
+            newNotebook.insertSectionIntoSections(newSection)
+        }
+        
     }
     
-    // Action that displays the alert in which the user will type the name of the notebook he/she wishes to create
+    /** Action that displays the alert in which the user will type the name of the notebook he/she wishes to create */
     @IBAction func createNotebook(sender: UIBarButtonItem) {
         let alert = UIAlertController(title: LStrings.NewNotebookAlertTitle, message: LStrings.NewNotebookAlertMessage, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addTextFieldWithConfigurationHandler { (textField: UITextField!) -> Void in
@@ -128,7 +197,11 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
         presentViewController(alert, animated: true, completion: nil)
     }
     
-    // Displays an alert with the options to edit a Notebook
+    /**
+    Displays an alert with the options to edit a Notebook
+    
+    :param: sender The NotebookCollectionViewCell that represents the Notebook being edited
+    */
     func editNotebook (sender: UIGestureRecognizer ) {
         if let notebookCell = sender.view as? NotebookCollectionViewCell {
             if let ntbk = notebookCell.notebook {
@@ -186,13 +259,15 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
     }
     
     // MARK: - Navigation
-
+    
+    /** List of all the segue identifiers of this class */
     private struct SegueIdentifiers {
         static let EditNotebookSegueIdentifier = "Edit Notebook"
         static let OpenNotebookSegueIdentifier = "Open Notebook"
     }
     
-    func updateViewAfterEdittingNotebooks() {
+    /** Updates the Notebook list and the collection view */
+    private func updateViewAfterEdittingNotebooks() {
         updateNotebooks()
         notebooksCollectionView.reloadData()
     }

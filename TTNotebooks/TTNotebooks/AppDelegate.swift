@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func postDocumentIsReady(document: UIManagedDocument) {
-        NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notifications.UIDocumentReady, object: self, userInfo: [Constants.Notifications.UIDocumentReadyUIContext: document.managedObjectContext])
+        NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notifications.UIDocumentReady, object: self, userInfo: [Constants.Notifications.UIDocumentReadyContext: document.managedObjectContext])
     }
 
     func applicationWillResignActive(application: UIApplication) {

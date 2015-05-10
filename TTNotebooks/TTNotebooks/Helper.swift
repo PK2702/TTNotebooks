@@ -17,6 +17,7 @@ class Helper {
     static private let figureColorTwo = (name: "Green", color: UIColor.greenColor())
     static private let figureColorThree = (name: "Yellow", color: UIColor.yellowColor())
     static private let figureColorFour = (name: "Red", color: UIColor.redColor())
+    /** Number of supported colors with which one can draw a Figure */
     static let numberOfFigureColors = 5
     
     static private let notebookColorZero = (name: "Random", color: UIColor.whiteColor())
@@ -24,6 +25,7 @@ class Helper {
     static private let notebookColorTwo = (name: "Green", color: UIColor.greenColor())
     static private let notebookColorThree = (name: "Yellow", color: UIColor.yellowColor())
     static private let notebookColorFour = (name: "Red", color: UIColor.redColor())
+    /** Number of supported colors with which one can draw a Notebook */
     static let numberOfNotebookColors = 5
     
     static private let textFontZero = (name: "Body", font: UIFont.preferredFontForTextStyle(UIFontTextStyleBody))
@@ -32,11 +34,13 @@ class Helper {
     static private let textFontThree = (name: "Footnote", font: UIFont.preferredFontForTextStyle(UIFontTextStyleFootnote))
     static private let textFontFour = (name: "Headline", font: UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline))
     static private let textFontFive = (name: "Subheadline", font: UIFont.preferredFontForTextStyle(UIFontTextStyleSubheadline))
+    /** Number of supported fonts to write in a Page */
     static let numberOfFonts = 6
     
     static private let pagesLayoutZero = "Lined"
     static private let pagesLayoutOne = "Squared"
     static private let pagesLayoutTwo = "Blank"
+    /** Number of supported layouts for a page */
     static let numberOfPageLayouts = 3
     
     static private let strokeLineWidthZero = (name: "0.0", stroke: 0.0)
@@ -46,9 +50,15 @@ class Helper {
     static private let strokeLineWidthFour = (name: "2.0", stroke: 2.0)
     static private let strokeLineWidthFive = (name: "2.5", stroke: 2.5)
     static private let strokeLineWidthSix = (name: "3.0", stroke: 3.0)
+    /** Number of supported line widths for the stroke of a Figure */
     static let numberOfStrokeLineWidths = 7
     
-    //  For all the supported numbers, this method returns a Color to paint a Notebook. If the number is outside the supported bounds then it will be clear
+    /**
+    For all the supported numbers, this method returns a Color to paint a Notebook.
+    
+    :param: number Integer that represents the color with which the Notebook will be painted
+    :returns: A UIColor given the number. If the number is outside the supported bounds then it will be clear
+    */
     class func notebookColorForNumber (number: Int) -> UIColor {
         switch (number) {
         case 1:
@@ -64,7 +74,12 @@ class Helper {
         }
     }
     
-    //  For all the supported numbers, this method returns the name of the Color to paint a Notebook. If the number is outside the supported bounds then it will return an empty string
+    /**
+    For all the supported numbers, this method returns the name of the Color to paint a Notebook.
+    
+    :param: number Integer that represents the color with which the Notebook will be painted
+    :returns: The name of the color represented by the number. If the number is outside the supported bounds then it will return an empty string
+    */
     class func notebookColorNameForNumber (number: Int) -> String {
         switch (number) {
         case 0:
@@ -82,7 +97,12 @@ class Helper {
         }
     }
     
-    //  For all the supported numbers, this method returns a Color to paint a figure or its stroke. If the number is outside the supported bounds then it will be clear
+    /**
+    For all the supported numbers, this method returns a Color to paint a figure or its stroke.
+    
+    :param: number Integer that represents a color with which a figure will be painted. 
+    :returns: A UIColor given the number. If the number is outside the supported bounds then it will be clear
+    */
     class func figureColorForNumber (number: Int) -> UIColor {
         switch (number) {
         case 1:
@@ -98,7 +118,12 @@ class Helper {
         }
     }
     
-    //  For all the supported numbers, this method returns the name of the Color to paint a figure or its stroke. If the number is outside the supported bounds then it will return an empty string
+    /**
+    For all the supported numbers, this method returns the name of a Color to paint a figure or its stroke.
+    
+    :param: number Integer that represents a color with which a figure will be painted.
+    :returns: The name of a color given the number. If the number is outside the supported bounds then it will be an empty string
+    */
     class func figureColorNameForNumber (number: Int) -> String {
         switch (number) {
         case 0:
@@ -116,7 +141,12 @@ class Helper {
         }
     }
     
-    //  For all the supported numbers, this method returns a text font to take notes. If the number is outside the supported bounds then it will be an empty font
+    /**
+    For all the supported numbers, this method returns a text font to take notes.
+    
+    :param: number Integer representing a font
+    :returns: A UIFont to write in a Page. If the number is outside the supported bounds then it will be an empty font
+    */
     class func fontForNumber (number: Int) -> UIFont {
         switch (number) {
         case 0:
@@ -136,7 +166,12 @@ class Helper {
         }
     }
 
-    //  For all the supported numbers, this method returns the name of a text font to take notes. If the number is outside the supported bounds then it will return an empty string
+    /**
+    For all the supported numbers, this method returns the name of a text font to take notes.
+    
+    :param: number Integer representing a font
+    :returns: The name of a font to write in a Page. If the number is outside the supported bounds then it will be an empty string
+    */
     class func fontNameForNumber (number: Int) -> String {
         switch (number) {
         case 0:
@@ -155,8 +190,13 @@ class Helper {
             return ""
         }
     }
-
-    // For all the supported numbers, this method returns the name of a page layout. If the number is outside the supported bounds then it will return an empty string
+    
+    /**
+    For all the supported numbers, this method returns the name of a page layout.
+    
+    :param: number Integer representing a type of layout for a Page
+    :returns: The name of a page layout. If the number is outside the supported bounds then it will return an empty string
+    */
     class func pageLayoutNameForNumber (number: Int) -> String {
         switch (number) {
         case 0:
@@ -169,8 +209,13 @@ class Helper {
             return ""
         }
     }
-
-// For all the supported numbers, this method returns the line width of the stroke in a figure. If the number is outside the supported bounds then it will return 0.0
+    
+    /**
+    For all the supported numbers, this method returns the line width of the stroke in a figure.
+    
+    :param: number Integer representing a line width for the stroke of a Figure
+    :returns: The width of the line stroke for the Figure. If the number is outside the supported bounds then it will return 0.0
+    */
     class func strokeLineWidthForNumber (number: Int) -> Double {
         switch (number) {
         case 0:

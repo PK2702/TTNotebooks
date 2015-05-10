@@ -12,14 +12,18 @@ class SettingsOptionsViewController: UITableViewController {
 
     // MARK: - Variables and Constants
     
+    /** List of all of the table view related constants */
     private struct tableViewConstants {
         static let cellReuseIdentifier = "SettingsCell"
     }
     
+    /** The title of the setting that is being changed */
     var settingTitle: String?
     
+    /** Name of the setting in the NSUserDefaults */
     var nameOfSetting: String?
     
+    /** Name of the options for the setting that is being changed */
     var optionNames: [String]?
     
     override func viewDidLoad() {
