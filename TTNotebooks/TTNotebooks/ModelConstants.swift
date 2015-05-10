@@ -28,6 +28,7 @@ class ModelConstants {
         static let CreationDate = "creationDate"
         static let Notebook = "notebook"
         static let Pages = "pages"
+        static let OrderInNotebook = "orderInNotebook"
     }
     
     // MARK - Page
@@ -37,5 +38,6 @@ class ModelConstants {
         static let Name = "name"
         static let PageLayout = "pageLayout"
         static let Section = "section"
+        static let OrderInSection = "orderInSection"
     }
 }

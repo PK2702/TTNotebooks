@@ -9,18 +9,20 @@
     <entity name="Page" representedClassName="TTNotebooks.Page" syncable="YES">
         <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="orderInSection" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="pageLayout" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="section" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Section" inverseName="pages" inverseEntity="Section" syncable="YES"/>
     </entity>
     <entity name="Section" representedClassName="TTNotebooks.Section" syncable="YES">
         <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="orderInNotebook" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="notebook" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Notebook" inverseName="sections" inverseEntity="Notebook" syncable="YES"/>
         <relationship name="pages" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Page" inverseName="section" inverseEntity="Page" syncable="YES"/>
     </entity>
     <elements>
         <element name="Notebook" positionX="-63" positionY="-18" width="128" height="103"/>
-        <element name="Page" positionX="367" positionY="-27" width="128" height="103"/>
-        <element name="Section" positionX="162" positionY="-7" width="128" height="103"/>
+        <element name="Page" positionX="367" positionY="-27" width="128" height="118"/>
+        <element name="Section" positionX="162" positionY="-7" width="128" height="118"/>
     </elements>
 </model>

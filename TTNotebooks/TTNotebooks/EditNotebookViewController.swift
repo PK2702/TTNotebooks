@@ -9,12 +9,19 @@
 import UIKit
 
 class EditNotebookViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
-
+    
+    //MARK: - Properties and outlets
+    
+    /** Picker view that shows the lists of colors for the Notebook */
     @IBOutlet weak var pickerView: UIPickerView!
     
+    /** Label that displays the name of the Notebook */
     @IBOutlet weak var notebookNameTxtField: UITextField!
     
+    /** Notebook that is being edited */
     var notebook: Notebook!
+    
+    // MARK: - Application Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +33,8 @@ class EditNotebookViewController: UIViewController, UIPickerViewDataSource, UIPi
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    // MARK: - PickerView delegate and data source
     
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return Helper.numberOfNotebookColors
@@ -39,13 +48,17 @@ class EditNotebookViewController: UIViewController, UIPickerViewDataSource, UIPi
         return 1
     }
     
-    @IBAction func cancelEditting(sender: AnyObject) {
+    // MARK: - Actions
+    
+    /** Cancel the editing of the Notebook */
+    @IBAction func cancelEditing(sender: UIButton) {
         presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    @IBAction func makeChangesEffective(sender: AnyObject) {
+    /** Commit the changes done to the Notebook */
+    @IBAction func makeChangesEffective(sender: UIButton) {
         notebook.name = notebookNameTxtField.text
         notebook.color = pickerView.selectedRowInComponent(0) == 0 ?  NSNumber(unsignedInt: arc4random_uniform(4)) : NSNumber(unsignedInteger: pickerView.selectedRowInComponent(0))
         presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
-    }
+    }    
 }

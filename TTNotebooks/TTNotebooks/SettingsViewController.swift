@@ -12,31 +12,33 @@ class SettingsViewController: UITableViewController {
     
     //MARK: - Properties and outlets
     
-    //Option that represents the account with which the user has signed in
+    /** Option that represents the account with which the user has signed in */
     @IBOutlet weak var appleID: UIButton!
     
-    //Label that informs the user how much storage is left in his iCloud account
+    /** Label that informs the user how much storage is left in his iCloud account */
     @IBOutlet weak var avilableStorageLabel: UILabel!
     
-    //Option that represents the default notebook for a created notebook
+    /** Option that represents the default notebook for a created notebook */
     @IBOutlet weak var notebookColorOption: UILabel!
     
-    //Option that represents the default layout for a created page
+    /** Option that represents the default layout for a created page */
     @IBOutlet weak var pagesLayoutTypeOption: UILabel!
-
-    //Option that represents the default color for a created figure
+    
+    /** Option that represents the default color for a created figure */
     @IBOutlet weak var figureColorOption: UILabel!
     
-    //Option that represents the deafult color for the stroke in a created figure
+    /** Option that represents the deafult color for the stroke in a created figure */
     @IBOutlet weak var strokeColorOption: UILabel!
-
-    //Option that represents the default line width for a created figure
+    
+    /** Option that represents the default line width for a created figure */
     @IBOutlet weak var strokeLineWidthOption: UILabel!
     
-    //Option that represents the default font to take notes
+    /** Option that represents the default font to take notes */
     @IBOutlet weak var noteTakingFontOption: UILabel!
+
     //MARK: -Localized Strings
     
+    /** List of all the Localized Strings of this class */
     private struct LStrings {
         static let UiBarButtonRestoreDefaultsTitle = NSLocalizedString("Restore Defaults", comment: "Name of the option to restore all the settings to their default value")
         static let TextFontSettingTitle = NSLocalizedString("Text Font", comment: "Name of the title in the settings view that will determine the font for text in the notes")
@@ -49,8 +51,8 @@ class SettingsViewController: UITableViewController {
     
     //MARK: -Actions
     
-    //Restores the settings to its default values
-    func restoreDefaults() {
+    /** Restores the settings to its default values */
+    private func restoreDefaults() {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         userDefaults.setValue(Constants.SettingsVC.NotebookDefaultColorValue, forKey: Constants.SettingsVC.NotebookDefaultColor)
         userDefaults.setValue(Constants.SettingsVC.PagesDefaultLayoutTypeValue, forKey: Constants.SettingsVC.PagesDefaultLayoutType)
@@ -61,8 +63,8 @@ class SettingsViewController: UITableViewController {
         updateUI()
     }
     
-    //Update the names fo the values in the options
-    func updateUI() {
+    /** Update the names fo the values in the options */
+    private func updateUI() {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         let ntbColorOption = userDefaults.integerForKey(Constants.SettingsVC.NotebookDefaultColor) ?? Constants.SettingsVC.NotebookDefaultColorValue
         notebookColorOption.text = Helper.notebookColorNameForNumber(ntbColorOption)
@@ -78,7 +80,7 @@ class SettingsViewController: UITableViewController {
         strokeLineWidthOption.text = "\(Helper.strokeLineWidthForNumber(stkLineWidht))"
     }
     
-    //MARK: -Applications Lifecycle
+    //MARK: - Applications Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,7 +92,8 @@ class SettingsViewController: UITableViewController {
     }
 
     // MARK: - Navigation
-
+    
+    /** List of all the segue identifiers of this class */
     private struct SegueIdentifiers {
         static let fontOptionsSegueIdentifier = "Show Font Options"
         static let notebookColorOptionsSegueIdentifier = "Show Notebook Color Options"
