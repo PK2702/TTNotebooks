@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class NotebookTableViewController: UITableViewController {
 
@@ -31,14 +32,74 @@ class NotebookTableViewController: UITableViewController {
         static let cellReuseIdentifier = "Page Cell"
     }
     
+    // MARK: - Localized Strings
+    
+    private struct LStrings {
+        static let AddToNotebookAddSectionButton = NSLocalizedString("Add Section", comment: "Action in the action sheet that adds a Section to the Notebook")
+        static let AddToNotebookAddNotebookButton = NSLocalizedString("Add Page", comment: "Action in the action sheet that adds a Page to the Notebook")
+        static let AddToNotebookCancelButton = NSLocalizedString("Cancel", comment: "Action to cancel the action sheet that adds a section or page to the Notebook")
+        static let createPageAlertViewTitle = NSLocalizedString("New Page", comment: "Title of the alert view in which the user will type the name of the page to be created")
+        static let createPageAlertViewMessage = NSLocalizedString("Enter the name of the new page", comment: "Message of the alert view in which the user will type the name of the page to be created")
+        static let createPageAlertViewCreateButton = NSLocalizedString("Create", comment: "Action that creates a Page with the name given by the user")
+        static let createPageAlertViewCancelButton = NSLocalizedString("Cancel", comment: "Action that cancels the alert view in which the user will type the name of the page to be created")
+        static let createPageAlertViewTextFiledPlaceholder = NSLocalizedString("Page's Name", comment: "Placeholder in the textfield where the user will type the name of the page to be created")
+
+    }
+    
     // MARK: - Application Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addToNotebook:")
+        self.navigationItem.rightBarButtonItems = [addButton, self.editButtonItem()]
     }
 
-    // MARK: - Actions
+    // MARK: - Notebook Actions
+    
+    /** Function that displays an alert view with Action Sheet style to add a Page or Section to the Notebook */
+    func addToNotebook(sender: UIBarButtonItem) {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        actionSheet.addAction(UIAlertAction(title: LStrings.AddToNotebookAddSectionButton, style: UIAlertActionStyle.Default) { (_) -> Void in
+            
+        })
+        actionSheet.addAction(UIAlertAction(title: LStrings.AddToNotebookAddNotebookButton, style: UIAlertActionStyle.Default) { (_) -> Void in
+            let createPageAlertView = UIAlertController(title: LStrings.createPageAlertViewTitle, message: LStrings.createPageAlertViewMessage, preferredStyle: UIAlertControllerStyle.Alert)
+            createPageAlertView.addTextFieldWithConfigurationHandler{ (textField: UITextField!) -> Void in
+                textField.placeholder = LStrings.createPageAlertViewTextFiledPlaceholder
+            }
+            createPageAlertView.addAction(UIAlertAction(title: LStrings.createPageAlertViewCreateButton, style: UIAlertActionStyle.Default) { (_) -> Void in
+                if let textField = createPageAlertView.textFields?.first as? UITextField {
+                    self.createPagewithName(textField.text)
+                }
+            })
+            createPageAlertView.addAction(UIAlertAction(title: LStrings.createPageAlertViewCancelButton, style: UIAlertActionStyle.Cancel, handler: nil))
+            self.presentViewController(createPageAlertView, animated: true, completion: nil)
+        })
+        actionSheet.addAction(UIAlertAction(title: LStrings.AddToNotebookCancelButton, style: UIAlertActionStyle.Cancel, handler: nil))
+        presentViewController(actionSheet, animated: true, completion: nil)
+    }
+    
+    
+    /**
+    Create a Page with a given name and inserts it into the last place of the last section
+    
+    :param: name The name of the Page that will be created
+    */
+    private func createPagewithName(name: String) {
+        if let context = notebook?.managedObjectContext {
+            if let newPage = NSEntityDescription.insertNewObjectForEntityForName(ModelConstants.Page.EntityName, inManagedObjectContext: context) as? Page {
+                newPage.name = name
+                newPage.creationDate = NSDate()
+                newPage.pageLayout = NSNumber(integer: NSUserDefaults.standardUserDefaults().integerForKey(Constants.SettingsVC.PagesDefaultLayoutType))
+                newPage.section = sections.last!
+                newPage.orderInSection = sections.last!.pages.count
+                // WARNING: Must consider case in which empty Notebook in order to create new Section
+                tableView.reloadData()
+            }
+        }
+    }
+    
+    // MARK: - Table View Actions
     
     /**
     Returns the Page given an Index Path

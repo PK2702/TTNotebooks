@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="cAo-dA-5Bq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="cAo-dA-5Bq">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -65,12 +65,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Notebooks" id="l94-Se-bhA">
-                        <barButtonItem key="leftBarButtonItem" title="+" id="JyA-OQ-P54">
-                            <connections>
-                                <action selector="createNotebook:" destination="BYZ-38-t0r" id="u2c-ep-SqZ"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Settings" id="g4a-nV-bFA">
+                        <barButtonItem key="leftBarButtonItem" title="Settings" id="g4a-nV-bFA">
                             <connections>
                                 <segue destination="afj-wg-Qin" kind="show" identifier="Show Settings" id="fmZ-oa-DAQ"/>
                             </connections>
@@ -78,7 +73,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="notebooksCollectionView" destination="awk-Gd-J3A" id="Kn0-66-92W"/>
-                        <segue destination="e3J-Fi-Kix" kind="presentation" identifier="Edit Notebook" id="j9H-7v-iIa"/>
+                        <segue destination="Ekr-a4-h0y" kind="presentation" identifier="Edit Notebook" id="j9H-7v-iIa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -92,7 +87,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="QQQ-ul-JH1">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Page Cell" textLabel="XsF-qf-AIW" detailTextLabel="a3m-us-QjA" style="IBUITableViewCellStyleSubtitle" id="nfY-Rw-CtX">
                                 <autoresizingMask key="autoresizingMask"/>
@@ -138,12 +133,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="U5C-WW-9oy">
-                                <rect key="frame" x="70" y="62" width="514" height="30"/>
+                                <rect key="frame" x="70" y="72" width="514" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iWR-Xb-axC">
-                                <rect key="frame" x="16" y="66" width="46" height="21"/>
+                                <rect key="frame" x="16" y="77" width="46" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -155,49 +150,20 @@
                                     <outlet property="delegate" destination="e3J-Fi-Kix" id="rXF-GM-hT8"/>
                                 </connections>
                             </pickerView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P31-Iw-UaD">
-                                <rect key="frame" x="16" y="28" width="48" height="30"/>
-                                <state key="normal" title="Cancel">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="cancelEditing:" destination="e3J-Fi-Kix" eventType="touchUpInside" id="Pd5-lL-Nfw"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JaO-6F-XCm">
-                                <rect key="frame" x="547" y="28" width="37" height="30"/>
-                                <state key="normal" title="Done">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="makeChangesEffective:" destination="e3J-Fi-Kix" eventType="touchUpInside" id="dwO-hS-aoq"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="JaO-6F-XCm" firstAttribute="trailing" secondItem="Iaq-h7-hOf" secondAttribute="trailingMargin" id="0hi-n1-7jn"/>
-                            <constraint firstItem="P31-Iw-UaD" firstAttribute="top" secondItem="qek-lm-aOD" secondAttribute="bottom" constant="8" symbolic="YES" id="0zm-UN-1Sf"/>
-                            <constraint firstItem="U5C-WW-9oy" firstAttribute="trailing" secondItem="Iaq-h7-hOf" secondAttribute="trailingMargin" id="4kP-1e-xNx"/>
-                            <constraint firstItem="U5C-WW-9oy" firstAttribute="leading" secondItem="iWR-Xb-axC" secondAttribute="trailing" constant="8" symbolic="YES" id="AVl-gV-uVE"/>
-                            <constraint firstItem="P31-Iw-UaD" firstAttribute="leading" secondItem="Iaq-h7-hOf" secondAttribute="leadingMargin" constant="-5" id="B55-x5-dRM"/>
-                            <constraint firstItem="iWR-Xb-axC" firstAttribute="leading" secondItem="Iaq-h7-hOf" secondAttribute="leadingMargin" id="CDR-8r-PtC"/>
-                            <constraint firstItem="P31-Iw-UaD" firstAttribute="leading" secondItem="Iaq-h7-hOf" secondAttribute="leadingMargin" id="CeN-hk-bth"/>
-                            <constraint firstItem="U5C-WW-9oy" firstAttribute="centerY" secondItem="iWR-Xb-axC" secondAttribute="centerY" constant="0.5" id="f54-SK-ofT"/>
-                            <constraint firstItem="1No-pb-2sf" firstAttribute="leading" secondItem="Iaq-h7-hOf" secondAttribute="leadingMargin" id="q7H-cY-vBp"/>
-                            <constraint firstItem="1No-pb-2sf" firstAttribute="trailing" secondItem="Iaq-h7-hOf" secondAttribute="trailingMargin" id="s1q-dp-XaJ"/>
-                            <constraint firstItem="JaO-6F-XCm" firstAttribute="top" secondItem="qek-lm-aOD" secondAttribute="bottom" constant="8" symbolic="YES" id="sbK-l7-V5G"/>
-                            <constraint firstItem="1No-pb-2sf" firstAttribute="top" secondItem="U5C-WW-9oy" secondAttribute="bottom" constant="8" symbolic="YES" id="tgE-wX-qVe"/>
-                            <constraint firstItem="iWR-Xb-axC" firstAttribute="top" secondItem="P31-Iw-UaD" secondAttribute="bottom" constant="8" symbolic="YES" id="uOB-N9-b1e"/>
-                            <constraint firstItem="P31-Iw-UaD" firstAttribute="leading" secondItem="Iaq-h7-hOf" secondAttribute="leadingMargin" id="yI7-Eu-oKG"/>
+                            <constraint firstItem="U5C-WW-9oy" firstAttribute="trailing" secondItem="Iaq-h7-hOf" secondAttribute="trailingMargin" id="A4p-5u-rPU"/>
+                            <constraint firstItem="1No-pb-2sf" firstAttribute="trailing" secondItem="Iaq-h7-hOf" secondAttribute="trailingMargin" id="MpL-ca-A4R"/>
+                            <constraint firstItem="U5C-WW-9oy" firstAttribute="leading" secondItem="iWR-Xb-axC" secondAttribute="trailing" constant="8" symbolic="YES" id="P60-v7-bDU"/>
+                            <constraint firstItem="1No-pb-2sf" firstAttribute="top" secondItem="U5C-WW-9oy" secondAttribute="bottom" constant="-2" id="aTl-25-j4b"/>
+                            <constraint firstItem="U5C-WW-9oy" firstAttribute="centerY" secondItem="iWR-Xb-axC" secondAttribute="centerY" id="jMX-e6-Kfy"/>
+                            <constraint firstItem="U5C-WW-9oy" firstAttribute="top" secondItem="qek-lm-aOD" secondAttribute="bottom" constant="8" symbolic="YES" id="whq-dv-HNl"/>
+                            <constraint firstItem="iWR-Xb-axC" firstAttribute="leading" secondItem="Iaq-h7-hOf" secondAttribute="leadingMargin" id="zHF-AP-p1b"/>
+                            <constraint firstItem="1No-pb-2sf" firstAttribute="leading" secondItem="Iaq-h7-hOf" secondAttribute="leadingMargin" id="zkK-7H-yWB"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="B55-x5-dRM"/>
-                                <exclude reference="yI7-Eu-oKG"/>
-                            </mask>
-                        </variation>
                     </view>
+                    <navigationItem key="navigationItem" id="TTj-1Z-CSj"/>
                     <connections>
                         <outlet property="notebookNameTxtField" destination="U5C-WW-9oy" id="9cL-8T-FGC"/>
                         <outlet property="pickerView" destination="1No-pb-2sf" id="PCh-wq-aWq"/>
@@ -205,7 +171,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Swr-GF-uVH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1847" y="-788"/>
+            <point key="canvasLocation" x="2659" y="-788"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="Xmh-4h-U1l">
@@ -214,7 +180,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="cuf-ah-AuJ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
                             <tableViewSection headerTitle="Account" id="5sS-8a-xPq">
                                 <cells>
@@ -612,7 +578,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="4y0-Yw-LQr">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SettingsCell" textLabel="4bZ-4D-QcH" style="IBUITableViewCellStyleDefault" id="Oij-TR-OBN">
                                 <autoresizingMask key="autoresizingMask"/>
@@ -656,6 +622,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="whv-a4-D2N" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="293" y="363"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="rWO-jl-Xcx">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ekr-a4-h0y" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3w5-b5-SP1">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="e3J-Fi-Kix" kind="relationship" relationship="rootViewController" id="S6v-o2-y67"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Frr-JU-63T" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1847" y="-788"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

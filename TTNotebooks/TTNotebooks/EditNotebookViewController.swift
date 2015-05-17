@@ -27,6 +27,10 @@ class EditNotebookViewController: UIViewController, UIPickerViewDataSource, UIPi
         super.viewDidLoad()
         notebookNameTxtField.text = notebook.name
         pickerView.selectRow(notebook.color.integerValue, inComponent: 0, animated: true)
+        let doneButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "makeChangesEffective:")
+        self.navigationItem.rightBarButtonItem = doneButton
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "cancelEditing:")
+        self.navigationItem.leftBarButtonItem = cancelButton
     }
 
     override func didReceiveMemoryWarning() {
@@ -51,12 +55,12 @@ class EditNotebookViewController: UIViewController, UIPickerViewDataSource, UIPi
     // MARK: - Actions
     
     /** Cancel the editing of the Notebook */
-    @IBAction func cancelEditing(sender: UIButton) {
+    func cancelEditing(sender: UIButton) {
         presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
     /** Commit the changes done to the Notebook */
-    @IBAction func makeChangesEffective(sender: UIButton) {
+    func makeChangesEffective(sender: UIButton) {
         notebook.name = notebookNameTxtField.text
         notebook.color = pickerView.selectedRowInComponent(0) == 0 ?  NSNumber(unsignedInt: arc4random_uniform(4)) : NSNumber(unsignedInteger: pickerView.selectedRowInComponent(0))
         presentingViewController?.dismissViewControllerAnimated(true, completion: nil)

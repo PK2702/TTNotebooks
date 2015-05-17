@@ -70,6 +70,11 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
         NSNotificationCenter.defaultCenter().removeObserver(self, name: Constants.Notifications.UIDocumentReady, object: nil)
     }
     
+    override func viewDidLoad() {
+        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "createNotebook:")
+        self.navigationItem.rightBarButtonItems = [addButton, self.editButtonItem()]
+    }
+    
     // MARK: - Actions
     
     /** Method that will update the array of notebooks with what it finds in the context */
@@ -85,7 +90,7 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
     /**
     Creates a notebook given a name and adds it to the Notebooks Collections View
     
-    :param:
+    :param: name The name of the new Notebook that will be created
     */
     private func createNewNotebook(name: String) {
         if let newNotebook = NSEntityDescription.insertNewObjectForEntityForName(ModelConstants.Notebook.EntityName, inManagedObjectContext: context!) as? Notebook {
@@ -183,7 +188,7 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
     }
     
     /** Action that displays the alert in which the user will type the name of the notebook he/she wishes to create */
-    @IBAction func createNotebook(sender: UIBarButtonItem) {
+    func createNotebook(sender: UIBarButtonItem) {
         let alert = UIAlertController(title: LStrings.NewNotebookAlertTitle, message: LStrings.NewNotebookAlertMessage, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addTextFieldWithConfigurationHandler { (textField: UITextField!) -> Void in
             textField.placeholder = LStrings.NewNotebookAlertPlaceholder
@@ -215,9 +220,7 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
                     self.updateViewAfterEdittingNotebooks()
                     })
                 alert.addAction(UIAlertAction(title: LStrings.NewNotebookCancelButton, style: UIAlertActionStyle.Cancel, handler: nil))
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.presentViewController(alert, animated: true, completion: nil)
-                }
+                self.presentViewController(alert, animated: true, completion: nil)
             }
         }
     }
@@ -276,8 +279,10 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
         if let ident = segue.identifier {
             switch (ident) {
             case SegueIdentifiers.EditNotebookSegueIdentifier :
-                if let dvc = segue.destinationViewController as? EditNotebookViewController {
-                    dvc.notebook = editedNotebook!
+                if let navCont = segue.destinationViewController as? UINavigationController {
+                    if let dvc = navCont.viewControllers.first as? EditNotebookViewController {
+                        dvc.notebook = editedNotebook!
+                    }
                 }
             case SegueIdentifiers.OpenNotebookSegueIdentifier :
                 if let dvc = segue.destinationViewController as? NotebookTableViewController {
