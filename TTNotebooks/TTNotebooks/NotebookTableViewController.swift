@@ -9,17 +9,28 @@
 import UIKit
 import CoreData
 
-class NotebookTableViewController: UITableViewController {
+class NotebookTableViewController: UITableViewController, NotebookHeaderDataSource {
 
     // MARK : - Variables and Constants
     
     /** The Notebook that will be opened */
-    var notebook : Notebook?
+    var notebook : Notebook!
+    
+    var sectionHeaderViews = [NotebookSectionHeaderView]()
+    
+    private var dateFormater: NSDateFormatter {
+        get {
+            let dateForm = NSDateFormatter()
+            dateForm.dateStyle = NSDateFormatterStyle.MediumStyle
+            return dateForm
+        }
+    }
+    
     
     /** The sections of the Notebook that is transformed to an Array */
     private var sections : [Section] {
         get {
-            if let sects = notebook?.sections.sortedArrayUsingDescriptors([NSSortDescriptor(key: ModelConstants.Section.OrderInNotebook, ascending: true, selector: "compare:")]) as? [Section] {
+            if let sects = notebook.sections.sortedArrayUsingDescriptors([NSSortDescriptor(key: ModelConstants.Section.OrderInNotebook, ascending: true, selector: "compare:")]) as? [Section] {
                 return sects
             } else {
                 return [Section]()
@@ -30,6 +41,7 @@ class NotebookTableViewController: UITableViewController {
     /** Constants for the Table View */
     private struct tableViewConstants {
         static let cellReuseIdentifier = "Page Cell"
+        static let headerReuseIdentifier = "Section Header"
     }
     
     // MARK: - Localized Strings
@@ -42,7 +54,12 @@ class NotebookTableViewController: UITableViewController {
         static let createPageAlertViewMessage = NSLocalizedString("Enter the name of the new page", comment: "Message of the alert view in which the user will type the name of the page to be created")
         static let createPageAlertViewCreateButton = NSLocalizedString("Create", comment: "Action that creates a Page with the name given by the user")
         static let createPageAlertViewCancelButton = NSLocalizedString("Cancel", comment: "Action that cancels the alert view in which the user will type the name of the page to be created")
-        static let createPageAlertViewTextFiledPlaceholder = NSLocalizedString("Page's Name", comment: "Placeholder in the textfield where the user will type the name of the page to be created")
+        static let createPageAlertViewTextFiledPlaceholder = NSLocalizedString("Name of the Page", comment: "Placeholder in the textfield where the user will type the name of the page to be created")
+        static let createSectionAlertViewTitle = NSLocalizedString("New Section", comment: "Title of the alert view in which the user will type the name of the section to be created")
+        static let createSectionAlertViewMessage = NSLocalizedString("Enter the name of the new section", comment: "Message of the alert view in which the user will type the name of the section to be created")
+        static let createSectionAlertViewCreateButton = NSLocalizedString("Create", comment: "Action that creates a Section with the name given by the user")
+        static let createSectionAlertViewCancelButton = NSLocalizedString("Cancel", comment: "Action that cancels the alert view in which the user will type the name of the section to be created")
+        static let createSectionAlertViewTextFiledPlaceholder = NSLocalizedString("Name of the Section", comment: "Placeholder in the textfield where the user will type the name of the section to be created")
 
     }
     
@@ -60,7 +77,17 @@ class NotebookTableViewController: UITableViewController {
     func addToNotebook(sender: UIBarButtonItem) {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         actionSheet.addAction(UIAlertAction(title: LStrings.AddToNotebookAddSectionButton, style: UIAlertActionStyle.Default) { (_) -> Void in
-            
+            let createSectionAlertView = UIAlertController(title: LStrings.createSectionAlertViewTitle, message: LStrings.createSectionAlertViewMessage, preferredStyle: UIAlertControllerStyle.Alert)
+            createSectionAlertView.addTextFieldWithConfigurationHandler{ (textField: UITextField!) -> Void in
+                textField.placeholder = LStrings.createSectionAlertViewTextFiledPlaceholder
+            }
+            createSectionAlertView.addAction(UIAlertAction(title: LStrings.createSectionAlertViewCreateButton, style: UIAlertActionStyle.Default) { (_) -> Void in
+                if let textField = createSectionAlertView.textFields?.first as? UITextField {
+                    self.createSectionWithName(textField.text)
+                }
+                })
+            createSectionAlertView.addAction(UIAlertAction(title: LStrings.createSectionAlertViewCancelButton, style: UIAlertActionStyle.Cancel, handler: nil))
+            self.presentViewController(createSectionAlertView, animated: true, completion: nil)
         })
         actionSheet.addAction(UIAlertAction(title: LStrings.AddToNotebookAddNotebookButton, style: UIAlertActionStyle.Default) { (_) -> Void in
             let createPageAlertView = UIAlertController(title: LStrings.createPageAlertViewTitle, message: LStrings.createPageAlertViewMessage, preferredStyle: UIAlertControllerStyle.Alert)
@@ -69,7 +96,7 @@ class NotebookTableViewController: UITableViewController {
             }
             createPageAlertView.addAction(UIAlertAction(title: LStrings.createPageAlertViewCreateButton, style: UIAlertActionStyle.Default) { (_) -> Void in
                 if let textField = createPageAlertView.textFields?.first as? UITextField {
-                    self.createPagewithName(textField.text)
+                    self.createPageWithName(textField.text)
                 }
             })
             createPageAlertView.addAction(UIAlertAction(title: LStrings.createPageAlertViewCancelButton, style: UIAlertActionStyle.Cancel, handler: nil))
@@ -79,24 +106,49 @@ class NotebookTableViewController: UITableViewController {
         presentViewController(actionSheet, animated: true, completion: nil)
     }
     
-    
     /**
-    Create a Page with a given name and inserts it into the last place of the last section
+    Creates a Page with a given name and inserts it into the last place of the last section
     
     :param: name The name of the Page that will be created
     */
-    private func createPagewithName(name: String) {
-        if let context = notebook?.managedObjectContext {
+    private func createPageWithName(name: String) {
+        if let context = notebook.managedObjectContext {
             if let newPage = NSEntityDescription.insertNewObjectForEntityForName(ModelConstants.Page.EntityName, inManagedObjectContext: context) as? Page {
                 newPage.name = name
                 newPage.creationDate = NSDate()
                 newPage.pageLayout = NSNumber(integer: NSUserDefaults.standardUserDefaults().integerForKey(Constants.SettingsVC.PagesDefaultLayoutType))
-                newPage.section = sections.last!
-                newPage.orderInSection = sections.last!.pages.count
-                // WARNING: Must consider case in which empty Notebook in order to create new Section
+                if let lastSection = sections.last {
+                    newPage.orderInSection = lastSection.pages.count
+                    newPage.section = lastSection
+                } else {
+                    if let newSection = createSectionWithName("First Section") {
+                        newPage.orderInSection = 0
+                        newPage.section = newSection
+                    }
+                }
                 tableView.reloadData()
             }
         }
+    }
+    
+    /**
+    Creates a Section witha a given name and inserts it into the end of the Notebook
+    
+    :param: name The name of the section that will be created
+    :returns: The Section that is created or nil if the operation was unsuccessful
+    */
+    private func createSectionWithName(name: String) -> Section? {
+        if let context = notebook.managedObjectContext {
+            if let newSection = NSEntityDescription.insertNewObjectForEntityForName(ModelConstants.Section.EntityName, inManagedObjectContext: context) as? Section {
+                newSection.name = name
+                newSection.creationDate = NSDate()
+                newSection.orderInNotebook = sections.count
+                newSection.notebook = notebook
+                tableView.reloadData()
+                return newSection
+            }
+        }
+        return nil
     }
     
     // MARK: - Table View Actions
@@ -188,9 +240,27 @@ class NotebookTableViewController: UITableViewController {
     private func deleteSectionInIndexPath (indexPath: NSIndexPath) {
         let sectionToDelete = sections[indexPath.section]
         decreaseOrderInNotebookAfterIndexPath(indexPath)
-        notebook?.removeSectionFromSections(sectionToDelete)
-        notebook?.managedObjectContext?.deleteObject(sectionToDelete)
+        notebook.removeSectionFromSections(sectionToDelete)
+        notebook.managedObjectContext?.deleteObject(sectionToDelete)
+        sectionHeaderViews = [NotebookSectionHeaderView]()
         tableView.deleteSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Fade)
+        tableView.reloadData()
+    }
+    
+    // MARK: - Header Section data source
+    
+    func deleteSectionAtIndex(index: Int) {
+        let sectionToDelete = sections[index]
+        decreaseOrderInNotebookAfterIndexPath(NSIndexPath(forRow: 0, inSection: index))
+        notebook.removeSectionFromSections(sectionToDelete)
+        notebook.managedObjectContext?.deleteObject(sectionToDelete)
+        sectionHeaderViews = [NotebookSectionHeaderView]()
+        tableView.deleteSections(NSIndexSet(index: index), withRowAnimation: UITableViewRowAnimation.Fade)
+        tableView.reloadData()
+    }
+    
+    func changedTextAtSectionTitle(title: String, section: Int) {
+        sections[section].name = title
     }
     
     // MARK: - Table view data source
@@ -206,14 +276,10 @@ class NotebookTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(tableViewConstants.cellReuseIdentifier, forIndexPath: indexPath) as! UITableViewCell
         if let page = pageForIndexPath(indexPath) {
-            cell.detailTextLabel?.text = page.creationDate.description
+            cell.detailTextLabel?.text = dateFormater.stringFromDate(page.creationDate)
             cell.textLabel?.text = page.name
         }
         return cell
-    }
-    
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sections[section].name
     }
     
     // Override to support conditional editing of the table view.
@@ -227,17 +293,12 @@ class NotebookTableViewController: UITableViewController {
             if let page = pageForIndexPath(indexPath) {
                 decreaseOrderInSectionAfterIndexPath(indexPath)
                 sections[indexPath.section].removePageFromPages(page)
-                notebook?.managedObjectContext?.deleteObject(page)
+                notebook.managedObjectContext?.deleteObject(page)
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-                if sections[indexPath.section].pages.count == 0 {
-                    deleteSectionInIndexPath(indexPath)
-                }
             }
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
     }
-
+    
     // Override to support rearranging the table view.
     override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
         if let pageToMove = pageForIndexPath(fromIndexPath) {
@@ -247,9 +308,6 @@ class NotebookTableViewController: UITableViewController {
                 sections[fromIndexPath.section].removePageFromPages(pageToMove)
                 sections[toIndexPath.section].insertPageIntoPages(pageToMove)
                 pageToMove.section = sections[toIndexPath.section]
-                if sections[fromIndexPath.section].pages.count == 0 {
-                    deleteSectionInIndexPath(fromIndexPath)
-                }
             } else {
                 if fromIndexPath.row > toIndexPath.row {
                     increaseOrderInSectionAfterIndexPath(toIndexPath, before: fromIndexPath)
@@ -265,7 +323,26 @@ class NotebookTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return true
     }
-
+    
+    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let sectionView = NotebookSectionHeaderView(frame: CGRectMake(0, 0, view.bounds.size.width, 44), datasource: self, section: section, sectionName: sections[section].name, editing: editing)
+        if section >= sectionHeaderViews.count {
+            sectionHeaderViews.append(sectionView)
+        }
+        return sectionView
+    }
+    
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+    
+    override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        for sectionView in sectionHeaderViews {
+            sectionView.editing = editing
+        }
+    }
+    
     /*
     // MARK: - Navigation
 
