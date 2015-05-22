@@ -89,7 +89,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Page Cell" textLabel="XsF-qf-AIW" detailTextLabel="a3m-us-QjA" style="IBUITableViewCellStyleSubtitle" id="nfY-Rw-CtX">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Page Cell" textLabel="XsF-qf-AIW" detailTextLabel="a3m-us-QjA" style="IBUITableViewCellStyleSubtitle" id="nfY-Rw-CtX">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nfY-Rw-CtX" id="eGY-PZ-2xF">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -108,6 +108,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="kAd-Ya-1Cl" kind="show" identifier="Open in Page" id="BKf-dn-ZZn"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -119,6 +122,39 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xDw-1t-dC0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1881" y="690"/>
+        </scene>
+        <!--Page View Controller-->
+        <scene sceneID="mY7-yV-UfF">
+            <objects>
+                <viewController id="kAd-Ya-1Cl" customClass="PageViewController" customModule="TTNotebooks" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="v5s-EO-N4K"/>
+                        <viewControllerLayoutGuide type="bottom" id="YLf-jz-egx"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="zO2-Xk-o3n">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uPX-6K-XTM">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="uPX-6K-XTM" firstAttribute="leading" secondItem="zO2-Xk-o3n" secondAttribute="leadingMargin" constant="-16" id="OGT-jn-jdb"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="uPX-6K-XTM" secondAttribute="trailing" constant="-16" id="VRL-TH-oEZ"/>
+                            <constraint firstItem="YLf-jz-egx" firstAttribute="top" secondItem="uPX-6K-XTM" secondAttribute="bottom" id="ohy-uF-3je"/>
+                            <constraint firstItem="uPX-6K-XTM" firstAttribute="top" secondItem="v5s-EO-N4K" secondAttribute="bottom" id="qBM-xx-uEI"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="lOd-mQ-0Qo"/>
+                    <connections>
+                        <outlet property="pageView" destination="uPX-6K-XTM" id="nJ1-ia-c0m"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fhe-ji-zZ9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2644" y="690"/>
         </scene>
         <!--Edit Notebook View Controller-->
         <scene sceneID="5TU-Eg-LQd">
