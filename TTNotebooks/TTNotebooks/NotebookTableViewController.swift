@@ -343,14 +343,31 @@ class NotebookTableViewController: UITableViewController, NotebookHeaderDataSour
         }
     }
     
-    /*
+    
     // MARK: - Navigation
 
+    private struct SegueIdentifiers {
+        static let ShowNotebookSegueIdentifier = "Open in Page"
+    }
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+        if let segueIdentifier = segue.identifier {
+            switch (segueIdentifier) {
+            case SegueIdentifiers.ShowNotebookSegueIdentifier:
+                if let dvc = segue.destinationViewController as? PageViewController
+                {
+                    if let selectedCell = sender as? UITableViewCell {
+                        if let indexPath = self.tableView.indexPathForCell(selectedCell) {
+                            dvc.page = pageForIndexPath(indexPath)
+                        }
+                    }
+                }
+            default:
+                break
+            }
+        }
     }
-    */
+    
 
 }
