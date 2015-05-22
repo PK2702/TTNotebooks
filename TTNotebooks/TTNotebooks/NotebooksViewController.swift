@@ -58,7 +58,7 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
             if let uInf = note.userInfo {
                 if let cntxt = uInf[Constants.Notifications.UIDocumentReadyContext] as? NSManagedObjectContext {
                     self.context = cntxt
-                    println("Context Loaded")
+//                    println("Context Loaded")
                 }
             }
         }
