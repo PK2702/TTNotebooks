@@ -10,7 +10,7 @@ import Foundation
 
 class ModelConstants {
     
-    // MARK - Notebook
+    // MARK: - Notebook
     
     struct Notebook {
         static let EntityName = "Notebook"
@@ -20,7 +20,7 @@ class ModelConstants {
         static let Sections = "sections"
     }
     
-    // MARK - Chapter
+    // MARK: - Section
     
     struct Section {
         static let EntityName = "Section"
@@ -31,7 +31,7 @@ class ModelConstants {
         static let OrderInNotebook = "orderInNotebook"
     }
     
-    // MARK - Page
+    // MARK: - Page
     struct Page {
         static let EntityName = "Page"
         static let CreationDate = "creationDate"
@@ -39,5 +39,29 @@ class ModelConstants {
         static let PageLayout = "pageLayout"
         static let Section = "section"
         static let OrderInSection = "orderInSection"
+    }
+    
+    // MARK: - Figure
+    struct Figure{
+        static let EntityName = "Figure"
+        static let FillColor = "fillColor"
+        static let Height = "height"
+        static let StrokeColor = "strokeColor"
+        static let StrokeLineWidth = "strokeLineWidth"
+        static let Type = "type"
+        static let Width = "width"
+        static let Page = "page"
+        static let Points = "points"
+        static let XOrigin = "xOrigin"
+        static let YOrigin = "yOrigin"
+    }
+    
+    // MARK: - Point
+    struct Point {
+        static let EntityName = "Point"
+        static let OrderInFigure = "orderInFigure"
+        static let XOrigin = "xOrigin"
+        static let YOrigin = "yOrigin"
+        static let Figure = "figure"
     }
 }

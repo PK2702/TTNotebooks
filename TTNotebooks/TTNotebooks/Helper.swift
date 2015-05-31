@@ -17,16 +17,20 @@ class Helper {
     static private let figureColorTwo = (name: "Green", color: UIColor.greenColor())
     static private let figureColorThree = (name: "Yellow", color: UIColor.yellowColor())
     static private let figureColorFour = (name: "Red", color: UIColor.redColor())
+    static private let figureColorFive = (name: "Blue", color: UIColor.blueColor())
+    static private let figureColorSix = (name: "Brown", color: UIColor.brownColor())
     /** Number of supported colors with which one can draw a Figure */
-    static let numberOfFigureColors = 5
+    static let numberOfFigureColors = 7
     
     static private let notebookColorZero = (name: "Random", color: UIColor.whiteColor())
     static private let notebookColorOne = (name: "White", color: UIColor.whiteColor())
     static private let notebookColorTwo = (name: "Green", color: UIColor.greenColor())
     static private let notebookColorThree = (name: "Yellow", color: UIColor.yellowColor())
     static private let notebookColorFour = (name: "Red", color: UIColor.redColor())
+    static private let notebookColorFive = (name: "Blue", color: UIColor.blueColor())
+    static private let notebookColorSix = (name: "Brown", color: UIColor.brownColor())
     /** Number of supported colors with which one can draw a Notebook */
-    static let numberOfNotebookColors = 5
+    static let numberOfNotebookColors = 7
     
     static private let textFontZero = (name: "Body", font: UIFont.preferredFontForTextStyle(UIFontTextStyleBody))
     static private let textFontOne = (name: "Caption 1", font: UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1))
@@ -61,6 +65,8 @@ class Helper {
     */
     class func notebookColorForNumber (number: Int) -> UIColor {
         switch (number) {
+        case 0:
+            return notebookColorForNumber(Int(arc4random_uniform(7)))
         case 1:
             return notebookColorOne.color
         case 2:
@@ -69,6 +75,10 @@ class Helper {
             return notebookColorThree.color
         case 4:
             return notebookColorFour.color
+        case 5:
+            return notebookColorFive.color
+        case 6:
+            return notebookColorSix.color
         default:
             return UIColor.clearColor()
         }
@@ -92,6 +102,10 @@ class Helper {
             return notebookColorThree.name
         case 4:
             return notebookColorFour.name
+        case 5:
+            return notebookColorFive.name
+        case 6:
+            return notebookColorSix.name
         default:
             return ""
         }
@@ -105,6 +119,8 @@ class Helper {
     */
     class func figureColorForNumber (number: Int) -> UIColor {
         switch (number) {
+        case 0:
+            return figureColorForNumber(Int(arc4random_uniform(7)))
         case 1:
             return figureColorOne.color
         case 2:
@@ -113,6 +129,10 @@ class Helper {
             return figureColorThree.color
         case 4:
             return figureColorFour.color
+        case 5:
+            return figureColorFive.color
+        case 6:
+            return figureColorSix.color
         default:
             return UIColor.clearColor()
         }
@@ -136,6 +156,10 @@ class Helper {
             return figureColorThree.name
         case 4:
             return figureColorFour.name
+        case 5:
+            return figureColorFive.name
+        case 6:
+            return figureColorSix.name
         default:
             return ""
         }
@@ -234,6 +258,38 @@ class Helper {
             return strokeLineWidthSix.stroke
         default:
             return 0.0
+        }
+    }
+    
+    /**
+    For all of the supported numbs, this method return the FigureType for a certain number
+    
+    :param: number integer representing the Type of a Figure
+    :returns: The FigureType of the Figure. If the number is outside the supported bounds then it will retrun NilType
+    */
+    class func figureTypeForNumber (number: Int) -> FigureType{
+        switch (number) {
+        case 0:
+            return FigureType.RectType
+        case 1:
+            return FigureType.RoundedType
+        case 2:
+            return FigureType.CylindricalType
+        default:
+            return FigureType.NilType
+        }
+    }
+    
+    class func numberForFigureType (type: FigureType) -> Int {
+        switch (type) {
+        case FigureType.RectType:
+            return 0
+        case FigureType.RoundedType:
+            return 1
+        case FigureType.CylindricalType:
+            return 2
+        default:
+            return -1
         }
     }
     

@@ -141,13 +141,31 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="uPX-6K-XTM" secondAttribute="trailing" id="3Tf-rH-aeU"/>
+                            <constraint firstItem="uPX-6K-XTM" firstAttribute="leading" secondItem="zO2-Xk-o3n" secondAttribute="leading" id="LJ1-Pg-ief"/>
                             <constraint firstItem="uPX-6K-XTM" firstAttribute="leading" secondItem="zO2-Xk-o3n" secondAttribute="leadingMargin" constant="-16" id="OGT-jn-jdb"/>
                             <constraint firstAttribute="trailingMargin" secondItem="uPX-6K-XTM" secondAttribute="trailing" constant="-16" id="VRL-TH-oEZ"/>
+                            <constraint firstItem="uPX-6K-XTM" firstAttribute="top" secondItem="v5s-EO-N4K" secondAttribute="bottom" id="dVq-4D-IVr"/>
                             <constraint firstItem="YLf-jz-egx" firstAttribute="top" secondItem="uPX-6K-XTM" secondAttribute="bottom" id="ohy-uF-3je"/>
                             <constraint firstItem="uPX-6K-XTM" firstAttribute="top" secondItem="v5s-EO-N4K" secondAttribute="bottom" id="qBM-xx-uEI"/>
+                            <constraint firstItem="uPX-6K-XTM" firstAttribute="bottom" secondItem="YLf-jz-egx" secondAttribute="top" id="yVw-7W-mOR"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="OGT-jn-jdb"/>
+                                <exclude reference="VRL-TH-oEZ"/>
+                                <exclude reference="qBM-xx-uEI"/>
+                                <exclude reference="ohy-uF-3je"/>
+                            </mask>
+                        </variation>
                     </view>
-                    <navigationItem key="navigationItem" id="lOd-mQ-0Qo"/>
+                    <navigationItem key="navigationItem" id="lOd-mQ-0Qo">
+                        <barButtonItem key="rightBarButtonItem" title="Add Figure" id="G6y-BT-J1J">
+                            <connections>
+                                <segue destination="3Mu-5g-Nt6" kind="presentation" identifier="Show Insert Menu" id="jbl-3V-noq"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="pageView" destination="uPX-6K-XTM" id="nJ1-ia-c0m"/>
                     </connections>
@@ -155,6 +173,63 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fhe-ji-zZ9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2644" y="690"/>
+        </scene>
+        <!--Insert Figure Menu Table View Controller-->
+        <scene sceneID="pti-id-mBN">
+            <objects>
+                <tableViewController id="3Mu-5g-Nt6" customClass="InsertFigureMenuTableViewController" customModule="TTNotebooks" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="BlP-Sk-mT4">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Insert Figure Cell" id="5Bc-kD-jbB" customClass="InsertFigureTableViewCell" customModule="TTNotebooks" customModuleProvider="target">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5Bc-kD-jbB" id="1yk-S0-mBU">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="square" translatesAutoresizingMaskIntoConstraints="NO" id="eJu-gy-QG1">
+                                            <rect key="frame" x="16" y="0.0" width="44" height="44"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="44" id="W2k-KN-s08"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Figure Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gyu-8d-oMb">
+                                            <rect key="frame" x="68" y="11" width="98" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="eJu-gy-QG1" firstAttribute="leading" secondItem="1yk-S0-mBU" secondAttribute="leadingMargin" constant="8" id="03H-mr-oIw"/>
+                                        <constraint firstAttribute="centerY" secondItem="eJu-gy-QG1" secondAttribute="centerY" constant="-0.5" id="086-Re-eIi"/>
+                                        <constraint firstItem="eJu-gy-QG1" firstAttribute="top" secondItem="1yk-S0-mBU" secondAttribute="top" id="3uM-zG-LiI"/>
+                                        <constraint firstAttribute="centerY" secondItem="Gyu-8d-oMb" secondAttribute="centerY" id="Ttc-gl-Gf0"/>
+                                        <constraint firstItem="Gyu-8d-oMb" firstAttribute="leading" secondItem="eJu-gy-QG1" secondAttribute="trailing" constant="8" id="WKm-ps-wkC"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="eJu-gy-QG1" secondAttribute="bottom" constant="-9" id="aRx-K1-zEI"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="figureImageView" destination="eJu-gy-QG1" id="T05-wm-Rb9"/>
+                                    <outlet property="figureName" destination="Gyu-8d-oMb" id="CYg-rW-MFT"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="3Mu-5g-Nt6" id="KFl-iX-I8c"/>
+                            <outlet property="delegate" destination="3Mu-5g-Nt6" id="vDW-LW-hfP"/>
+                        </connections>
+                    </tableView>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <segue destination="zew-vu-Hs3" kind="unwind" identifier="Do Add Figure" unwindAction="insertFigure:" id="hFn-MB-drP"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LIL-uj-1Zs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="zew-vu-Hs3" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="3476" y="685"/>
         </scene>
         <!--Edit Notebook View Controller-->
         <scene sceneID="5TU-Eg-LQd">
@@ -678,6 +753,9 @@
             <point key="canvasLocation" x="1847" y="-788"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="square" width="225" height="225"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="zE9-eP-KwQ"/>
     </inferredMetricsTieBreakers>

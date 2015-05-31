@@ -98,12 +98,12 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
             
             if let notebookColor = NSUserDefaults.standardUserDefaults().valueForKey(Constants.SettingsVC.NotebookDefaultColor) as? Int {
                 if notebookColor == Constants.SettingsVC.NotebookDefaultColorValue {
-                    newNotebook.color = NSNumber(unsignedInt: arc4random_uniform(4))
+                    newNotebook.color = NSNumber(unsignedInt: arc4random_uniform(7))
                 } else {
                     newNotebook.color = notebookColor
                 }
             } else {
-                newNotebook.color = NSNumber(unsignedInt: arc4random_uniform(4))
+                newNotebook.color = NSNumber(unsignedInt: arc4random_uniform(7))
             }
             notebooks.append(newNotebook)
             mockupSectionAndPages(newNotebook)

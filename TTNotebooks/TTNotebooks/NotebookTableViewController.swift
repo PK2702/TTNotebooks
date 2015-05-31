@@ -41,7 +41,6 @@ class NotebookTableViewController: UITableViewController, NotebookHeaderDataSour
     /** Constants for the Table View */
     private struct tableViewConstants {
         static let cellReuseIdentifier = "Page Cell"
-        static let headerReuseIdentifier = "Section Header"
     }
     
     // MARK: - Localized Strings
@@ -343,13 +342,12 @@ class NotebookTableViewController: UITableViewController, NotebookHeaderDataSour
         }
     }
     
-    
     // MARK: - Navigation
 
     private struct SegueIdentifiers {
         static let ShowNotebookSegueIdentifier = "Open in Page"
     }
-    
+        
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let segueIdentifier = segue.identifier {
