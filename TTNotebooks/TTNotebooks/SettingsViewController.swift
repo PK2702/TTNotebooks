@@ -52,7 +52,7 @@ class SettingsViewController: UITableViewController {
     //MARK: -Actions
     
     /** Restores the settings to its default values */
-    private func restoreDefaults() {
+    func restoreDefaults() {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         userDefaults.setValue(Constants.SettingsVC.NotebookDefaultColorValue, forKey: Constants.SettingsVC.NotebookDefaultColor)
         userDefaults.setValue(Constants.SettingsVC.PagesDefaultLayoutTypeValue, forKey: Constants.SettingsVC.PagesDefaultLayoutType)
