@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PageViewController: UIViewController {
+class PageViewController: UIViewController, UIPopoverPresentationControllerDelegate {
     
     // MARK: -Variables and Constants
     
@@ -55,6 +55,9 @@ class PageViewController: UIViewController {
             switch (identifier) {
             case SegueIdentifiers.ShowInsertMenuSegueIdentifier:
                 if let dvc = segue.destinationViewController as? InsertFigureMenuTableViewController {
+                    if let ppc = dvc.popoverPresentationController {
+                        ppc.delegate = self
+                    }
                     dvc.page = page
                     let upperLeftPoint = pageView.contentOffset
                     dvc.insertWindow = CGRectMake(upperLeftPoint.x, upperLeftPoint.y, view.bounds.width, view.bounds.height)
@@ -64,4 +67,11 @@ class PageViewController: UIViewController {
             }
         }
     }
+    
+    // MARK: - UIPopover Delegate Methods
+    
+    func presentationController(controller: UIPresentationController, viewControllerForAdaptivePresentationStyle style: UIModalPresentationStyle) -> UIViewController? {
+        return UINavigationController(rootViewController: controller.presentedViewController)
+    }
+    
 }
