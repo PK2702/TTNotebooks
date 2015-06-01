@@ -14,6 +14,7 @@ enum InsertFigureType {
     case RhombusFigure
     case TriangleFigure
     case CircleFigure
+    case OvalFigure
     case CylinderFigure
     case PhotoFigure
     case ImageFigure
@@ -35,7 +36,7 @@ class InsertFigureMenuHelper {
     static let Section1Figure3 = (name:"Rhombus", type: InsertFigureType.RhombusFigure)
     static let Section1Figure4 = (name:"Triangle", type: InsertFigureType.TriangleFigure)
     static let Section1Figure5 = (name:"Circle", type: InsertFigureType.CircleFigure)
-    static let Section1Figure6 = (name:"Cylinder", type: InsertFigureType.CylinderFigure)
+    static let Section1Figure6 = (name:"Oval", type: InsertFigureType.OvalFigure)
     static let FiguresSection1 = [Section1Figure1, Section1Figure2, Section1Figure3, Section1Figure4, Section1Figure5, Section1Figure6]
     static let Section1 = (name: "Figures", content: FiguresSection1)
     

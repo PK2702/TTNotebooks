@@ -69,17 +69,22 @@ class FigureView: UIView {
         self.strokeColor = strokeColor
         self.strokeLineWidth = strokeLineWidth
         super.init(frame: frame)
+        setup()
     }
 
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setup() {
+        self.opaque = true
+        self.backgroundColor = UIColor.clearColor()
+        self.contentMode = UIViewContentMode.Redraw
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.opaque = false
-        self.backgroundColor = nil
-        self.contentMode = UIViewContentMode.Redraw
+        setup()
     }
     
 }
