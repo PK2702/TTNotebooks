@@ -26,7 +26,6 @@ class NotebookTableViewController: UITableViewController, NotebookHeaderDataSour
         }
     }
     
-    
     /** The sections of the Notebook that is transformed to an Array */
     private var sections : [Section] {
         get {
@@ -42,6 +41,9 @@ class NotebookTableViewController: UITableViewController, NotebookHeaderDataSour
     private struct tableViewConstants {
         static let cellReuseIdentifier = "Page Cell"
     }
+    
+    /** The button with which the Sections and Pages are going to be added to the Notebook */
+    var addButton: UIBarButtonItem?
     
     // MARK: - Localized Strings
     
@@ -66,8 +68,10 @@ class NotebookTableViewController: UITableViewController, NotebookHeaderDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addToNotebook:")
-        self.navigationItem.rightBarButtonItems = [addButton, self.editButtonItem()]
+        addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addToNotebook:")
+        if let addbut = addButton {
+            self.navigationItem.rightBarButtonItems = [addbut, self.editButtonItem()]
+        }
     }
 
     // MARK: - Notebook Actions
@@ -102,6 +106,9 @@ class NotebookTableViewController: UITableViewController, NotebookHeaderDataSour
             self.presentViewController(createPageAlertView, animated: true, completion: nil)
         })
         actionSheet.addAction(UIAlertAction(title: LStrings.AddToNotebookCancelButton, style: UIAlertActionStyle.Cancel, handler: nil))
+        if let ppc = actionSheet.popoverPresentationController, addBut = addButton {
+            ppc.barButtonItem = addBut
+        }
         presentViewController(actionSheet, animated: true, completion: nil)
     }
     

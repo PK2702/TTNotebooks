@@ -27,6 +27,7 @@
 		4097803B1AFED13700BC628F /* Section+Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4097803A1AFED13700BC628F /* Section+Collection.swift */; };
 		409780401AFED69400BC628F /* Notebook+Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4097803F1AFED69400BC628F /* Notebook+Collection.swift */; };
 		40A236E31ADCC58F002F8F0B /* SettingsOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A236E21ADCC58F002F8F0B /* SettingsOptionsViewController.swift */; };
+		40A5A8D81B1FE889009A3489 /* FigureViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A5A8D71B1FE889009A3489 /* FigureViewDelegate.swift */; };
 		40AB69FF1ADB33FB00B766C1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AB69FE1ADB33FB00B766C1 /* SettingsViewController.swift */; };
 		40BFA7EB1B0C0F2500D7246D /* NotebookSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BFA7EA1B0C0F2500D7246D /* NotebookSectionHeaderView.swift */; };
 		40C352E51B125E59005A6D40 /* FigureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C352E41B125E59005A6D40 /* FigureType.swift */; };
@@ -81,6 +82,7 @@
 		4097803A1AFED13700BC628F /* Section+Collection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Section+Collection.swift"; sourceTree = "<group>"; };
 		4097803F1AFED69400BC628F /* Notebook+Collection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Notebook+Collection.swift"; sourceTree = "<group>"; };
 		40A236E21ADCC58F002F8F0B /* SettingsOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsOptionsViewController.swift; sourceTree = "<group>"; };
+		40A5A8D71B1FE889009A3489 /* FigureViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FigureViewDelegate.swift; sourceTree = "<group>"; };
 		40AB69FE1ADB33FB00B766C1 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		40BFA7EA1B0C0F2500D7246D /* NotebookSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotebookSectionHeaderView.swift; sourceTree = "<group>"; };
 		40C352E41B125E59005A6D40 /* FigureType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FigureType.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				40842F5E1B0AD5FC00B2167A /* NotebookHeaderDataSource.swift */,
+				40A5A8D71B1FE889009A3489 /* FigureViewDelegate.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -148,6 +151,7 @@
 		409527231ABE3D8100B81481 /* TTNotebooks */ = {
 			isa = PBXGroup;
 			children = (
+				40A5A8D91B1FF783009A3489 /* Helpers */,
 				40C352E31B125E3F005A6D40 /* Enums */,
 				40842F5D1B0AD5D900B2167A /* Protocols */,
 				409527481ABE3E6300B81481 /* Model */,
@@ -155,8 +159,6 @@
 				409527461ABE3E5900B81481 /* Controllers */,
 				409527261ABE3D8100B81481 /* AppDelegate.swift */,
 				400E9E481ADB0F8C00101B96 /* Constants.swift */,
-				400E9E4E1ADB122500101B96 /* Helper.swift */,
-				40C3530A1B12BFB4005A6D40 /* InsertFigureMenuHelper.swift */,
 				4095272A1ABE3D8100B81481 /* Main.storyboard */,
 				4095272D1ABE3D8100B81481 /* Images.xcassets */,
 				4095272F1ABE3D8100B81481 /* LaunchScreen.xib */,
@@ -243,6 +245,15 @@
 				40D081031B1A5C870032B75D /* Point+CGPoint.swift */,
 			);
 			name = Extensions;
+			sourceTree = "<group>";
+		};
+		40A5A8D91B1FF783009A3489 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				400E9E4E1ADB122500101B96 /* Helper.swift */,
+				40C3530A1B12BFB4005A6D40 /* InsertFigureMenuHelper.swift */,
+			);
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 		40C352E31B125E3F005A6D40 /* Enums */ = {
@@ -364,6 +375,7 @@
 				40842F5F1B0AD5FC00B2167A /* NotebookHeaderDataSource.swift in Sources */,
 				409527271ABE3D8100B81481 /* AppDelegate.swift in Sources */,
 				40C353071B1270C4005A6D40 /* InsertFigureMenuTableViewController.swift in Sources */,
+				40A5A8D81B1FE889009A3489 /* FigureViewDelegate.swift in Sources */,
 				4095274A1ABE3E8600B81481 /* NotebooksViewController.swift in Sources */,
 				40D081001B1A577F0032B75D /* Point+Creation.swift in Sources */,
 				4095274D1ABE3EAA00B81481 /* Model.xcdatamodeld in Sources */,

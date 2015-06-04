@@ -36,6 +36,16 @@ class FigureView: UIView {
         }
     }
     
+    var index: Int?
+    
+    /** The delegate that will be notified when the user interacts with the FigureView */
+    var delegate: FigureViewDelegate?
+    
+    /** Indicates wether the view is in editing mode or not */
+    var editing = false
+    
+    //MARK: - Drawing
+    
     override func drawRect(rect: CGRect) {
         let figurePath = UIBezierPath()
         if let firstPoint = points.first {
@@ -50,6 +60,15 @@ class FigureView: UIView {
         strokeColor.setStroke()
         figurePath.lineWidth = strokeLineWidth
         figurePath.stroke()
+    }
+    
+    //MARK: - Gestures
+    
+    func figureTouched(tapGestureRecognizer: UITapGestureRecognizer) {
+        editing = !editing
+        if let del = delegate {
+            del.selectedFigureView(self, editing: editing)
+        }
     }
     
     //MARK: - Initializers
@@ -69,6 +88,8 @@ class FigureView: UIView {
         self.strokeColor = strokeColor
         self.strokeLineWidth = strokeLineWidth
         super.init(frame: frame)
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "figureTouched:")
+        self.addGestureRecognizer(tapGestureRecognizer)
         setup()
     }
 

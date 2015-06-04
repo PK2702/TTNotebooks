@@ -220,7 +220,13 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
                     self.updateViewAfterEdittingNotebooks()
                     })
                 alert.addAction(UIAlertAction(title: LStrings.NewNotebookCancelButton, style: UIAlertActionStyle.Cancel, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
+                if let ppc = alert.popoverPresentationController {
+                    ppc.sourceRect = sender.view?.bounds ?? CGRectZero
+                    ppc.sourceView = sender.view
+                }
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
             }
         }
     }
