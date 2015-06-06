@@ -160,7 +160,7 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="lOd-mQ-0Qo">
-                        <barButtonItem key="rightBarButtonItem" title="Add Figure" id="G6y-BT-J1J">
+                        <barButtonItem key="rightBarButtonItem" title="Insert" id="G6y-BT-J1J">
                             <connections>
                                 <segue destination="3Mu-5g-Nt6" kind="popoverPresentation" identifier="Show Insert Menu" popoverAnchorBarButtonItem="G6y-BT-J1J" id="VUj-Tz-UOs">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
