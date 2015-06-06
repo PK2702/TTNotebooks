@@ -40,6 +40,7 @@
 		40C353071B1270C4005A6D40 /* InsertFigureMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C353061B1270C4005A6D40 /* InsertFigureMenuTableViewController.swift */; };
 		40C353091B1271A7005A6D40 /* InsertFigureTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C353081B1271A7005A6D40 /* InsertFigureTableViewCell.swift */; };
 		40C3530B1B12BFB4005A6D40 /* InsertFigureMenuHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C3530A1B12BFB4005A6D40 /* InsertFigureMenuHelper.swift */; };
+		40C3FC1F1B231EF300CCD608 /* FigurePainter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C3FC1E1B231EF300CCD608 /* FigurePainter.swift */; };
 		40D080FC1B1A558C0032B75D /* Page+Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D080FB1B1A558C0032B75D /* Page+Collection.swift */; };
 		40D080FE1B1A56B80032B75D /* Figure+Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D080FD1B1A56B80032B75D /* Figure+Collection.swift */; };
 		40D081001B1A577F0032B75D /* Point+Creation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D080FF1B1A577F0032B75D /* Point+Creation.swift */; };
@@ -95,6 +96,7 @@
 		40C353061B1270C4005A6D40 /* InsertFigureMenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsertFigureMenuTableViewController.swift; sourceTree = "<group>"; };
 		40C353081B1271A7005A6D40 /* InsertFigureTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsertFigureTableViewCell.swift; sourceTree = "<group>"; };
 		40C3530A1B12BFB4005A6D40 /* InsertFigureMenuHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsertFigureMenuHelper.swift; sourceTree = "<group>"; };
+		40C3FC1E1B231EF300CCD608 /* FigurePainter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FigurePainter.swift; sourceTree = "<group>"; };
 		40D080FB1B1A558C0032B75D /* Page+Collection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Page+Collection.swift"; sourceTree = "<group>"; };
 		40D080FD1B1A56B80032B75D /* Figure+Collection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Figure+Collection.swift"; sourceTree = "<group>"; };
 		40D080FF1B1A577F0032B75D /* Point+Creation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Point+Creation.swift"; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 			children = (
 				400E9E4E1ADB122500101B96 /* Helper.swift */,
 				40C3530A1B12BFB4005A6D40 /* InsertFigureMenuHelper.swift */,
+				40C3FC1E1B231EF300CCD608 /* FigurePainter.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 				TargetAttributes = {
 					409527201ABE3D8000B81481 = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = SP7M63P6TC;
 					};
 					409527351ABE3D8100B81481 = {
 						CreatedOnToolsVersion = 6.2;
@@ -387,6 +391,7 @@
 				409780401AFED69400BC628F /* Notebook+Collection.swift in Sources */,
 				40C353011B126703005A6D40 /* Section.swift in Sources */,
 				4003FDBD1AEDA9320077A517 /* EditNotebookViewController.swift in Sources */,
+				40C3FC1F1B231EF300CCD608 /* FigurePainter.swift in Sources */,
 				40C352E71B1262F2005A6D40 /* FigureView.swift in Sources */,
 				4097803B1AFED13700BC628F /* Section+Collection.swift in Sources */,
 				40C353051B126703005A6D40 /* Page.swift in Sources */,
@@ -522,9 +527,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = TTNotebooks/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "TTNotebooks/TTNotebooks-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -536,9 +543,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = TTNotebooks/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "TTNotebooks/TTNotebooks-Bridging-Header.h";
 			};
 			name = Release;

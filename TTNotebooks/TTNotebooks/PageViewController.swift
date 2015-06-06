@@ -51,7 +51,9 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
         pageView.contentSize = CGSize(width: 1000, height: 1000)
         title = page.name
         dynamicAnimator.delegate = self
-        println("Number of figures \(page.figures.count)")
+        if figures.count > 0 {
+            drawFigures()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -62,14 +64,36 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
     
     // MARK: - Drawing Methods
     
-    /** Recieves a Figure to insert in the Scroll View */
+    /** Draws the Figures that are in the Page */
+    private func drawFigures() {
+        for i in 0 ..< figures.count {
+            let figure = figures[i]
+            let figureFrame = CGRectMake(CGFloat(figure.xOrigin.doubleValue), CGFloat(figure.yOrigin.doubleValue), CGFloat(figure.width.doubleValue), CGFloat(figure.height.doubleValue))
+            switch (Helper.figureTypeForNumber(figure.type.integerValue)){
+            case FigureType.RectType:
+                let figureView = FigurePainter.createFigureViewWithFigure(figure, frame: figureFrame)
+                pageView.addSubview(figureView)
+                figureView.delegate = self
+                figureView.index = i
+            case FigureType.RoundedType:
+                let figureView = FigurePainter.createCircularFigureViewWithFigure(figure, frame: figureFrame)
+                pageView.addSubview(figureView)
+                figureView.delegate = self
+                figureView.index = i
+            default:
+                break
+            }
+        }
+    }
+    
+    /** Inserts a Figure into the Page */
     @IBAction func insertFigure(segue: UIStoryboardSegue) {
         println("Entered in this method")
         if let svc = segue.sourceViewController as? InsertFigureMenuTableViewController {
             println("Recognized the controller")
             if let figure = svc.figureToInsert {
                 figure.delegate = self
-                figure.index = figures.count
+                figure.index = figures.count - 1
                 pageView.addSubview(figure)
                 println("Inserted figure with origin: \(figure.frame.origin.x), \(figure.frame.origin.y) \n width:\(figure.frame.size.width) \n width:\(figure.frame.size.height)")
             }
@@ -78,22 +102,24 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
     
     // MARK: - Gestures
     
+    /**
+    Moves a Figure across the Page
+    
+    :param: panGesture The GestureRecognizer that will indicate where the Figure is
+    */
     func moveFigure(panGesture: UIPanGestureRecognizer) {
         let gesturePoint = panGesture.locationInView(self.view)
         if let figure = figureBeingEdited {
             switch (panGesture.state){
             case UIGestureRecognizerState.Began:
-                println("Began")
                 attachmentBehavior = UIAttachmentBehavior(item: figure, attachedToAnchor: gesturePoint)
                 attachmentBehavior?.length = 0.0
                 dynamicAnimator.addBehavior(attachmentBehavior!)
             case UIGestureRecognizerState.Changed:
-                println("Changed")
                 if let attachment = attachmentBehavior {
                     attachment.anchorPoint = gesturePoint
                 }
             case UIGestureRecognizerState.Ended:
-                println("Ended")
                 if let attachment = attachmentBehavior {
                     dynamicAnimator.removeBehavior(attachment)
                     updateCoordinatesOfFigureWithFigureView(figure)
@@ -106,6 +132,7 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
     
     // MARK: - Figure Update Methods
     
+    /** Updates the coordinates of a Figure based on the FigureView that was moved in the Page */
     private func updateCoordinatesOfFigureWithFigureView(figureView: FigureView) {
         if let i = figureView.index {
             let figure = figures[i]
