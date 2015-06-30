@@ -21,7 +21,6 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
         }
     }
     
-    
     /** The context of the application */
     private var context: NSManagedObjectContext? {
         didSet{

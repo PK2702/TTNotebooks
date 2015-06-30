@@ -333,7 +333,6 @@ class NotebookTableViewController: UITableViewController, NotebookHeaderDataSour
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sectionView = NotebookSectionHeaderView(frame: CGRectMake(0, 0, view.bounds.size.width, 44), datasource: self, section: section, sectionName: sections[section].name, editing: editing)
-        println("Editing \(editing.description)")
         if section >= sectionHeaderViews.count {
             sectionHeaderViews.append(sectionView)
         } else {

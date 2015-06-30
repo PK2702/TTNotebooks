@@ -24,17 +24,20 @@ class InsertFigureMenuTableViewController: UITableViewController {
     /** The Page where a new figure will be inserted */
     var page: Page!
     
+    /** The delegate that will handle the FigureView */
+    var delegate: FigureViewDelegate!
+    
     /** The window representing the position of the scroll view in the Page */
     var insertWindow: CGRect!
     
     /** The width of the frame where a normal figure will be drawn */
-    let normalFigureWidth: CGFloat = 100.0
+    let normalFigureWidth: CGFloat = 150.0
     
     /** The width of the frame where a rectangular figure will be drawn */
-    let rectangularFigureWidth: CGFloat = 150.0
+    let rectangularFigureWidth: CGFloat = 225.0
     
     /** The heigh of the frame where a normal figure will be dran */
-    let normalFigureHeight: CGFloat = 100.0
+    let normalFigureHeight: CGFloat = 150.0
     
     /** The frame where a Figure in a square will be drawn */
     lazy var frameToDrawFigure: CGRect = CGRectMake(self.insertWindow.midX - self.normalFigureWidth/2,
@@ -51,12 +54,6 @@ class InsertFigureMenuTableViewController: UITableViewController {
         modalPresentationStyle = .Popover
         let cancelButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "cancel:")
         self.navigationItem.leftBarButtonItem = cancelButton
-        println("Insert window has origin: \(insertWindow.origin.x), \(insertWindow.origin.y) \n width:\(insertWindow.size.width) \n width:\(insertWindow.size.height)")
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func cancel(sender: UIBarButtonItem) {
@@ -144,6 +141,7 @@ class InsertFigureMenuTableViewController: UITableViewController {
             newFigure.type = NSNumber(integer: Helper.numberForFigureType(type))
             newFigure.xOrigin = NSNumber(double: Double(frame.origin.x))
             newFigure.yOrigin = NSNumber(double: Double(frame.origin.y))
+            newFigure.orderInPage = NSNumber(integer: page.figures.count)
             newFigure.page = page
             newFigure.insertPointsIntoFigure(points)
             return newFigure
@@ -164,8 +162,7 @@ class InsertFigureMenuTableViewController: UITableViewController {
         let point4 = Point.createPointWithCoordinates(Double(frame.size.width), y: Double(0.0), order: 3, context: page.managedObjectContext!)
         if let p1 = point1, p2 = point2, p3 = point3, p4 = point4 {
             if let figure = createFigureWithPoints([p1,p2,p3,p4], type: FigureType.RectType, frame: frame) {
-                println("Created square figure")
-                return FigurePainter.createFigureViewWithFigure(figure, frame: frame)
+                return FigurePainter.createFigureViewWithFigure(figure, frame: frame, delegate: delegate)
             }
         }
         return nil
@@ -186,8 +183,7 @@ class InsertFigureMenuTableViewController: UITableViewController {
         let point4 = Point.createPointWithCoordinates(Double(frame.size.width), y: Double(0.0), order: 3, context: page.managedObjectContext!)
         if let p1 = point1, p2 = point2, p3 = point3, p4 = point4 {
             if let figure = createFigureWithPoints([p1,p2,p3,p4], type: FigureType.RectType, frame: frame) {
-                println("Created rhombus figure")
-                return FigurePainter.createFigureViewWithFigure(figure, frame: frame)
+                return FigurePainter.createFigureViewWithFigure(figure, frame: frame, delegate: delegate)
             }
         }
         return nil
@@ -205,8 +201,7 @@ class InsertFigureMenuTableViewController: UITableViewController {
         let point3 = Point.createPointWithCoordinates(Double(frame.size.width), y: Double(frame.size.height), order: 2, context: page.managedObjectContext!)
         if let p1 = point1, p2 = point2, p3 = point3{
             if let figure = createFigureWithPoints([p1,p2,p3], type: FigureType.RectType, frame: frame) {
-                println("Created triangle figure")
-                return FigurePainter.createFigureViewWithFigure(figure, frame: frame)
+                return FigurePainter.createFigureViewWithFigure(figure, frame: frame, delegate: delegate)
             }
         }
         return nil
@@ -220,8 +215,7 @@ class InsertFigureMenuTableViewController: UITableViewController {
     */
     private func createOvaleFigureWithFrame(frame: CGRect) -> CircularFigureView?{
         if let figure = createFigureWithPoints([Point](), type: FigureType.RoundedType, frame: frame) {
-            println("Created square figure")
-            return FigurePainter.createCircularFigureViewWithFigure(figure, frame: frame)
+            return FigurePainter.createCircularFigureViewWithFigure(figure, frame: frame, delegate: delegate)
         }
         return nil
     }

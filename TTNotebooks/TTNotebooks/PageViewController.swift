@@ -19,7 +19,7 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
     /** The figures of the Page */
     private var figures : [Figure] {
         get {
-            if let figrs = page.figures.sortedArrayUsingDescriptors([NSSortDescriptor(key: ModelConstants.Figure.YOrigin, ascending: true, selector: "compare:")]) as? [Figure] {
+            if let figrs = page.figures.sortedArrayUsingDescriptors([NSSortDescriptor(key: ModelConstants.Figure.OrderInPage, ascending: true, selector: "compare:")]) as? [Figure] {
                 return figrs
             }
             return [Figure]()
@@ -32,22 +32,32 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
     /** The dynamic animator where all of the behaviors will be added */
     lazy var dynamicAnimator: UIDynamicAnimator = UIDynamicAnimator(referenceView: self.view)
     
+    /** The gesture recognizer that will handle the moving of the figure being edited */
+    lazy var panGestureRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveFigure:")
+    
+    /** The gesture recognizer that will handle the pinching of the figure being edited */
+    lazy var pinchGestureRecognizer: UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: "pinchFigure:")
+    
     /** The FigureView that is currently being edited */
-    var figureBeingEdited: FigureView? {
-        didSet {
-            if let figure = figureBeingEdited {
-                figure.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "moveFigure:"))
-            }
-        }
-    }
+    var figureBeingEdited: FigureView?
     
     /** The attachment behavior used to move the FigureView that is being edited */
     var attachmentBehavior: UIAttachmentBehavior?
+    
+    var menuController: UIMenuController!
+    
+    // MARK: - Localized Strings
+    
+    /** List of all the Localized Strings of this class */
+    private struct LStrings {
+        static let DeleteActionTitle = NSLocalizedString("Delete", comment: "This is the title of the action in the menu interface that deletes the figure being edited")
+    }
     
     // MARK: - Application Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureMenuController()
         pageView.contentSize = CGSize(width: 1000, height: 1000)
         title = page.name
         dynamicAnimator.delegate = self
@@ -62,6 +72,55 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: - Menu Controller
+    
+    /** Sets up the Menu Controller to have the custom actions */
+    private func configureMenuController() {
+        menuController = UIMenuController.sharedMenuController()
+        let deleteMenuItem = UIMenuItem(title: LStrings.DeleteActionTitle, action: "deleteEditedFigure:")
+        menuController.menuItems = [deleteMenuItem]
+    }
+    
+    override func canBecomeFirstResponder() -> Bool {
+        return true
+    }
+    
+    override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
+        switch(action) {
+        case "deleteEditedFigure:" :
+            return true
+        default:
+            return false
+        }
+    }
+    
+    /** Deletes the figure that is being edited */
+    func deleteEditedFigure(sender: UIMenuItem) {
+        if let editedFigure = figureBeingEdited {
+            let fetchRequest = NSFetchRequest(entityName: ModelConstants.Figure.EntityName)
+            fetchRequest.predicate = NSPredicate(format: "\(ModelConstants.Figure.OrderInPage) == %d", editedFigure.index)
+            if let figure = page.managedObjectContext?.executeFetchRequest(fetchRequest, error: nil)?.first as? Figure {
+                page.managedObjectContext?.deleteObject(figure)
+                page.managedObjectContext?.save(nil)
+                editedFigure.removeFromSuperview()
+            }
+        }
+    }
+    
+    /**
+    Displays the Menu Controller attached to the figure being edited
+    
+    :param: frame The frame to which the MenuController will be attached
+    */
+    func showMenuController(frame: CGRect) {
+        if let editedFigure = figureBeingEdited {
+            println("Presented the menu with origin x: \(frame.origin.x) y: \(frame.origin.x) \n width: \(frame.size.width) height: \(frame.size.height)")
+            menuController.setTargetRect(frame, inView: editedFigure)
+            menuController.setMenuVisible(true, animated: true)
+            menuController.update()
+        }
+    }
+    
     // MARK: - Drawing Methods
     
     /** Draws the Figures that are in the Page */
@@ -71,12 +130,12 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
             let figureFrame = CGRectMake(CGFloat(figure.xOrigin.doubleValue), CGFloat(figure.yOrigin.doubleValue), CGFloat(figure.width.doubleValue), CGFloat(figure.height.doubleValue))
             switch (Helper.figureTypeForNumber(figure.type.integerValue)){
             case FigureType.RectType:
-                let figureView = FigurePainter.createFigureViewWithFigure(figure, frame: figureFrame)
+                let figureView = FigurePainter.createFigureViewWithFigure(figure, frame: figureFrame, delegate: self)
                 pageView.addSubview(figureView)
                 figureView.delegate = self
                 figureView.index = i
             case FigureType.RoundedType:
-                let figureView = FigurePainter.createCircularFigureViewWithFigure(figure, frame: figureFrame)
+                let figureView = FigurePainter.createCircularFigureViewWithFigure(figure, frame: figureFrame, delegate: self)
                 pageView.addSubview(figureView)
                 figureView.delegate = self
                 figureView.index = i
@@ -88,14 +147,11 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
     
     /** Inserts a Figure into the Page */
     @IBAction func insertFigure(segue: UIStoryboardSegue) {
-        println("Entered in this method")
         if let svc = segue.sourceViewController as? InsertFigureMenuTableViewController {
-            println("Recognized the controller")
             if let figure = svc.figureToInsert {
                 figure.delegate = self
                 figure.index = figures.count - 1
                 pageView.addSubview(figure)
-                println("Inserted figure with origin: \(figure.frame.origin.x), \(figure.frame.origin.y) \n width:\(figure.frame.size.width) \n width:\(figure.frame.size.height)")
             }
         }
     }
@@ -130,6 +186,17 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
         }
     }
     
+    /**
+    Resizes a Figure
+    
+    :param: pinchGesture The GestureRecognizer that will indicate the scale to resize the figure
+    */
+    func pinchFigure(pinchGesture: UIPinchGestureRecognizer) {
+        if let figure = figureBeingEdited {
+            figure.figurePinched(pinchGesture)
+        }
+    }
+    
     // MARK: - Figure Update Methods
     
     /** Updates the coordinates of a Figure based on the FigureView that was moved in the Page */
@@ -144,12 +211,43 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
     // MARK: - FigureView Delegate Methods
     
     func selectedFigureView(figureView: FigureView, editing: Bool) {
-        println("Touched Figure \(editing.description)")
         if !editing {
+            figureBeingEdited?.removeGestureRecognizer(panGestureRecognizer)
+            figureBeingEdited?.removeGestureRecognizer(pinchGestureRecognizer)
             figureBeingEdited = nil
         } else {
             figureBeingEdited = figureView
+            figureBeingEdited?.addGestureRecognizer(panGestureRecognizer)
+            figureBeingEdited?.addGestureRecognizer(pinchGestureRecognizer)
         }
+    }
+    
+    func updateFigureViewFrameAndPoints(figureView: FigureView, frame: CGRect, points: [CGPoint]) {
+        if let i = figureView.index {
+            let updatedFigure = figures[i]
+            updatedFigure.width = NSNumber(double: Double(frame.size.width))
+            updatedFigure.height = NSNumber(double: Double(frame.size.height))
+            updatedFigure.xOrigin = NSNumber(double: Double(frame.origin.x))
+            updatedFigure.yOrigin = NSNumber(double: Double(frame.origin.y))
+            if let figurePoints = updatedFigure.points.sortedArrayUsingDescriptors([NSSortDescriptor(key: ModelConstants.Point.OrderInFigure, ascending: true, selector: "compare:")]) as? [Point] {
+                for k in 0 ..< figurePoints.count {
+                    let point = figurePoints[k]
+                    point.xOrigin = NSNumber(double: Double(points[k].x))
+                    point.yOrigin = NSNumber(double: Double(points[k].y))
+                }
+            }
+        }
+    }
+    
+    func displayMenuControllerForFigureInFrame(figureView: FigureView, frame: CGRect) {
+        println("Delegate was called")
+        if let figureAlreadyBeingEdited = figureBeingEdited {
+            figureAlreadyBeingEdited.removeGestureRecognizer(panGestureRecognizer)
+            figureAlreadyBeingEdited.removeGestureRecognizer(pinchGestureRecognizer)
+            figureAlreadyBeingEdited.editing = false
+        }
+        figureBeingEdited = figureView
+        showMenuController(frame)
     }
     
     // MARK: - UIPopover Delegate Methods
@@ -177,6 +275,7 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
                     dvc.page = page
                     let upperLeftPoint = pageView.contentOffset
                     dvc.insertWindow = CGRectMake(upperLeftPoint.x, upperLeftPoint.y, view.bounds.width, view.bounds.height)
+                    dvc.delegate = self
                 }
             default:
                 break
