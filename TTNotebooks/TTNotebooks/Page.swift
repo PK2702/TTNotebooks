@@ -2,7 +2,7 @@
 //  Page.swift
 //  TTNotebooks
 //
-//  Created by Tomas Trujillo on 5/24/15.
+//  Created by Tomas Trujillo on 6/8/15.
 //  Copyright (c) 2015 TTApps. All rights reserved.
 //
 
@@ -15,7 +15,7 @@ class Page: NSManagedObject {
     @NSManaged var name: String
     @NSManaged var orderInSection: NSNumber
     @NSManaged var pageLayout: NSNumber
-    @NSManaged var section: Section
     @NSManaged var figures: NSSet
+    @NSManaged var section: Section
 
 }

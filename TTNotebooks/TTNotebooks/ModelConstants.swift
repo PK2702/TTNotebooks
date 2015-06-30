@@ -54,6 +54,7 @@ class ModelConstants {
         static let Points = "points"
         static let XOrigin = "xOrigin"
         static let YOrigin = "yOrigin"
+        static let OrderInPage = "orderInPage"
     }
     
     // MARK: - Point

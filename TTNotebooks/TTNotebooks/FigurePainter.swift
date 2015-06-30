@@ -15,7 +15,7 @@ class FigurePainter {
     :param: figure The Figure that will be used to create the view
     :returns: A FigureView created with the Figure
     */
-    class func createFigureViewWithFigure(figure: Figure, frame: CGRect) -> FigureView{
+    class func createFigureViewWithFigure(figure: Figure, frame: CGRect, delegate: FigureViewDelegate) -> FigureView{
         let points = figure.points.sortedArrayUsingDescriptors([NSSortDescriptor(key: ModelConstants.Point.OrderInFigure, ascending: true, selector: "compare:")]) as! [Point]
         var coordinates = [CGPoint]()
         for point in points {
@@ -24,7 +24,7 @@ class FigurePainter {
         let fillColor = Helper.figureColorForNumber(figure.fillColor.integerValue)
         let strokeColor = Helper.figureColorForNumber(figure.strokeColor.integerValue)
         let strokeLineWidth = CGFloat(Helper.strokeLineWidthForNumber(figure.strokeLineWidth.integerValue))
-        return FigureView(frame: frame, points: coordinates, fillColor: fillColor, strokeColor: strokeColor, strokeLineWidth: strokeLineWidth)
+        return FigureView(frame: frame, points: coordinates, fillColor: fillColor, strokeColor: strokeColor, strokeLineWidth: strokeLineWidth, delegate: delegate)
     }
     
     /**
@@ -33,11 +33,11 @@ class FigurePainter {
     :param: figure The Figure that will be used to create the view
     :returns: A CiruclarFigureView created with the Figure
     */
-    class func createCircularFigureViewWithFigure(figure: Figure, frame: CGRect) -> CircularFigureView{
+    class func createCircularFigureViewWithFigure(figure: Figure, frame: CGRect, delegate: FigureViewDelegate) -> CircularFigureView{
         var coordinates = [CGPoint]()
         let fillColor = Helper.figureColorForNumber(figure.fillColor.integerValue)
         let strokeColor = Helper.figureColorForNumber(figure.strokeColor.integerValue)
         let strokeLineWidth = CGFloat(Helper.strokeLineWidthForNumber(figure.strokeLineWidth.integerValue))
-        return CircularFigureView(frame: frame, points: coordinates, fillColor: fillColor, strokeColor: strokeColor, strokeLineWidth: strokeLineWidth)
+        return CircularFigureView(frame: frame, points: coordinates, fillColor: fillColor, strokeColor: strokeColor, strokeLineWidth: strokeLineWidth, delegate: delegate)
     }
 }
