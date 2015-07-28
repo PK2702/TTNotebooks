@@ -94,15 +94,10 @@ class NotebooksViewController: UIViewController, UICollectionViewDataSource, UIC
     private func createNewNotebook(name: String) {
         if let newNotebook = NSEntityDescription.insertNewObjectForEntityForName(ModelConstants.Notebook.EntityName, inManagedObjectContext: context!) as? Notebook {
             newNotebook.name = name
-            
             if let notebookColor = NSUserDefaults.standardUserDefaults().valueForKey(Constants.SettingsVC.NotebookDefaultColor) as? Int {
-                if notebookColor == Constants.SettingsVC.NotebookDefaultColorValue {
-                    newNotebook.color = NSNumber(unsignedInt: arc4random_uniform(7))
-                } else {
-                    newNotebook.color = notebookColor
-                }
+                newNotebook.color = notebookColor
             } else {
-                newNotebook.color = NSNumber(unsignedInt: arc4random_uniform(7))
+                newNotebook.color = NSNumber(integer: Constants.SettingsVC.NotebookDefaultColorValue)
             }
             notebooks.append(newNotebook)
             mockupSectionAndPages(newNotebook)

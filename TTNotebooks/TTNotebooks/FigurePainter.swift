@@ -24,7 +24,7 @@ class FigurePainter {
         let fillColor = Helper.figureColorForNumber(figure.fillColor.integerValue)
         let strokeColor = Helper.figureColorForNumber(figure.strokeColor.integerValue)
         let strokeLineWidth = CGFloat(Helper.strokeLineWidthForNumber(figure.strokeLineWidth.integerValue))
-        return FigureView(frame: frame, points: coordinates, fillColor: fillColor, strokeColor: strokeColor, strokeLineWidth: strokeLineWidth, delegate: delegate)
+        return FigureView(frame: frame, points: coordinates, fillColor: fillColor, strokeColor: strokeColor, strokeLineWidth: strokeLineWidth, delegate: delegate, alpha: CGFloat(figure.alpha.floatValue))
     }
     
     /**
@@ -38,6 +38,6 @@ class FigurePainter {
         let fillColor = Helper.figureColorForNumber(figure.fillColor.integerValue)
         let strokeColor = Helper.figureColorForNumber(figure.strokeColor.integerValue)
         let strokeLineWidth = CGFloat(Helper.strokeLineWidthForNumber(figure.strokeLineWidth.integerValue))
-        return CircularFigureView(frame: frame, points: coordinates, fillColor: fillColor, strokeColor: strokeColor, strokeLineWidth: strokeLineWidth, delegate: delegate)
+        return CircularFigureView(frame: frame, points: coordinates, fillColor: fillColor, strokeColor: strokeColor, strokeLineWidth: strokeLineWidth, delegate: delegate, alpha: CGFloat(figure.alpha.floatValue))
     }
 }
