@@ -12,25 +12,31 @@ import UIKit
 
 class Helper {
     
-    static private let figureColorZero = (name: "Random", color: UIColor.whiteColor())
-    static private let figureColorOne = (name: "White", color: UIColor.whiteColor())
-    static private let figureColorTwo = (name: "Green", color: UIColor.greenColor())
-    static private let figureColorThree = (name: "Yellow", color: UIColor.yellowColor())
-    static private let figureColorFour = (name: "Red", color: UIColor.redColor())
-    static private let figureColorFive = (name: "Blue", color: UIColor.blueColor())
-    static private let figureColorSix = (name: "Brown", color: UIColor.brownColor())
+    static private let figureColorZero = (name: "White", color: UIColor.whiteColor())
+    static private let figureColorOne = (name: "Green", color: UIColor.greenColor())
+    static private let figureColorTwo = (name: "Yellow", color: UIColor.yellowColor())
+    static private let figureColorThree = (name: "Red", color: UIColor.redColor())
+    static private let figureColorFour = (name: "Blue", color: UIColor.blueColor())
+    static private let figureColorFive = (name: "Brown", color: UIColor.brownColor())
+    static private let figureColorSix = (name: "Black", color: UIColor.blackColor())
+    static private let figureColorSeven = (name: "Gray", color:UIColor.grayColor())
+    static private let figureColorEight = (name: "Purple", color:UIColor.purpleColor())
+    static private let figureColorNine = (name: "Clear", color: UIColor.clearColor())
     /** Number of supported colors with which one can draw a Figure */
-    static let numberOfFigureColors = 7
+    static let numberOfFigureColors = 10
     
-    static private let notebookColorZero = (name: "Random", color: UIColor.whiteColor())
+    static private let notebookColorZero = (name: "Black", color: UIColor.blackColor())
     static private let notebookColorOne = (name: "White", color: UIColor.whiteColor())
     static private let notebookColorTwo = (name: "Green", color: UIColor.greenColor())
     static private let notebookColorThree = (name: "Yellow", color: UIColor.yellowColor())
     static private let notebookColorFour = (name: "Red", color: UIColor.redColor())
     static private let notebookColorFive = (name: "Blue", color: UIColor.blueColor())
     static private let notebookColorSix = (name: "Brown", color: UIColor.brownColor())
+    static private let notebookColorSeven = (name: "Gray", color:UIColor.grayColor())
+    static private let notebookColorEight = (name: "Purple", color:UIColor.purpleColor())
+    static private let notebookColorNine = (name: "Clear", color: UIColor.clearColor())
     /** Number of supported colors with which one can draw a Notebook */
-    static let numberOfNotebookColors = 7
+    static let numberOfNotebookColors = 10
     
     static private let textFontZero = (name: "Body", font: UIFont.preferredFontForTextStyle(UIFontTextStyleBody))
     static private let textFontOne = (name: "Caption 1", font: UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1))
@@ -66,7 +72,7 @@ class Helper {
     class func notebookColorForNumber (number: Int) -> UIColor {
         switch (number) {
         case 0:
-            return notebookColorForNumber(Int(arc4random_uniform(7)))
+            return UIColor.clearColor()
         case 1:
             return notebookColorOne.color
         case 2:
@@ -79,6 +85,12 @@ class Helper {
             return notebookColorFive.color
         case 6:
             return notebookColorSix.color
+        case 7:
+            return notebookColorSeven.color
+        case 8:
+            return notebookColorEight.color
+        case 9:
+            return notebookColorNine.color
         default:
             return UIColor.clearColor()
         }
@@ -106,6 +118,12 @@ class Helper {
             return notebookColorFive.name
         case 6:
             return notebookColorSix.name
+        case 7:
+            return notebookColorSeven.name
+        case 8:
+            return notebookColorEight.name
+        case 9:
+            return notebookColorNine.name
         default:
             return ""
         }
@@ -120,7 +138,7 @@ class Helper {
     class func figureColorForNumber (number: Int) -> UIColor {
         switch (number) {
         case 0:
-            return figureColorForNumber(Int(arc4random_uniform(7)))
+            return figureColorZero.color
         case 1:
             return figureColorOne.color
         case 2:
@@ -133,6 +151,12 @@ class Helper {
             return figureColorFive.color
         case 6:
             return figureColorSix.color
+        case 7:
+            return figureColorSeven.color
+        case 8:
+            return figureColorEight.color
+        case 9:
+            return figureColorNine.color
         default:
             return UIColor.clearColor()
         }
@@ -147,7 +171,7 @@ class Helper {
     class func figureColorNameForNumber (number: Int) -> String {
         switch (number) {
         case 0:
-            return "Random"
+            return figureColorZero.name
         case 1:
             return figureColorOne.name
         case 2:
@@ -160,6 +184,12 @@ class Helper {
             return figureColorFive.name
         case 6:
             return figureColorSix.name
+        case 7:
+            return figureColorSeven.name
+        case 8:
+            return figureColorEight.name
+        case 9:
+            return figureColorNine.name
         default:
             return ""
         }

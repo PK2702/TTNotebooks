@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class PageViewController: UIViewController, UIPopoverPresentationControllerDelegate, UIDynamicAnimatorDelegate, FigureViewDelegate {
+class PageViewController: UIViewController, UIPopoverPresentationControllerDelegate, UIDynamicAnimatorDelegate, FigureViewDelegate, ColorChooserDelegate {
     
     // MARK: -Variables and Constants
     
@@ -41,9 +41,13 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
     /** The FigureView that is currently being edited */
     var figureBeingEdited: FigureView?
     
+    /** The color chooser menu. If this variable is not nil then it means that the menu is being displayed */
+    var colorChooserView: ColorChooserView?
+    
     /** The attachment behavior used to move the FigureView that is being edited */
     var attachmentBehavior: UIAttachmentBehavior?
     
+    /** The controller in charge of presenting the Menu Controller for a long pressed on a Figure */
     var menuController: UIMenuController!
     
     // MARK: - Localized Strings
@@ -51,6 +55,9 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
     /** List of all the Localized Strings of this class */
     private struct LStrings {
         static let DeleteActionTitle = NSLocalizedString("Delete", comment: "This is the title of the action in the menu interface that deletes the figure being edited")
+        static let FillColorActionTitle = NSLocalizedString("Color", comment: "This is the title of the action in the menu interface that changes the figure's color, without changing its stroke")
+        static let StrokeColorActionTitle = NSLocalizedString("Stroke Color", comment: "This is the title of the action in the menu interface that changes the stroke color of the figure")
+        static  let LineWidthActionTitle = NSLocalizedString("Line Width", comment: "This is the title of the action in the menu interface that changes the line width of the stroke of the figure")
     }
     
     // MARK: - Application Lifecycle
@@ -64,6 +71,8 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
         if figures.count > 0 {
             drawFigures()
         }
+        let tapGesture = UITapGestureRecognizer(target: self, action: "touchedScrollView:")
+        pageView.addGestureRecognizer(tapGesture)
     }
 
     override func didReceiveMemoryWarning() {
@@ -72,13 +81,20 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        page.managedObjectContext?.save(nil)
+    }
+    
     // MARK: - Menu Controller
     
     /** Sets up the Menu Controller to have the custom actions */
     private func configureMenuController() {
         menuController = UIMenuController.sharedMenuController()
         let deleteMenuItem = UIMenuItem(title: LStrings.DeleteActionTitle, action: "deleteEditedFigure:")
-        menuController.menuItems = [deleteMenuItem]
+        let colorFillMenuItem = UIMenuItem(title: LStrings.FillColorActionTitle, action: "changeFigureColor:")
+        let colorStrokeMenutItem = UIMenuItem(title: LStrings.StrokeColorActionTitle, action: "changeFigureStrokeColor:")
+        menuController.menuItems = [deleteMenuItem, colorFillMenuItem, colorStrokeMenutItem]
     }
     
     override func canBecomeFirstResponder() -> Bool {
@@ -87,7 +103,7 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
     
     override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
         switch(action) {
-        case "deleteEditedFigure:" :
+        case "deleteEditedFigure:", "changeFigureColor:", "changeFigureStrokeColor:" :
             return true
         default:
             return false
@@ -105,6 +121,45 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
                 editedFigure.removeFromSuperview()
             }
         }
+    }
+    
+    /** Displays the view in charge of changing the fill color of the figure */
+    func changeFigureColor(sender: UIMenuItem) {
+        if let editedFigure = figureBeingEdited {
+            let fetchRequest = NSFetchRequest(entityName: ModelConstants.Figure.EntityName)
+            fetchRequest.predicate = NSPredicate(format: "\(ModelConstants.Figure.OrderInPage) == %d", editedFigure.index)
+            if let figure = page.managedObjectContext?.executeFetchRequest(fetchRequest, error: nil)?.first as? Figure {
+                colorChooserView?.removeFromSuperview()
+                let colorChooserHeight: CGFloat = 100.0
+                let colorChooserWidth = fmin(view.frame.size.width, 600)
+                let colorChView = ColorChooserView(frame: CGRectMake(0.0, view.frame.size.height - colorChooserHeight, colorChooserWidth, colorChooserHeight), type: .FigureFillColor, value: figure.alpha.floatValue)
+                colorChView.delegate = self
+                colorChooserView = colorChView
+                view.addSubview(colorChooserView!)
+            }
+        }
+    }
+    
+    /** Displays the view in charge of changing the stroke color of the figure */
+    func changeFigureStrokeColor(sender: UIMenuItem) {
+        if let editedFigure = figureBeingEdited {
+            let fetchRequest = NSFetchRequest(entityName: ModelConstants.Figure.EntityName)
+            fetchRequest.predicate = NSPredicate(format: "\(ModelConstants.Figure.OrderInPage) == %d", editedFigure.index)
+            if let figure = page.managedObjectContext?.executeFetchRequest(fetchRequest, error: nil)?.first as? Figure {
+                colorChooserView?.removeFromSuperview()
+                let colorChooserHeight: CGFloat = 100.0
+                let colorChooserWidth = fmin(view.frame.size.width, 600)
+                let colorChView = ColorChooserView(frame: CGRectMake(0.0, view.frame.size.height - colorChooserHeight, colorChooserWidth, colorChooserHeight), type: .FigureStrokeColor, value: figure.strokeLineWidth.floatValue)
+                colorChView.delegate = self
+                colorChooserView = colorChView
+                view.addSubview(colorChooserView!)
+            }
+        }
+    }
+    
+    /** Displays the view in charge of changing the line width of the stroke in a Figure */
+    func changeFigureLineWidth(sender: UIMenuItem) {
+        
     }
     
     /**
@@ -194,6 +249,53 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
     func pinchFigure(pinchGesture: UIPinchGestureRecognizer) {
         if let figure = figureBeingEdited {
             figure.figurePinched(pinchGesture)
+        }
+    }
+    
+    /**
+    Registers when the scroll view is touched
+    
+    :param: tapGesture The GestureRecognizer that will indicate when the scroll view was touched
+    */
+    func touchedScrollView(tapGesture: UITapGestureRecognizer) {
+        colorChooserView?.removeFromSuperview()
+        figureBeingEdited?.removeGestureRecognizer(panGestureRecognizer)
+        figureBeingEdited?.removeGestureRecognizer(pinchGestureRecognizer)
+        figureBeingEdited?.editing = false
+        figureBeingEdited = nil
+    }
+    
+    // MARK: - ColorChooser Delegate Methods
+    
+    func choseColorWithNumber(color: Int, type: ColorChooserType) {
+        if let editedFigure = figureBeingEdited {
+            let fetchRequest = NSFetchRequest(entityName: ModelConstants.Figure.EntityName)
+            fetchRequest.predicate = NSPredicate(format: "\(ModelConstants.Figure.OrderInPage) == %d", editedFigure.index)
+            if let figure = page.managedObjectContext?.executeFetchRequest(fetchRequest, error: nil)?.first as? Figure {
+                if type == .FigureFillColor {
+                    figure.fillColor = color
+                    editedFigure.fillColor = Helper.figureColorForNumber(color)
+                } else if type == .FigureStrokeColor {
+                    figure.strokeColor = color
+                    editedFigure.strokeColor = Helper.figureColorForNumber(color)
+                }
+            }
+        }
+    }
+    
+    func changedSliderValue(value: Float, type: ColorChooserType) {
+        if let editedFigure = figureBeingEdited {
+            let fetchRequest = NSFetchRequest(entityName: ModelConstants.Figure.EntityName)
+            fetchRequest.predicate = NSPredicate(format: "\(ModelConstants.Figure.OrderInPage) == %d", editedFigure.index)
+            if let figure = page.managedObjectContext?.executeFetchRequest(fetchRequest, error: nil)?.first as? Figure {
+                if type == .FigureFillColor {
+                    figure.alpha = value
+                    editedFigure.alpha = CGFloat(value)
+                } else if type == .FigureStrokeColor {
+                    figure.strokeLineWidth = value 
+                    editedFigure.strokeLineWidth = CGFloat(value)
+                }
+            }
         }
     }
     

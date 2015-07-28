@@ -51,6 +51,13 @@ class FigureView: UIView {
         }
     }
     
+    /** The alpha of the fill color */
+    var alphaColor: CGFloat {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
     var index: Int!
     
     /** The delegate that will be notified when the user interacts with the FigureView */
@@ -83,7 +90,8 @@ class FigureView: UIView {
             }
             figurePath.addLineToPoint(firstPoint)
         }
-        fillColor.setFill()
+        
+        fillColor.colorWithAlphaComponent(alphaColor).setFill()
         figurePath.fill()
         strokeColor.setStroke()
         figurePath.lineWidth = strokeLineWidth
@@ -329,12 +337,13 @@ class FigureView: UIView {
     :param: strokeColor The color of the Figure's stroke
     :param: strokeLineWidth The line width of the Figure's stroke
     */
-    init(frame: CGRect, points: [CGPoint], fillColor: UIColor, strokeColor: UIColor, strokeLineWidth: CGFloat, delegate: FigureViewDelegate) {
+    init(frame: CGRect, points: [CGPoint], fillColor: UIColor, strokeColor: UIColor, strokeLineWidth: CGFloat, delegate: FigureViewDelegate, alpha: CGFloat) {
         self.points = points
         self.fillColor = fillColor
         self.strokeColor = strokeColor
         self.strokeLineWidth = strokeLineWidth
         self.delegate = delegate
+        self.alphaColor = alpha
         super.init(frame: frame)
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "figureTouched:")
         self.addGestureRecognizer(tapGestureRecognizer)

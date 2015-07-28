@@ -144,6 +144,7 @@ class InsertFigureMenuTableViewController: UITableViewController {
             newFigure.orderInPage = NSNumber(integer: page.figures.count)
             newFigure.page = page
             newFigure.insertPointsIntoFigure(points)
+            newFigure.alpha = 1.0
             return newFigure
         }
         return nil

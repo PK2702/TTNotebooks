@@ -12,6 +12,8 @@
 		400E9E4F1ADB122500101B96 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400E9E4E1ADB122500101B96 /* Helper.swift */; };
 		4014A83C1B1C01C200A6E597 /* CircularFigureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4014A83B1B1C01C200A6E597 /* CircularFigureView.swift */; };
 		4022A6E61B420F270084EF8F /* FigureSide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4022A6E51B420F270084EF8F /* FigureSide.swift */; };
+		402960C81B44CD4A00D15FA2 /* ColorChooserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402960C71B44CD4A00D15FA2 /* ColorChooserView.swift */; };
+		402960CA1B44D7A400D15FA2 /* ColorChooserDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402960C91B44D7A400D15FA2 /* ColorChooserDelegate.swift */; };
 		403686AB1ABEF9710002B5B6 /* NotebookCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403686AA1ABEF9710002B5B6 /* NotebookCollectionViewCell.swift */; };
 		403686AD1ABF0FB00002B5B6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 403686AC1ABF0FB00002B5B6 /* CoreData.framework */; };
 		405230D41B0ECDA40090BCFB /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405230D31B0ECDA40090BCFB /* PageViewController.swift */; };
@@ -34,8 +36,8 @@
 		40B552841B2688F100F3D19A /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B552831B2688F100F3D19A /* Page.swift */; };
 		40B552861B2688F100F3D19A /* Notebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B552851B2688F100F3D19A /* Notebook.swift */; };
 		40B552881B2688F100F3D19A /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B552871B2688F100F3D19A /* Section.swift */; };
-		40B5528A1B2688F100F3D19A /* Figure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B552891B2688F100F3D19A /* Figure.swift */; };
 		40B5528C1B268FDF00F3D19A /* CircleEditFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B5528B1B268FDF00F3D19A /* CircleEditFigure.swift */; };
+		40B9D5E41B54BE8500CEBABD /* ColorChooserType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B9D5E31B54BE8500CEBABD /* ColorChooserType.swift */; };
 		40BFA7EB1B0C0F2500D7246D /* NotebookSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BFA7EA1B0C0F2500D7246D /* NotebookSectionHeaderView.swift */; };
 		40C352E51B125E59005A6D40 /* FigureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C352E41B125E59005A6D40 /* FigureType.swift */; };
 		40C352E71B1262F2005A6D40 /* FigureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C352E61B1262F2005A6D40 /* FigureView.swift */; };
@@ -47,6 +49,7 @@
 		40D080FE1B1A56B80032B75D /* Figure+Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D080FD1B1A56B80032B75D /* Figure+Collection.swift */; };
 		40D081001B1A577F0032B75D /* Point+Creation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D080FF1B1A577F0032B75D /* Point+Creation.swift */; };
 		40D081041B1A5C870032B75D /* Point+CGPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D081031B1A5C870032B75D /* Point+CGPoint.swift */; };
+		40D77E6F1B6719B200D30FF2 /* Figure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D77E6E1B6719B200D30FF2 /* Figure.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +68,8 @@
 		400E9E4E1ADB122500101B96 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		4014A83B1B1C01C200A6E597 /* CircularFigureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularFigureView.swift; sourceTree = "<group>"; };
 		4022A6E51B420F270084EF8F /* FigureSide.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FigureSide.swift; sourceTree = "<group>"; };
+		402960C71B44CD4A00D15FA2 /* ColorChooserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorChooserView.swift; sourceTree = "<group>"; };
+		402960C91B44D7A400D15FA2 /* ColorChooserDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorChooserDelegate.swift; sourceTree = "<group>"; };
 		403686AA1ABEF9710002B5B6 /* NotebookCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotebookCollectionViewCell.swift; sourceTree = "<group>"; };
 		403686AC1ABF0FB00002B5B6 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		403686AE1ABF95A20002B5B6 /* TTNotebooks-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TTNotebooks-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -92,8 +97,8 @@
 		40B552831B2688F100F3D19A /* Page.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		40B552851B2688F100F3D19A /* Notebook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notebook.swift; sourceTree = "<group>"; };
 		40B552871B2688F100F3D19A /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
-		40B552891B2688F100F3D19A /* Figure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Figure.swift; sourceTree = "<group>"; };
 		40B5528B1B268FDF00F3D19A /* CircleEditFigure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleEditFigure.swift; sourceTree = "<group>"; };
+		40B9D5E31B54BE8500CEBABD /* ColorChooserType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorChooserType.swift; sourceTree = "<group>"; };
 		40BFA7EA1B0C0F2500D7246D /* NotebookSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotebookSectionHeaderView.swift; sourceTree = "<group>"; };
 		40C352E41B125E59005A6D40 /* FigureType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FigureType.swift; sourceTree = "<group>"; };
 		40C352E61B1262F2005A6D40 /* FigureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FigureView.swift; sourceTree = "<group>"; };
@@ -105,6 +110,7 @@
 		40D080FD1B1A56B80032B75D /* Figure+Collection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Figure+Collection.swift"; sourceTree = "<group>"; };
 		40D080FF1B1A577F0032B75D /* Point+Creation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Point+Creation.swift"; sourceTree = "<group>"; };
 		40D081031B1A5C870032B75D /* Point+CGPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Point+CGPoint.swift"; sourceTree = "<group>"; };
+		40D77E6E1B6719B200D30FF2 /* Figure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Figure.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,11 +132,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		402960C61B44CD1A00D15FA2 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				40C353081B1271A7005A6D40 /* InsertFigureTableViewCell.swift */,
+				403686AA1ABEF9710002B5B6 /* NotebookCollectionViewCell.swift */,
+			);
+			name = Cell;
+			sourceTree = "<group>";
+		};
 		40842F5D1B0AD5D900B2167A /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
 				40842F5E1B0AD5FC00B2167A /* NotebookHeaderDataSource.swift */,
 				40A5A8D71B1FE889009A3489 /* FigureViewDelegate.swift */,
+				402960C91B44D7A400D15FA2 /* ColorChooserDelegate.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -215,10 +231,10 @@
 		409527471ABE3E5F00B81481 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				402960C61B44CD1A00D15FA2 /* Cell */,
 				40A624711B3A441200AC4D35 /* Figure */,
-				40C353081B1271A7005A6D40 /* InsertFigureTableViewCell.swift */,
-				403686AA1ABEF9710002B5B6 /* NotebookCollectionViewCell.swift */,
 				40BFA7EA1B0C0F2500D7246D /* NotebookSectionHeaderView.swift */,
+				402960C71B44CD4A00D15FA2 /* ColorChooserView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -226,7 +242,7 @@
 		409527481ABE3E6300B81481 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				40B552891B2688F100F3D19A /* Figure.swift */,
+				40D77E6E1B6719B200D30FF2 /* Figure.swift */,
 				40B552871B2688F100F3D19A /* Section.swift */,
 				40B552851B2688F100F3D19A /* Notebook.swift */,
 				40B552831B2688F100F3D19A /* Page.swift */,
@@ -277,6 +293,7 @@
 			children = (
 				40C352E41B125E59005A6D40 /* FigureType.swift */,
 				4022A6E51B420F270084EF8F /* FigureSide.swift */,
+				40B9D5E31B54BE8500CEBABD /* ColorChooserType.swift */,
 			);
 			name = Enums;
 			sourceTree = "<group>";
@@ -385,17 +402,19 @@
 				408CEC921AF870D0009E6CC1 /* NotebookTableViewController.swift in Sources */,
 				40D081041B1A5C870032B75D /* Point+CGPoint.swift in Sources */,
 				40C353091B1271A7005A6D40 /* InsertFigureTableViewCell.swift in Sources */,
+				40D77E6F1B6719B200D30FF2 /* Figure.swift in Sources */,
 				403686AB1ABEF9710002B5B6 /* NotebookCollectionViewCell.swift in Sources */,
 				40B552861B2688F100F3D19A /* Notebook.swift in Sources */,
-				40B5528A1B2688F100F3D19A /* Figure.swift in Sources */,
 				40D080FE1B1A56B80032B75D /* Figure+Collection.swift in Sources */,
 				400E9E4F1ADB122500101B96 /* Helper.swift in Sources */,
 				40842F5F1B0AD5FC00B2167A /* NotebookHeaderDataSource.swift in Sources */,
 				409527271ABE3D8100B81481 /* AppDelegate.swift in Sources */,
+				402960CA1B44D7A400D15FA2 /* ColorChooserDelegate.swift in Sources */,
 				40C353071B1270C4005A6D40 /* InsertFigureMenuTableViewController.swift in Sources */,
 				40A5A8D81B1FE889009A3489 /* FigureViewDelegate.swift in Sources */,
 				4095274A1ABE3E8600B81481 /* NotebooksViewController.swift in Sources */,
 				40D081001B1A577F0032B75D /* Point+Creation.swift in Sources */,
+				40B9D5E41B54BE8500CEBABD /* ColorChooserType.swift in Sources */,
 				4095274D1ABE3EAA00B81481 /* Model.xcdatamodeld in Sources */,
 				40B552881B2688F100F3D19A /* Section.swift in Sources */,
 				40BFA7EB1B0C0F2500D7246D /* NotebookSectionHeaderView.swift in Sources */,
@@ -408,6 +427,7 @@
 				40B5528C1B268FDF00F3D19A /* CircleEditFigure.swift in Sources */,
 				4003FDBD1AEDA9320077A517 /* EditNotebookViewController.swift in Sources */,
 				40C3FC1F1B231EF300CCD608 /* FigurePainter.swift in Sources */,
+				402960C81B44CD4A00D15FA2 /* ColorChooserView.swift in Sources */,
 				40C352E71B1262F2005A6D40 /* FigureView.swift in Sources */,
 				4097803B1AFED13700BC628F /* Section+Collection.swift in Sources */,
 				4022A6E61B420F270084EF8F /* FigureSide.swift in Sources */,

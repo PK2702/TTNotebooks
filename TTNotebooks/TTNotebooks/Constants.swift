@@ -51,13 +51,13 @@ class Constants {
         /** Name of the setting for the Page default font in the NSUserDefaults */
         static let DefaultFont = "Settings Default Font"
         /** Default value for the Notebook color */
-        static let NotebookDefaultColorValue = 0
+        static let NotebookDefaultColorValue = 1
         /** Default value for the Figure color */
         static let FigureDefaultColorValue = 0
         /** Default value for the Figure stroke line */
         static let FigureDefaultLineWidthValue = 2
         /** Default value for the Figure stroke line width */
-        static let StrokeDefaultColorValue = 0
+        static let StrokeDefaultColorValue = 7
         /** Default value for the Page layout type */
         static let PagesDefaultLayoutTypeValue = 0
         /** Default value for the Page font */

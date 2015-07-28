@@ -62,7 +62,7 @@ class EditNotebookViewController: UIViewController, UIPickerViewDataSource, UIPi
     /** Commit the changes done to the Notebook */
     func makeChangesEffective(sender: UIButton) {
         notebook.name = notebookNameTxtField.text
-        notebook.color = pickerView.selectedRowInComponent(0) == 0 ?  NSNumber(unsignedInt: arc4random_uniform(4)) : NSNumber(unsignedInteger: pickerView.selectedRowInComponent(0))
+        notebook.color = NSNumber(unsignedInteger: pickerView.selectedRowInComponent(0))
         presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
     }    
 }
