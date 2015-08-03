@@ -20,6 +20,14 @@ protocol FigureViewDelegate {
     func selectedFigureView(figureView: FigureView, editing: Bool)
     
     /**
+    Notifies the delegate that the figure was double tapped
+    
+    :param: figureView The FigureView that was double tapped
+    :param: editingShape Indicates wether the editign of the FigureView started or ended
+    */
+    func doubleTappedFigureView(figureView: FigureView, editingShape: Bool)
+    
+    /**
     Notifies the delegate that the figure's frame and points were updated
     
     :param: figureView The FigureView that was updated

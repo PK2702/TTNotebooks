@@ -17,6 +17,7 @@
 		403686AB1ABEF9710002B5B6 /* NotebookCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403686AA1ABEF9710002B5B6 /* NotebookCollectionViewCell.swift */; };
 		403686AD1ABF0FB00002B5B6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 403686AC1ABF0FB00002B5B6 /* CoreData.framework */; };
 		405230D41B0ECDA40090BCFB /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405230D31B0ECDA40090BCFB /* PageViewController.swift */; };
+		4065C63F1B6EE70B00E1511D /* DiamondEditFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4065C63E1B6EE70B00E1511D /* DiamondEditFigure.swift */; };
 		40842F5F1B0AD5FC00B2167A /* NotebookHeaderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40842F5E1B0AD5FC00B2167A /* NotebookHeaderDataSource.swift */; };
 		408CEC921AF870D0009E6CC1 /* NotebookTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CEC911AF870D0009E6CC1 /* NotebookTableViewController.swift */; };
 		408CECA61AF8758B009E6CC1 /* ModelConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CECA51AF8758B009E6CC1 /* ModelConstants.swift */; };
@@ -74,6 +75,7 @@
 		403686AC1ABF0FB00002B5B6 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		403686AE1ABF95A20002B5B6 /* TTNotebooks-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TTNotebooks-Bridging-Header.h"; sourceTree = "<group>"; };
 		405230D31B0ECDA40090BCFB /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
+		4065C63E1B6EE70B00E1511D /* DiamondEditFigure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiamondEditFigure.swift; sourceTree = "<group>"; };
 		40842F5E1B0AD5FC00B2167A /* NotebookHeaderDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotebookHeaderDataSource.swift; sourceTree = "<group>"; };
 		408CEC911AF870D0009E6CC1 /* NotebookTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotebookTableViewController.swift; sourceTree = "<group>"; };
 		408CECA51AF8758B009E6CC1 /* ModelConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelConstants.swift; sourceTree = "<group>"; };
@@ -284,6 +286,7 @@
 				40C352E61B1262F2005A6D40 /* FigureView.swift */,
 				40B5528B1B268FDF00F3D19A /* CircleEditFigure.swift */,
 				4014A83B1B1C01C200A6E597 /* CircularFigureView.swift */,
+				4065C63E1B6EE70B00E1511D /* DiamondEditFigure.swift */,
 			);
 			name = Figure;
 			sourceTree = "<group>";
@@ -408,6 +411,7 @@
 				40D080FE1B1A56B80032B75D /* Figure+Collection.swift in Sources */,
 				400E9E4F1ADB122500101B96 /* Helper.swift in Sources */,
 				40842F5F1B0AD5FC00B2167A /* NotebookHeaderDataSource.swift in Sources */,
+				4065C63F1B6EE70B00E1511D /* DiamondEditFigure.swift in Sources */,
 				409527271ABE3D8100B81481 /* AppDelegate.swift in Sources */,
 				402960CA1B44D7A400D15FA2 /* ColorChooserDelegate.swift in Sources */,
 				40C353071B1270C4005A6D40 /* InsertFigureMenuTableViewController.swift in Sources */,

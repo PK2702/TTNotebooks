@@ -86,7 +86,7 @@ class ColorChooserView: UIView {
         slider.addTarget(self, action: "movedSlider:", forControlEvents: UIControlEvents.ValueChanged)
         
         let valLabel = UILabel(frame: CGRectMake(slider.frame.origin.x + slider.frame.size.width, 0.0, valueLabelWidht, heightOfSlider))
-        valLabel.text = "\(slider.minimumValue)"
+        valLabel.text = "\(round(slider.value * 100.0) / 100)"
         valLabel.adjustsFontSizeToFitWidth = true
         valueLabel = valLabel
         
@@ -130,12 +130,6 @@ class ColorChooserView: UIView {
         setup()
     }
     
-    override init(frame: CGRect) {
-        self.type = .FigureFillColor
-        initialValue = 0.0
-        super.init(frame: frame);
-        setup()
-    }
     
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

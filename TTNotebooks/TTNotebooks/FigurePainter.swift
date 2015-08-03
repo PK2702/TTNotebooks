@@ -23,7 +23,7 @@ class FigurePainter {
         }
         let fillColor = Helper.figureColorForNumber(figure.fillColor.integerValue)
         let strokeColor = Helper.figureColorForNumber(figure.strokeColor.integerValue)
-        let strokeLineWidth = CGFloat(Helper.strokeLineWidthForNumber(figure.strokeLineWidth.integerValue))
+        let strokeLineWidth = CGFloat(figure.strokeLineWidth.floatValue)
         return FigureView(frame: frame, points: coordinates, fillColor: fillColor, strokeColor: strokeColor, strokeLineWidth: strokeLineWidth, delegate: delegate, alpha: CGFloat(figure.alpha.floatValue))
     }
     
@@ -37,7 +37,7 @@ class FigurePainter {
         var coordinates = [CGPoint]()
         let fillColor = Helper.figureColorForNumber(figure.fillColor.integerValue)
         let strokeColor = Helper.figureColorForNumber(figure.strokeColor.integerValue)
-        let strokeLineWidth = CGFloat(Helper.strokeLineWidthForNumber(figure.strokeLineWidth.integerValue))
+        let strokeLineWidth = CGFloat(figure.strokeLineWidth.floatValue)
         return CircularFigureView(frame: frame, points: coordinates, fillColor: fillColor, strokeColor: strokeColor, strokeLineWidth: strokeLineWidth, delegate: delegate, alpha: CGFloat(figure.alpha.floatValue))
     }
 }
