@@ -279,6 +279,7 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
                     figure.strokeColor = color
                     editedFigure.strokeColor = Helper.figureColorForNumber(color)
                 }
+                figure.managedObjectContext?.save(nil)
             }
         }
     }
@@ -295,6 +296,7 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
                     figure.strokeLineWidth = value 
                     editedFigure.strokeLineWidth = CGFloat(value)
                 }
+                figure.managedObjectContext?.save(nil)
             }
         }
     }
@@ -324,6 +326,14 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
         }
     }
     
+    func doubleTappedFigureView(figureView: FigureView, editingShape: Bool) {
+        if !editingShape {
+            figureBeingEdited = nil
+        } else {
+            figureBeingEdited = figureView
+        }
+    }
+    
     func updateFigureViewFrameAndPoints(figureView: FigureView, frame: CGRect, points: [CGPoint]) {
         if let i = figureView.index {
             let updatedFigure = figures[i]
@@ -347,6 +357,7 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
             figureAlreadyBeingEdited.removeGestureRecognizer(panGestureRecognizer)
             figureAlreadyBeingEdited.removeGestureRecognizer(pinchGestureRecognizer)
             figureAlreadyBeingEdited.editing = false
+            figureAlreadyBeingEdited.editingShape = false
         }
         figureBeingEdited = figureView
         showMenuController(frame)

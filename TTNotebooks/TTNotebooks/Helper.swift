@@ -54,12 +54,12 @@ class Helper {
     static let numberOfPageLayouts = 3
     
     static private let strokeLineWidthZero = (name: "0.0", stroke: 0.0)
-    static private let strokeLineWidthOne = (name: "0.5", stroke: 0.5)
-    static private let strokeLineWidthTwo = (name: "1.0", stroke: 1.0)
-    static private let strokeLineWidthThree = (name: "1.5", stroke: 1.5)
-    static private let strokeLineWidthFour = (name: "2.0", stroke: 2.0)
-    static private let strokeLineWidthFive = (name: "2.5", stroke: 2.5)
-    static private let strokeLineWidthSix = (name: "3.0", stroke: 3.0)
+    static private let strokeLineWidthOne = (name: "1.0", stroke: 1.0)
+    static private let strokeLineWidthTwo = (name: "2.0", stroke: 2.0)
+    static private let strokeLineWidthThree = (name: "3.0", stroke: 3.0)
+    static private let strokeLineWidthFour = (name: "4.0", stroke: 4.0)
+    static private let strokeLineWidthFive = (name: "5.0", stroke: 5.0)
+    static private let strokeLineWidthSix = (name: "6.0", stroke: 6.0)
     /** Number of supported line widths for the stroke of a Figure */
     static let numberOfStrokeLineWidths = 7
     

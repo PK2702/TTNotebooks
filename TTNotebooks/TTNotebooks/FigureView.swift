@@ -30,6 +30,9 @@ class FigureView: UIView {
     /** Collection of the circle edit views in the figure */
     private var circleEditViews = [FigureSide : CircleEditFigure]()
     
+    /** Colleciton of the diamond edit view in the figure points */
+    private var editDiamondViews = [DiamondEditFigure]()
+    
     /** The color of the Figure */
     var fillColor: UIColor {
         didSet {
@@ -58,6 +61,7 @@ class FigureView: UIView {
         }
     }
     
+    /** The index of the Figure, that this view represents, in the Page */
     var index: Int!
     
     /** The delegate that will be notified when the user interacts with the FigureView */
@@ -70,6 +74,18 @@ class FigureView: UIView {
                 addEditCircleViews()
             } else {
                 removeEditCircleView()
+            }
+            setNeedsDisplay()
+        }
+    }
+    
+    /** Indicates wether the view is in editing sahpe mode or not */
+    var editingShape = false {
+        didSet {
+            if editingShape {
+                addEditDiamondViews()
+            } else {
+                removeEditDiamondView()
             }
             setNeedsDisplay()
         }
@@ -130,14 +146,34 @@ class FigureView: UIView {
     
     /** Removes the edit circles from the figure */
     private func removeEditCircleView() {
-        for view in subviews {
-            if let editCircle = view as? CircleEditFigure {
-                editCircle.removeFromSuperview()
-            }
+        for (_, editCircle) in circleEditViews {
+            editCircle.removeFromSuperview()
         }
     }
     
-    /** Resizes the edit circles and replaces them given the views bounds have changed */
+    /** Adds edit circles to the edges of the figure */
+    private func addEditDiamondViews() {
+        editDiamondViews = [DiamondEditFigure]()
+        let editFigureSize = min(bounds.size.width, bounds.size.height) * fractionOfEditFigureSize
+        var i = 0
+        for point in points {
+            let editDiamondView = DiamondEditFigure(frame: CGRectMake(point.x - editFigureSize / 2, point.y - editFigureSize / 2, editFigureSize, editFigureSize), index: i)
+            let panGesture = UIPanGestureRecognizer(target: self, action: "moveDiamondEditFigure:")
+            self.addSubview(editDiamondView)
+            editDiamondView.addGestureRecognizer(panGesture)
+            editDiamondViews.append(editDiamondView)
+            i++
+        }
+    }
+    
+    /** Removes the edit diamond from the figure */
+    private func removeEditDiamondView() {
+        for editDiamond in editDiamondViews {
+            editDiamond.removeFromSuperview()
+        }
+    }
+    
+    /** Resizes the edit circles and replaces them given that the views bounds have changed */
     private func resizeAndReplaceEditCircles() {
         let editFigureSize = min(bounds.size.width, bounds.size.height) * fractionOfEditFigureSize
         for (side , circleView) in circleEditViews {
@@ -151,6 +187,17 @@ class FigureView: UIView {
             case FigureSide.WestSide:
                 circleView.frame = CGRectMake(0.0 - editFigureSize / 2, bounds.size.height / 2 - editFigureSize / 2, editFigureSize, editFigureSize)
             }
+        }
+    }
+    
+    /** Resizes the edit diamonds and replaces them given that the views bounds have changed */
+    private func resizeAndReplaceEditDiamonds() {
+        let editFigureSize = min(bounds.size.width, bounds.size.height) * fractionOfEditFigureSize
+        var i  = 0
+        for editDiamondView in editDiamondViews {
+            let point = points[i]
+            editDiamondView.frame = CGRectMake(point.x - editFigureSize / 2, point.y - editFigureSize / 2, editFigureSize, editFigureSize)
+            i++
         }
     }
     
@@ -183,6 +230,66 @@ class FigureView: UIView {
         } else {
             return PointLocation.JustInTheCenter
         }
+    }
+    
+    /**
+    Method that searches the array of points in the figure and return the minimum value for x coordinate
+    
+    :returns: The minimum x coordinate that the points have
+    */
+    private func getMinimumX() ->CGFloat {
+        var minX: CGFloat = 999999.0
+        for point in points {
+            if point.x < minX {
+                minX = point.x
+            }
+        }
+        return minX
+    }
+    
+    /**
+    Method that searches the array of points in the figure and return the minimum value for y coordinate
+    
+    :returns: The minimum y coordinate that the points have
+    */
+    private func getMinimumY() ->CGFloat {
+        var minY: CGFloat = 999999.0
+        for point in points {
+            if point.y < minY {
+                minY = point.y
+            }
+        }
+        return minY
+    }
+    
+    /**
+    Method that searches the array of points in the figure and return the maximum value for x coordinate
+    
+    :returns: The maximum x coordinate that the points have
+    */
+    private func getMaximumX() -> CGFloat{
+        var maxX: CGFloat = 0.0
+        for point in points {
+            if point.x > maxX {
+                maxX = point.x
+            }
+        }
+        return maxX
+    }
+    
+    /**
+    Method that searches the array of points in the figure and return the maximum value for y coordinate
+    
+    :returns: The maximum y coordinate that the points have
+    */
+    private func getMaximumY() -> CGFloat{
+        var maxY: CGFloat = 0.0
+        for point in points {
+            if point.y > maxY {
+                maxY = point.y
+            }
+        }
+        return maxY
     }
     
     /**
@@ -262,8 +369,16 @@ class FigureView: UIView {
     /** Method that will be called when the FigureView is tapped */
     func figureTouched(tapGestureRecognizer: UITapGestureRecognizer) {
         editing = !editing
+        editingShape = false
         delegate.selectedFigureView(self, editing: editing)
         
+    }
+    
+    /** Method that will be called when the FigureView is double tapped */
+    func figureDoubleTouched(tapGestureRecognizer: UITapGestureRecognizer) {
+        editingShape = !editingShape
+        editing = false
+        delegate.doubleTappedFigureView(self, editingShape: editingShape)
     }
     
     /** Method that will be called when the figureView is pinched */
@@ -293,7 +408,7 @@ class FigureView: UIView {
         }
     }
     
-    /** Method called when an EditCircle is moved. This method ajusts the view's frame in response to the displacement */
+    /** Method called when an EditCircle is moved. This method adjusts the view's frame in response to the displacement */
     func moveCircleEditFigure(panGessture: UIPanGestureRecognizer) {
         if let editCircle = panGessture.view as? CircleEditFigure {
             let gesturePoint = panGessture.locationInView(self)
@@ -315,13 +430,59 @@ class FigureView: UIView {
                 deltaOriginY = gesturePoint.y
                 deltaHeight = -1 * deltaOriginY
             }
-            println("Delta Origin: (\(deltaOriginX), \(deltaOriginY)) \n Delta size: (\(deltaWidth), \(deltaHeight)) \n")
             self.frame = CGRectMake(self.frame.origin.x + deltaOriginX, self.frame.origin.y + deltaOriginY, self.frame.size.width + deltaWidth, self.frame.size.height + deltaHeight)
             for i in 0 ..< points.count {
                 movePointWithDeltas(deltaWidth, deltaHeight: deltaHeight, index: i)
             }
-//            updateEditCirclesHavingMovedInSide(side)
             resizeAndReplaceEditCircles()
+            delegate.updateFigureViewFrameAndPoints(self, frame: frame, points: points)
+            setNeedsDisplay()
+        }
+    }
+    
+    /** Method called when an EditDiamon is moved. This method adjusts the view's frame in response to the displacement */
+    func moveDiamondEditFigure(panGesture: UIPanGestureRecognizer) {
+        if let editDiamond = panGesture.view as? DiamondEditFigure {
+            let gesturePoint = panGesture.locationInView(self)
+            let index = editDiamond.index
+            var point = points[index]
+            var deltaOriginX: CGFloat = 0.0
+            var deltaOriginY: CGFloat = 0.0
+            var deltaWidth: CGFloat = 0.0
+            var deltaHeight: CGFloat = 0.0
+            point = gesturePoint
+            points[index] = point
+            let minX = getMinimumX()
+            let minY = getMinimumY()
+            let maxX = getMaximumX()
+            let maxY = getMaximumY()
+            //X axis
+            if gesturePoint.x == maxX {
+                deltaWidth = gesturePoint.x - frame.size.width
+            }else if gesturePoint.x  == minX {
+                deltaWidth = 0.0 - gesturePoint.x
+                deltaOriginX = deltaWidth * -1
+            }
+            //Y axis
+            if gesturePoint.y == maxY {
+                deltaHeight = gesturePoint.y - frame.size.height
+            } else if gesturePoint.y == minY {
+                deltaHeight = 0.0 - gesturePoint.y
+                deltaOriginY = deltaHeight * -1
+            }
+            self.frame = CGRectMake(self.frame.origin.x + deltaOriginX, self.frame.origin.y + deltaOriginY, self.frame.size.width + deltaWidth, self.frame.size.height + deltaHeight)
+            if deltaOriginX != 0 || deltaOriginY != 0 {
+                for i in 0 ..< points.count {
+                    if i != index {
+                        var pointToMove = points[i]
+                        pointToMove.x += deltaOriginX * -1.0
+                        pointToMove.y += deltaOriginY * -1.0
+                        points[i] = pointToMove
+                    }
+                }
+            }
+            resizeAndReplaceEditDiamonds()
+            delegate.updateFigureViewFrameAndPoints(self, frame: frame, points: points)
             setNeedsDisplay()
         }
     }
@@ -349,6 +510,10 @@ class FigureView: UIView {
         self.addGestureRecognizer(tapGestureRecognizer)
         let longPressedGestureRecognizer = UILongPressGestureRecognizer(target: self, action: "figureLongPressed:")
         self.addGestureRecognizer(longPressedGestureRecognizer)
+        let doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "figureDoubleTouched:")
+        doubleTapGestureRecognizer.numberOfTapsRequired = 2
+        self.addGestureRecognizer(doubleTapGestureRecognizer)
+        tapGestureRecognizer.requireGestureRecognizerToFail(doubleTapGestureRecognizer)
         updatePointsLocation()
         setup()
     }

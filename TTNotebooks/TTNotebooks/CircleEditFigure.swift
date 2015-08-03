@@ -30,11 +30,7 @@ class CircleEditFigure: UIView {
     /**
     Initializes a Figure with the given parameters
     
-    :param: frame The frame in which the Figure will be drawn
-    :param: points The points that represent the edges with which the Figure will be drawn
-    :param: fillColor The color of the Figure
-    :param: strokeColor The color of the Figure's stroke
-    :param: strokeLineWidth The line width of the Figure's stroke
+    :param: frame The frame in which the Edit Circle will be drawn
     */
     override init(frame: CGRect) {
         super.init(frame: frame)

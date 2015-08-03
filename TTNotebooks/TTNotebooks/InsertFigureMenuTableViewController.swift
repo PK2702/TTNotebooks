@@ -137,7 +137,7 @@ class InsertFigureMenuTableViewController: UITableViewController {
             newFigure.height = NSNumber(double: Double(frame.height))
             newFigure.fillColor = NSNumber(integer: userDefaults.integerForKey(Constants.SettingsVC.FigureDefaultColor))
             newFigure.strokeColor = NSNumber(integer: userDefaults.integerForKey(Constants.SettingsVC.StrokeDefaultColor))
-            newFigure.strokeLineWidth = NSNumber(double: userDefaults.doubleForKey(Constants.SettingsVC.FigureDefaultLineWidth))
+            newFigure.strokeLineWidth = NSNumber(double: Helper.strokeLineWidthForNumber(Int(userDefaults.doubleForKey(Constants.SettingsVC.FigureDefaultLineWidth))))
             newFigure.type = NSNumber(integer: Helper.numberForFigureType(type))
             newFigure.xOrigin = NSNumber(double: Double(frame.origin.x))
             newFigure.yOrigin = NSNumber(double: Double(frame.origin.y))
