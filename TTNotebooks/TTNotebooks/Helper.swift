@@ -305,6 +305,12 @@ class Helper {
             return FigureType.RoundedType
         case 2:
             return FigureType.CylindricalType
+        case 3:
+            return FigureType.ImageType
+        case 4:
+            return FigureType.VideoType
+        case 5:
+            return FigureType.AudioType
         default:
             return FigureType.NilType
         }
@@ -318,6 +324,12 @@ class Helper {
             return 1
         case FigureType.CylindricalType:
             return 2
+        case FigureType.ImageType:
+            return 3
+        case FigureType.VideoType:
+            return 4
+        case FigureType.AudioType:
+            return 5
         default:
             return -1
         }

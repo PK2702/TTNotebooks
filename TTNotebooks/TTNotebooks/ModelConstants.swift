@@ -55,6 +55,7 @@ class ModelConstants {
         static let XOrigin = "xOrigin"
         static let YOrigin = "yOrigin"
         static let OrderInPage = "orderInPage"
+        static let FileURL = "fileURL"
     }
     
     // MARK: - Point

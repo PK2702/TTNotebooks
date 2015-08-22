@@ -2,7 +2,7 @@
 //  Figure.swift
 //  TTNotebooks
 //
-//  Created by Tomas Trujillo on 7/27/15.
+//  Created by Tomas Trujillo on 8/22/15.
 //  Copyright (c) 2015 TTApps. All rights reserved.
 //
 
@@ -11,6 +11,8 @@ import CoreData
 
 class Figure: NSManagedObject {
 
+    @NSManaged var alpha: NSNumber
+    @NSManaged var fileURL: String
     @NSManaged var fillColor: NSNumber
     @NSManaged var height: NSNumber
     @NSManaged var orderInPage: NSNumber
@@ -20,7 +22,6 @@ class Figure: NSManagedObject {
     @NSManaged var width: NSNumber
     @NSManaged var xOrigin: NSNumber
     @NSManaged var yOrigin: NSNumber
-    @NSManaged var alpha: NSNumber
     @NSManaged var page: Page
     @NSManaged var points: NSSet
 
