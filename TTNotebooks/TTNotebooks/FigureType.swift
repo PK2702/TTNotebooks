@@ -12,5 +12,8 @@ enum FigureType {
     case RectType
     case RoundedType
     case CylindricalType
+    case ImageType
+    case VideoType
+    case AudioType
     case NilType
 }

@@ -8,9 +8,21 @@
 
 import UIKit
 import CoreData
+import MobileCoreServices
 
-class InsertFigureMenuTableViewController: UITableViewController {
+class InsertFigureMenuTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    // MARK: - Localized Strings
+    
+    /** List of all the Localized Strings of this class */
+    private struct LStrings {
+        static let PhotoLibraryNotAvailableAlertTitle = NSLocalizedString("Photo Library Unavailable", comment: "Title of the alert that informs the user that the app cannot access the photo library")
+        static let PhotoLibraryNotAvailableAlertMessage = NSLocalizedString("Notebooks cannot access the photo library", comment: "Message of the alert that informs the user that the app cannot access the photo library")
+        static let CameraNotAvailableAlertTitle = NSLocalizedString("Camera Unavailable", comment: "Title of the alert that informs the user that the app cannot access the device's camera")
+        static let CameraNotAvailableAlertMessage = NSLocalizedString("Notebooks cannot access the camera", comment: "Message of the alert that informs the user that the app cannot access the device's camera")
+        static let ResourceNotAvailableDismissButtonTitle = NSLocalizedString("Ok", comment: "Name of the button that is used to dismiss the messafe the user gets when one of the media resources is not available")
+    }
+    
     // MARK: Variables and Constatns
     
     /** Constants for the Table View */
@@ -36,8 +48,11 @@ class InsertFigureMenuTableViewController: UITableViewController {
     /** The width of the frame where a rectangular figure will be drawn */
     let rectangularFigureWidth: CGFloat = 225.0
     
-    /** The heigh of the frame where a normal figure will be dran */
+    /** The height of the frame where a normal figure will be dran */
     let normalFigureHeight: CGFloat = 150.0
+    
+    /** The controller in charge of taking or picking the photos and videos from the camera roll */
+    var imagePicker: UIImagePickerController?
     
     /** The frame where a Figure in a square will be drawn */
     lazy var frameToDrawFigure: CGRect = CGRectMake(self.insertWindow.midX - self.normalFigureWidth/2,
@@ -85,20 +100,29 @@ class InsertFigureMenuTableViewController: UITableViewController {
         switch (figureType) {
         case InsertFigureType.SquareFigure:
             figureToInsert = createRectangleFigureWithFrame(frameToDrawFigure)
+            performSegueWithIdentifier(SegueIdentifiers.InsertFigureUnwindSegue, sender: self)
         case InsertFigureType.RectangleFigure:
             figureToInsert = createRectangleFigureWithFrame(rectangularFrameToDrawFigure)
+            performSegueWithIdentifier(SegueIdentifiers.InsertFigureUnwindSegue, sender: self)
         case InsertFigureType.RhombusFigure:
             figureToInsert = createRhombusFigureWithFrame(rectangularFrameToDrawFigure)
+            performSegueWithIdentifier(SegueIdentifiers.InsertFigureUnwindSegue, sender: self)
         case InsertFigureType.TriangleFigure:
             figureToInsert = createTriangleFigureWithFrame(frameToDrawFigure)
+            performSegueWithIdentifier(SegueIdentifiers.InsertFigureUnwindSegue, sender: self)
         case InsertFigureType.CircleFigure:
             figureToInsert = createOvaleFigureWithFrame(frameToDrawFigure)
+            performSegueWithIdentifier(SegueIdentifiers.InsertFigureUnwindSegue, sender: self)
         case InsertFigureType.OvalFigure:
             figureToInsert = createOvaleFigureWithFrame(rectangularFrameToDrawFigure)
+            performSegueWithIdentifier(SegueIdentifiers.InsertFigureUnwindSegue, sender: self)
+        case InsertFigureType.ImageFigure:
+            createUIImagePickerControllerForImageLibrary()
+        case InsertFigureType.PhotoFigure:
+            createUIImagePickerControllerForPhoto()
         default:
             figureToInsert = nil
         }
-        performSegueWithIdentifier(SegueIdentifiers.InsertFigureUnwindSegue, sender: self)
     }
     
     // MARK: - Navigation
@@ -220,5 +244,68 @@ class InsertFigureMenuTableViewController: UITableViewController {
         }
         return nil
     }
-
+    
+    /** Calls a UIImagePickerController to get an image form the Image Library */
+    private func createUIImagePickerControllerForImageLibrary() {
+        if  !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
+            let alertController = UIAlertController(title: LStrings.PhotoLibraryNotAvailableAlertTitle, message: LStrings.PhotoLibraryNotAvailableAlertMessage, preferredStyle: UIAlertControllerStyle.Alert)
+            alertController.addAction(UIAlertAction(title: LStrings.ResourceNotAvailableDismissButtonTitle, style: UIAlertActionStyle.Cancel, handler: nil))
+            self.presentViewController(alertController, animated: true, completion: nil)
+        } else {
+            imagePicker = NotebooksUIImagePickerController()
+            imagePicker?.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+            imagePicker?.mediaTypes = [kUTTypeImage]
+            imagePicker?.allowsEditing = true
+            imagePicker?.delegate = self
+            self.presentViewController(imagePicker!, animated: true, completion: nil)
+        }
+    }
+    
+    /** Calls a UIImagePickerController to take a photo or video */
+    private func createUIImagePickerControllerForPhoto() {
+        if  !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
+            let alertController = UIAlertController(title: LStrings.CameraNotAvailableAlertTitle, message: LStrings.CameraNotAvailableAlertMessage, preferredStyle: UIAlertControllerStyle.Alert)
+            alertController.addAction(UIAlertAction(title: LStrings.ResourceNotAvailableDismissButtonTitle, style: UIAlertActionStyle.Cancel, handler: nil))
+            self.presentViewController(alertController, animated: true, completion: nil)
+        } else {
+            imagePicker = UIImagePickerController()
+            imagePicker?.sourceType = UIImagePickerControllerSourceType.Camera
+            imagePicker?.mediaTypes = [kUTTypeImage]
+            imagePicker?.allowsEditing = true
+            imagePicker?.delegate = self
+            self.presentViewController(imagePicker!, animated: true, completion: nil)
+        }
+    }
+    
+    // MARK: - UIImagePickerController Delegate Methods
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+        if let url = createUniquePathFileURLInDocuments() {
+            let imageData = UIImageJPEGRepresentation(image, 1.0)
+            imageData.writeToURL(url, atomically: true)
+            let imageWidth = self.rectangularFigureWidth
+            let imageHeight = self.rectangularFigureWidth * image.size.height / image.size.width
+            let imageFrame = CGRectMake(self.insertWindow.midX - imageWidth / 2, self.insertWindow.midY - imageHeight / 2, imageWidth, imageHeight)
+            if let figure = createFigureWithPoints([Point](), type: FigureType.ImageType, frame: imageFrame) {
+                figure.fileURL = url.absoluteString!
+                figureToInsert = FigurePainter.createImageFigureViewWithFigure(figure, frame: imageFrame, delegate: delegate)
+                presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+                performSegueWithIdentifier(SegueIdentifiers.InsertFigureUnwindSegue, sender: self)
+            }
+        }
+    }
+    
+    // MARK: - Helper With Directories
+    
+    /** Creates a unique URL Path in the Documents directory to save a file */
+    func createUniquePathFileURLInDocuments() -> NSURL? {
+        let directories = NSFileManager.defaultManager().URLsForDirectory(NSSearchPathDirectory.DocumentDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask)
+        if var url = directories.first as? NSURL {
+            let uniqueNumber = "\(floor(NSDate.timeIntervalSinceReferenceDate()))"
+            url = url.URLByAppendingPathComponent(uniqueNumber)
+            return url;
+        }
+        return nil;
+    }
+    
 }

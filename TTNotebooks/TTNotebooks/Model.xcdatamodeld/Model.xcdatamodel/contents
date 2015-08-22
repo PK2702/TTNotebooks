@@ -2,6 +2,7 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14E46" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Figure" representedClassName="TTNotebooks.Figure" syncable="YES">
         <attribute name="alpha" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="fileURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="fillColor" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="height" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="orderInPage" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -42,7 +43,7 @@
         <relationship name="pages" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Page" inverseName="section" inverseEntity="Page" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Figure" positionX="369" positionY="180" width="128" height="225"/>
+        <element name="Figure" positionX="369" positionY="180" width="128" height="240"/>
         <element name="Notebook" positionX="-63" positionY="-18" width="128" height="103"/>
         <element name="Page" positionX="367" positionY="-27" width="128" height="133"/>
         <element name="Point" positionX="367" positionY="369" width="128" height="103"/>

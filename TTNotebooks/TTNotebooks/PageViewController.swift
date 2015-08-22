@@ -180,6 +180,7 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
     
     /** Draws the Figures that are in the Page */
     private func drawFigures() {
+        println("Number of figures: \(figures.count)")
         for i in 0 ..< figures.count {
             let figure = figures[i]
             let figureFrame = CGRectMake(CGFloat(figure.xOrigin.doubleValue), CGFloat(figure.yOrigin.doubleValue), CGFloat(figure.width.doubleValue), CGFloat(figure.height.doubleValue))
@@ -191,6 +192,11 @@ class PageViewController: UIViewController, UIPopoverPresentationControllerDeleg
                 figureView.index = i
             case FigureType.RoundedType:
                 let figureView = FigurePainter.createCircularFigureViewWithFigure(figure, frame: figureFrame, delegate: self)
+                pageView.addSubview(figureView)
+                figureView.delegate = self
+                figureView.index = i
+            case FigureType.ImageType:
+                let figureView = FigurePainter.createImageFigureViewWithFigure(figure, frame: figureFrame, delegate: self)
                 pageView.addSubview(figureView)
                 figureView.delegate = self
                 figureView.index = i
